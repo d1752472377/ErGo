@@ -69,7 +69,7 @@ public class UserController {
         String str = jsonNode.get("requestData").textValue();
         String str1 = str.replaceAll(" +","+");
         System.out.println(str1);
-        String keypair = redisTemplate.opsForValue().get(Constant.AES_KEY);
+        String keypair =redisTemplate.opsForValue().get(Constant.AES_KEY);
         System.out.println(keypair);
         String a = AESUtil.aesDecrypt(str1,keypair);
         System.out.println(a);
