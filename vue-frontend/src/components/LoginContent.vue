@@ -64,11 +64,16 @@ export default {
       let dataJson = JSON.stringify(this.form);
       //数据进行加密
       this.res.requestData = AESEncrypt(dataJson, aesKey);
-      login(this.res).then(response=>{
+      this.$store.dispatch("Login", this.res).then(() => {
         this.$router.go(-1);
-        // this.reload();
-        console.log(response.data.data.userInfo)
+        console.log('666')
       })
+      
+      // login(this.res).then(response=>{
+      //   this.$router.go(-1);
+      //   // this.reload();
+      //   console.log(response.data.data.userInfo)
+      // })
     }
   }
 }

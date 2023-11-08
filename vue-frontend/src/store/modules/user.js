@@ -24,19 +24,19 @@ const user = {
         Login({ commit }, requestData) {
             return new Promise((resolve, reject) => {
                 login(requestData).then(response => {
-                  console.log(response.data.code)
-                    const token = response.data.token
+                  console.log(response.data.data.token)
+                    const token = response.data.data.token
                     setToken(token)
-                    setUserInfo(response.data.userInfo)
+                    setUserInfo(response.data.data.userInfo)
                     commit('SET_TOKEN', token)
-                    commit('SET_USERINFO', response.data.userInfo)
+                    commit('SET_USERINFO', response.data.data.userInfo)
                     resolve()
                 }).catch(error => {
                     reject(error)
                 })
             })
         },
-        //盒子端登录
+        //盒子端登录 暂未修改
         webLogin({ commit }, data) {
             return new Promise((resolve, reject) => {
                 setToken(data.token)
