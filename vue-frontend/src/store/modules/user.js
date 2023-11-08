@@ -27,6 +27,7 @@ const user = {
                   console.log(response.data.code)
                     const token = response.data.token
                     setToken(token)
+                    23123
                     setUserInfo(response.data.userInfo)
                     commit('SET_TOKEN', token)
                     commit('SET_USERINFO', response.data.userInfo)
