@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@moefe/vue-aplayer':
+    specifier: 2.0.0-beta.5
+    version: 2.0.0-beta.5(vue@2.6.14)
   axios:
     specifier: ^1.6.0
     version: 1.6.0
@@ -13,6 +16,9 @@ dependencies:
   js-cookie:
     specifier: ^3.0.5
     version: 3.0.5
+  spin.js:
+    specifier: ^4.1.1
+    version: 4.1.1
   view-design:
     specifier: ^4.7.0
     version: 4.7.0(vue@2.6.14)
@@ -1337,6 +1343,14 @@ packages:
   /@leichtgewicht/ip-codec@2.0.4:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
+
+  /@moefe/vue-aplayer@2.0.0-beta.5(vue@2.6.14):
+    resolution: {integrity: sha512-ytzp4GStzjftuh7H1rIS/ziqwV1FO67iTLSkDxgN0J2bqlO+rBgDDr83Y+pZKBIgRUc30uu/UZHqmE4QiBHHeg==}
+    peerDependencies:
+      vue: ^2.2.0
+    dependencies:
+      vue: 2.6.14
+    dev: false
 
   /@node-ipc/js-queue@2.0.3:
     resolution: {integrity: sha512-fL1wpr8hhD5gT2dA1qifeVaoDFlQR5es8tFuKqjHX+kdOtdNHnxkVZbtIrR2rxnMFvehkjaZRNV2H/gPXlb0hw==}
@@ -5770,6 +5784,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /spin.js@4.1.1:
+    resolution: {integrity: sha512-3cjbjZBw8TmZmvzcmlXqArUpefJ1vGgQZ+dh1CdyDyxZZNxNmw+2Dq5jyoP/OCqQP+z78rWgSJX9m3uMuGaxxw==}
+    dev: false
 
   /ssri@8.0.1:
     resolution: {integrity: sha512-97qShzy1AiyxvPNIkLWoGua7xoQzzPjQ0HAH4B0rWKo7SZ6USuPcrUiAFrws0UH8RrbWmgq3LMTObhPIHbbBeQ==}

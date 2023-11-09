@@ -1,9 +1,33 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Index from '@/components/index/Index.vue'
+//头和尾
+import SimpleHeader from '@/components/SimpleHeader.vue'
+import CommonFooter from '@/components/CommonFooter.vue'
+import HomeContent from '@/components/HomeContent.vue'
+Vue.use(Router)
+export default new Router({
+    mode: 'history',
+    base: __dirname,
+    scrollBehavior: () => ({ y: 0 }),
+    routes: [{
+        path: '/',
+        name: 'Home',
+        redirect: "home",
+        component: Index,
+        children: [{
+                path: '/',
+                name: 'home',
+                components: {
+                    header: SimpleHeader,
+                    content: HomeContent,
+                    footer: CommonFooter
+                }
+        }]
+    }]
 
-Vue.use(VueRouter)
-
+})
 const routes = [
   {
     path: '/',
@@ -20,8 +44,4 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
-  routes
-})
 
-export default router
