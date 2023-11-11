@@ -6,6 +6,7 @@ import Index from '@/components/index/Index.vue'
 import SimpleHeader from '@/components/SimpleHeader.vue'
 import CommonFooter from '@/components/CommonFooter.vue'
 import HomeContent from '@/components/HomeContent.vue'
+import LoginContentVue from '@/components/LoginContent.vue'
 Vue.use(Router)
 export default new Router({
     mode: 'history',
@@ -24,7 +25,17 @@ export default new Router({
                     content: HomeContent,
                     footer: CommonFooter
                 }
-        }]
+        },
+        {
+          path: '/login',
+          name: 'login',
+          components: {
+              header: SimpleHeader,
+              content: LoginContentVue,
+              footer: CommonFooter
+          }
+      },
+      ]
     }]
 
 })
