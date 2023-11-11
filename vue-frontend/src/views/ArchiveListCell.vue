@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { minxin } from '@/utils';
 export default {
    name:"archive-list-cell",
    props: {
@@ -22,7 +23,17 @@ export default {
         Type: Object,
     }
    },
-   mixins: [minxin]
+   mixins: [minxin],
+   data() {
+    return {
+      showDesc: false,
+    };
+  },
+  methods: {
+    seeDesc() {
+      this.showDesc = !this.showDesc;
+    },
+  },
 }
 </script>
 
