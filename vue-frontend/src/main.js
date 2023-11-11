@@ -6,6 +6,9 @@ import iView from 'view-design'
 import 'view-design/dist/styles/iview.css';
 import axios from 'axios'
 import APlayer from '@moefe/vue-aplayer'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.config.devtools = true
 Vue.config.productionTip = false
 Vue.prototype.axios = axios;
@@ -14,6 +17,7 @@ Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true,
 });
+Vue.use(ElementUI)
 Vue.use(iView)
 new Vue({
   router,

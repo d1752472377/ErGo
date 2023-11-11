@@ -7,6 +7,7 @@ import SimpleHeader from '@/components/SimpleHeader.vue'
 import CommonFooter from '@/components/CommonFooter.vue'
 import HomeContent from '@/components/HomeContent.vue'
 import LoginContentVue from '@/components/LoginContent.vue'
+import RegistContent from '@/components/RegistContent.vue'
 Vue.use(Router)
 export default new Router({
     mode: 'history',
@@ -26,6 +27,7 @@ export default new Router({
                     footer: CommonFooter
                 }
         },
+        //登录页
         {
           path: '/login',
           name: 'login',
@@ -35,6 +37,16 @@ export default new Router({
               footer: CommonFooter
           }
       },
+      //注册页
+      {
+        path: '/regist',
+        name: 'regist',
+        components: {
+            header: SimpleHeader,
+            content: RegistContent,
+            footer: CommonFooter
+        }
+    },
       ]
     }]
 
