@@ -1,16 +1,63 @@
 <template>
-  <section-title :mainTitle="'技术分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'"></section-title>
+    <div class="article-list-content">
+        <Row>
+            <Col :xs="24" :sm="24" :md="24" :lg="17">
+            <div class="layout-left">
+                <section-title :mainTitle="'技术分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'">
+                    <!-- <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
+            :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter> -->
+                </section-title>
+                <Page class="mt-10 text-right" :total="total" :current="param.pageNo" :page-size="param.pageSize"
+                    @on-change="changePage" @on-page-size-change="changeSize" :show-elevator="isShow" :show-total="isShow"
+                    :show-sizer="isShow" :page-size-opts="[5, 10, 15, 20]" />
+            </div>
+            </Col>
+            <Col :xs="0" :sm="0" :md="0" :lg="7">
+            <div class="layout-right"></div>
+            </Col>
+        </Row>
+    </div>
 </template>
 
 <script>
 import SectionTitle from '../SectionTitle.vue';
+import TitleMenuFilter from '@/components/TitleMenuFilter.vue'
 export default {
-    components:{
+    components: {
         "section-title": SectionTitle,
+        "title-menu-filter": TitleMenuFilter,
+    },
+    data() {
+        return {
+            isShow: true,
+            total: 0,
+            param: {
+                pageNo: 1,
+                pageSize: 5,
+                //默认是以创建时间倒叙排序
+                sortField: "create_time",
+                type: "",
+            },
+        }
+    },
+    created() {
+
+    },
+    methods: {
+        getList() {
+
+        },
+        changePage(page) {
+            this.param.pageNo = page;
+            this.getList();
+        },
+        changeSize(size) {
+            this.param.pageSize = size;
+            this.param.pageNo = 1;
+            this.getList();
+        },
     }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
