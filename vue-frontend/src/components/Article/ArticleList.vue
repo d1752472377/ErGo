@@ -32,9 +32,14 @@ export default {
     },
     data() {
         return {
+            //加密后请求服务器的参数
+            res: {
+                requestData: "",
+            },
             isShow: true,
             total: 0,
             articleList: [],
+            defaultFilterList: DefaultFilterList,
             param: {
                 pageNo: 1,
                 pageSize: 5,
