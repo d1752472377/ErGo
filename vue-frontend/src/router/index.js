@@ -59,6 +59,16 @@ export default new Router({
         footer: CommonFooter
       }
     },
+    //全部文章列表
+    {
+      path: '/articleList',
+      name: 'articleList',
+      components: {
+          header: SimpleHeader,
+          content: ArticleList,
+          footer: CommonFooter
+      }
+  },
     ]
   }]
 
