@@ -15,7 +15,7 @@
                         <!-- 左侧导航栏 -->
                         <ul class="left-ul">
                             <li title=""><router-link active-class="active" to="#">首页</router-link></li>
-                            <li title=""><router-link active-class="active" to="#">资源</router-link></li>
+                            <li title=""><router-link active-class="active" to="articleList">资源</router-link></li>
                             <li title=""><router-link active-class="active" to="#">音乐</router-link></li>
                             <li title=""><router-link active-class="active" to="#">教程</router-link></li>
                             <li title=""><router-link active-class="active" to="#">AI</router-link></li>

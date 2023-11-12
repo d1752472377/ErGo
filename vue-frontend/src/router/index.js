@@ -10,6 +10,7 @@ import HomeContent from '@/components/HomeContent.vue'
 import LoginContentVue from '@/components/LoginContent.vue'
 import RegistContent from '@/components/RegistContent.vue'
 import RetrievePassword from '@/components/RetrievePassword.vue'
+import ArticleList from '@/components/Article/ArticleList.vue'
 Vue.use(Router)
 export default new Router({
   mode: 'history',
