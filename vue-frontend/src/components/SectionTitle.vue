@@ -26,4 +26,78 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="stylus" scoped rel="stylesheet/stylus">
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    height: 90px;
+    line-height: 50px;
+    text-align: left;
+    box-sizing: border-box;
+
+    @media only screen and (max-width: 768px) {
+        padding: 10px 0;
+        height: 70px;
+    }
+
+    .title {
+        .square {
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            background: #000000;
+            vertical-align: middle;
+        }
+
+        .main-title {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 22px;
+            padding: 0 10px;
+        }
+
+        .vertical-line {
+            display: inline-block;
+            height: 20px;
+            width: 1px;
+            background-color: #333;
+            vertical-align: middle;
+        }
+
+        .sub-title {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 18px;
+            padding-left: 10px;
+        }
+
+        .view-more {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            padding-left: 10px;
+
+            a {
+                color: $color-main-primary;
+                font-weight: 500;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .menu {
+        height: 100%;
+        line-height: inherit;
+        float: right;
+
+        @media only screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+}
+</style>
