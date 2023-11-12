@@ -7,6 +7,7 @@
                     <!-- <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
             :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter> -->
                 </section-title>
+                <article-list-cell v-for="article in articleList" :article="article" :key="article.id"></article-list-cell>
                 <Page class="mt-10 text-right" :total="total" :current="param.pageNo" :page-size="param.pageSize"
                     @on-change="changePage" @on-page-size-change="changeSize" :show-elevator="isShow" :show-total="isShow"
                     :show-sizer="isShow" :page-size-opts="[5, 10, 15, 20]" />
@@ -22,15 +23,18 @@
 <script>
 import SectionTitle from '../SectionTitle.vue';
 import TitleMenuFilter from '@/components/TitleMenuFilter.vue'
+import ArticleListCell from '@/components/Article/ArticleListCell.vue'
 export default {
     components: {
         "section-title": SectionTitle,
         "title-menu-filter": TitleMenuFilter,
+        "article-list-cell": ArticleListCell,
     },
     data() {
         return {
             isShow: true,
             total: 0,
+            articleList: [],
             param: {
                 pageNo: 1,
                 pageSize: 5,

@@ -209,7 +209,8 @@ export default {
       .line {
         width: 50px;
         margin-top: 30px;
-        border-1px(rgba(7, 17, 27, 0.4));
+        border-1px();
+        background: rgba(7, 17, 27, 0.4)
   
         &::after {
           margin-bottom: 15px;
