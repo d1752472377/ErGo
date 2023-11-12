@@ -39,7 +39,7 @@ export default {
             isShow: true,
             total: 0,
             articleList: [],
-            defaultFilterList: DefaultFilterList,
+            // defaultFilterList: DefaultFilterList,
             param: {
                 pageNo: 1,
                 pageSize: 5,
