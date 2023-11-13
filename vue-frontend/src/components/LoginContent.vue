@@ -24,7 +24,7 @@
 import {getKey} from '@/api/key'
 import { setAesKey, getAes } from "@/utils/auth";
 import {login} from '@/api/login'
-import {AESEncrypt} from '@/api/ase'
+import {AESEncrypt} from '@/api/aes'
 export default {
   data() {
     return {
@@ -98,4 +98,4 @@ export default {
   text-align: center;
   margin-bottom: 20px;
 }
-</style>
+</style>@/api/aes

@@ -14,7 +14,9 @@
             </div>
             </Col>
             <Col :xs="0" :sm="0" :md="0" :lg="7">
-            <div class="layout-right"></div>
+            <div class="layout-right">
+                <recommend></recommend>
+            </div>
             </Col>
         </Row>
     </div>
@@ -22,10 +24,12 @@
 
 <script>
 import SectionTitle from '../SectionTitle.vue';
+import Recommend from "@/components/Recommend.vue";
 import TitleMenuFilter from '@/components/TitleMenuFilter.vue'
 import ArticleListCell from '@/components/Article/ArticleListCell.vue'
 export default {
     components: {
+        recommend: Recommend,
         "section-title": SectionTitle,
         "title-menu-filter": TitleMenuFilter,
         "article-list-cell": ArticleListCell,
