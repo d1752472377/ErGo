@@ -9,7 +9,7 @@
 
                         <!-- 网页logo -->
                         <div class="logo">
-                            <img src="https://img-home.csdnimg.cn/images/20201124032511.png" alt="">
+                            <!-- <img src="https://img-home.csdnimg.cn/images/20201124032511.png" alt=""> -->
                         </div>
 
                         <!-- 左侧导航栏 -->

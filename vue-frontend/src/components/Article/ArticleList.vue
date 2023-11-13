@@ -4,8 +4,8 @@
             <Col :xs="24" :sm="24" :md="24" :lg="17">
             <div class="layout-left">
                 <section-title :mainTitle="'技术分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'">
-                    <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
-            :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter>
+                    <!-- <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
+                        :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter> -->
                 </section-title>
                 <article-list-cell v-for="article in articleList" :article="article" :key="article.id"></article-list-cell>
                 <Page class="mt-10 text-right" :total="total" :current="param.pageNo" :page-size="param.pageSize"
@@ -46,7 +46,7 @@ export default {
             isShow: true,
             total: 0,
             articleList: [],
-            defaultFilterList: DefaultFilterList,
+            // defaultFilterList: DefaultFilterList,
             param: {
                 pageNo: 1,
                 pageSize: 5,
@@ -69,10 +69,9 @@ export default {
 
     },
     methods: {
-        
         getList(param) {
             if (param != undefined) {
-                this.param.sortField = param.sortField;
+                this.param.categoryld = param.categoryld;
             }
             //获取保存在cookie的AES密钥
             let aesKey = getAes();
@@ -108,4 +107,51 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="stylus" scoped rel="stylesheet/stylus">
+.ivu-modal-footer {
+  display: none !important;
+}
+
+.article-list-content {
+  width: auto;
+  min-height: calc(100vh - 308px);
+
+  @media only screen and (max-width: 768px) {
+    margin: 5px 5px 0 5px;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin: 10px 10px 0 10px;
+  }
+
+  @media screen and (min-width: 992px) {
+    margin: 15px 35px 0 35px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 1200px;
+    margin: 15px auto 0;
+    margin-bottom: 200px;
+  }
+
+  .layout-left, .layout-right {
+    padding: 0;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0;
+    }
+
+    @media screen and (min-width: 768px) {
+      padding: 0;
+    }
+
+    @media screen and (min-width: 992px) {
+      padding: 0 10px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      padding: 0 10px;
+    }
+  }
+}
+</style>
