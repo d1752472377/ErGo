@@ -4,8 +4,8 @@
             <Col :xs="24" :sm="24" :md="24" :lg="17">
             <div class="layout-left">
                 <section-title :mainTitle="'技术分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'">
-                    <!-- <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
-            :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter> -->
+                    <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
+            :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter>
                 </section-title>
                 <article-list-cell v-for="article in articleList" :article="article" :key="article.id"></article-list-cell>
                 <Page class="mt-10 text-right" :total="total" :current="param.pageNo" :page-size="param.pageSize"
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import { getAes } from '@/utils/auth';
+import { AESEncrypt } from '@/api/aes';
+import { list } from '@/api/blog';
 import SectionTitle from '../SectionTitle.vue';
 import Recommend from "@/components/Recommend.vue";
 import TitleMenuFilter from '@/components/TitleMenuFilter.vue'
@@ -43,7 +46,7 @@ export default {
             isShow: true,
             total: 0,
             articleList: [],
-            // defaultFilterList: DefaultFilterList,
+            defaultFilterList: DefaultFilterList,
             param: {
                 pageNo: 1,
                 pageSize: 5,
@@ -54,11 +57,43 @@ export default {
         }
     },
     created() {
+        //获取类型
+        let type = this.$route.query.type;
+        if (type != undefined) {
+            this.param.type = type;
+        }
+        this.getList();
+        if (document.body.offsetWidth <= 678) {
+            this.isShow = false;
+        }
 
     },
     methods: {
-        getList() {
-
+        
+        getList(param) {
+            if (param != undefined) {
+                this.param.sortField = param.sortField;
+            }
+            //获取保存在cookie的AES密钥
+            let aesKey = getAes();
+            //为了处理aes还没有写入cookie就调接口了
+            const timer = setInterval(() => {
+                if (aesKey != undefined) {
+                    //进行参数加密,必须把对象转换json字符串，不然加密不了
+                    let dataJson = JSON.stringify(this.param);
+                    //数据进行加密
+                    this.res.requestData = AESEncrypt(dataJson, aesKey);
+                    console.log(this.res);
+                    list(this.res).then((res) => {
+                        console.log("caoniam")
+                        this.articleList = res.data.data.article;
+                        this.total = res.data.data.total;
+                    });
+                    clearInterval(timer);
+                    return;
+                }
+                aesKey = getAes();
+            }, 50);
         },
         changePage(page) {
             this.param.pageNo = page;
