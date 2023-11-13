@@ -61,9 +61,7 @@
             </Card>
         </a>
     </div>
-    <!-- <router-link
-              :to="{ name: 'article', params: { articleId: article.id } }"
-            > -->
+
 </template>
   
 <script >

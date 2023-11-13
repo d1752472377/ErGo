@@ -11,6 +11,7 @@ import LoginContentVue from '@/components/LoginContent.vue'
 import RegistContent from '@/components/RegistContent.vue'
 import RetrievePassword from '@/components/RetrievePassword.vue'
 import ArticleList from '@/components/Article/ArticleList.vue'
+import ArticleContent from '@/components/Article/ArticleContent.vue'
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -70,6 +71,16 @@ export default new Router({
           footer: CommonFooter
       }
   },
+  //文章详情页
+  {
+    path: '/article',
+    name: 'article',
+    components: {
+        header: SimpleHeader,
+        content: ArticleContent,
+        footer: CommonFooter
+    }
+},
     ]
   }]
 
