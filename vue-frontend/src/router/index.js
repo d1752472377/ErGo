@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Index from '@/components/index/Index.vue'
 //头和尾
-import SimpleHeader from '@/components/SimpleHeader.vue'
+import SimpleHeader from '@/components/header/SimpleHeader.vue'
 import CommonFooter from '@/components/CommonFooter.vue'
 //首页
 import HomeContent from '@/components/HomeContent.vue'
