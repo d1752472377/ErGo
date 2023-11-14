@@ -84,7 +84,6 @@ export default {
                     this.res.requestData = AESEncrypt(dataJson, aesKey);
                     console.log(this.res);
                     list(this.res).then((res) => {
-                        console.log("caoniam")
                         this.articleList = res.data.data.article;
                         this.total = res.data.data.total;
                     });
