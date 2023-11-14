@@ -20,6 +20,9 @@
 <script>
 import { Col, Row } from 'view-design';
 import Recommend from '../Recommend.vue';
+import ArticlePageHeader from "@/components/Article/ArticlePageHeader";
+import ArticlePageContent from "@/components/Article/ArticlePageContent";
+import ArticlePageFooter from "@/components/Article/ArticlePageFooter.vue";
 
 export default {
     components: { 
