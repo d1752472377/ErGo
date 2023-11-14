@@ -1,7 +1,7 @@
 <template>
     <div class="social-section">
         <div class="share" style="text-align: center; margin-top: 80px">
-            <!-- <share></share> -->
+            <share></share>
         </div>
         <div v-if="type == '2'" style="text-align: center; margin-top: 40px">
             <Button icon="md-arrow-round-down" @click="download" type="success" size="large">下载源码</Button>
@@ -40,7 +40,7 @@ import { list, add } from "@/api/comment";
 import { like } from "@/api/blog";
 import { codeLike, download } from "@/api/code";
 //分享插件
-// import Share from "vue-social-share";
+import Share from "vue-social-share";
 // import "vue-social-share/dist/client.css";
 
 import { MessageBox } from "element-ui";
@@ -48,7 +48,7 @@ export default {
     components: {
         VueStarPlus,
         comment,
-        // Share,
+        Share,
     },
     props: {
         type: String,
