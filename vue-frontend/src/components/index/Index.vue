@@ -41,21 +41,21 @@ export default {
       });
     }
   },
-  // created() {
-  //   this.$nextTick(function () {
-  //     if (Cookie.get("loginToken") != undefined) {
+  created() {
+    this.$nextTick(function () {
+      if (Cookie.get("loginToken") != undefined) {
 
-  //       let data = JSON.parse(Cookie.get("userInfo"));
-  //       if (data.username == undefined || data.username == "") {
-  //         this.modal = true;
-  //       }
-  //     }
-  //   });
-  //   // vue的两个生命钩子，这里不多解释。
-  //   // window对象，所有浏览器都支持window对象。它表示浏览器窗口，监听滚动事件
-  //   window.addEventListener("scroll", this.scrollToTop);
+        let data = JSON.parse(Cookie.get("userInfo"));
+        if (data.username == undefined || data.username == "") {
+          this.modal = true;
+        }
+      }
+    });
+    // vue的两个生命钩子，这里不多解释。
+    // window对象，所有浏览器都支持window对象。它表示浏览器窗口，监听滚动事件
+    window.addEventListener("scroll", this.scrollToTop);
 
-  // },
+  },
 
   destroyed() {
     window.removeEventListener("scroll", this.scrollToTop);
