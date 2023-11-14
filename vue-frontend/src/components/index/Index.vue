@@ -29,11 +29,15 @@ export default {
     };
   },
   beforeCreate() {
+    
+    // const getkey = getAes()
+    // console.log(getkey)
     if (getAes() == undefined) {
       //获取aes密钥
-      getKey().then((res) => {
+      getKey().then((response) => {
+        console.log(response.data.key)
         //设置到cookie中
-        setAesKey(res.key);
+        setAesKey(response.data.key);
       });
     }
   },
