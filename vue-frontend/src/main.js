@@ -8,11 +8,14 @@ import axios from 'axios'
 import APlayer from '@moefe/vue-aplayer'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
+
 
 Vue.config.devtools = true
 Vue.config.productionTip = false
 Vue.prototype.axios = axios;
-
+Vue.use(Viewer)
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true,
