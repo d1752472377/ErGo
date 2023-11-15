@@ -1,5 +1,6 @@
 import axios from "axios";
-
+import store from '../store'
+import {getToken,getAes,} from '@/utils/auth'
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
@@ -7,7 +8,11 @@ const instance = axios.create({
 })
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
+  if (store.getters.token) {
+    //如果有toekn才携带请求头中的token到后端
+    config.headers['x-access-token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+}
+// config.headers['Content-type'] = "application/x-www-form-urlencoded"
     return config;
   }, function (error) {
     // 对请求错误做些什么

@@ -26,10 +26,13 @@ const user = {
                 login(requestData).then(response => {
                   console.log(response.data.data.token)
                     const token = response.data.data.token
+                    console.log(token)
                     setToken(token)
-                    setUserInfo(response.data.data.userInfo)
+                    const userInfo = JSON.stringify(response.data.data.userInfo)
+                    console.log('信息：'+userInfo)
+                    setUserInfo(userInfo)
                     commit('SET_TOKEN', token)
-                    commit('SET_USERINFO', response.data.data.userInfo)
+                    commit('SET_USERINFO', userInfo)
                     resolve()
                 }).catch(error => {
                     reject(error)

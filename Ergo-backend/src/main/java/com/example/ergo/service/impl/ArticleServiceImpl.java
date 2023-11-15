@@ -32,6 +32,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Map getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
         Integer total = articleMapper.getTotal();
+        System.out.println(article);
         Map map = new HashMap<>();
         map.put("total",total);
         map.put("article",article);

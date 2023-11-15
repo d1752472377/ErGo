@@ -24,6 +24,10 @@ public class articleVO {
      */
     private String userName;
     /**
+     * 头像
+     */
+    private String picture;
+    /**
      * 标题
      */
     private String title;

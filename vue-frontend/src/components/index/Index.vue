@@ -31,13 +31,14 @@ export default {
   beforeCreate() {
     
     // const getkey = getAes()
-    // console.log(getkey)
+    // console.log("cookie中的key值："+getkey)
     if (getAes() == undefined) {
       //获取aes密钥
       getKey().then((response) => {
-        console.log(response.data.key)
+        const key = response.data.key
+        // console.log("返回中的key值："+key)
         //设置到cookie中
-        setAesKey(response.data.key);
+        setAesKey(key);
       });
     }
   },

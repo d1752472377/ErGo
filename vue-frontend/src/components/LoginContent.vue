@@ -52,7 +52,7 @@ export default {
       getKey().then((response) => {
         // console.log(response.data.key)
         //设置到cookie中
-        setAesKey(response.data.key);
+        setAesKey(response.key);
       });
     }
   },
