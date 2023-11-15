@@ -27,10 +27,8 @@ export function getUserInfo() {
 }
 //设置当前登录用户信息
 export function setUserInfo(userInfo) {
-    const str = JSON.stringify (userInfo)
-    //const a = "{\"id\":8,\"userName\":\"爆裂的橘子\",\"email\":null,\"phone\":\"13154101341\",\"status\":false,\"photo\":\"https://cdn.tobebetterjavaer.com/paicoding/avatar/0042.png\",\"userRole\":1}"
-    console.log('是字符串吗'+str)
-    return VueCookie.set(UserInfo, str, { expires: inFifteenMinutes })
+
+    return VueCookie.set(UserInfo, userInfo, { expires: inFifteenMinutes })
 }
 
 //删除当前登录用户信息

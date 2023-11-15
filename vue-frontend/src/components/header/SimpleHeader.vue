@@ -9,45 +9,61 @@
 
                         <!-- 网页logo -->
                         <div class="logo">
-                            <!-- <img src="https://img-home.csdnimg.cn/images/20201124032511.png" alt=""> -->
+                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.2c7e4d41fc29592168145efb4c27f825?rik=EfVURrooBsEe%2bg&riu=http%3a%2f%2fimg.juimg.com%2ftuku%2fyulantu%2f110611%2f9120-110611114P085.jpg&ehk=ruz2W6AZs%2bLUNeJ83%2ferKheRxWYQyYFYt5GGHhnu4BI%3d&risl=&pid=ImgRaw&r=0" alt="">
                         </div>
 
                         <!-- 左侧导航栏 -->
                         <ul class="left-ul">
                             <li title=""><router-link active-class="active" to="/">首页</router-link></li>
-                            <li title=""><router-link active-class="active" to="articleList">资源</router-link></li>
-                            <li title=""><router-link active-class="active" to="#">音乐</router-link></li>
+                            <li title=""><router-link active-class="active" to="articleList">文章</router-link></li>
+                            <li title=""><router-link active-class="active" to="/">资源</router-link></li>
                             <li title=""><router-link active-class="active" to="#">教程</router-link></li>
                             <li title=""><router-link active-class="active" to="#">AI</router-link></li>
                         </ul>
                     </div>
 
+ <!-- 中间搜索框 -->
+ <div class="navbar-container-middle">
+                        <div class="navbar-search-container">
+                            <input type="text" autocomplete="off" id="search" :placeholder="defaultText">
+                            <button>
+                                <i></i>
+                                <span>搜索</span>
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- 右侧导航栏 -->
                     <div class="navbar-container-right">
                         <div class="navbar-btns-User">
                             <!--用户登录: 展示用户的头像以及其他信息-->
-                            <div class="userPhoto" @mouseover="mouseOver" @mouseleave="mouseLeave" v-if="isLogin">
+                            <div class="userPhoto" @mouseover="mouseOver" @mouseleave="mouseLeave" v-show="userInfo != undefined" >
                                 <!-- 用户头像 -->
                                 <a class="hasAvatar" :style="{ opacity }"
-                                    href="https://blog.csdn.net/weixin_52372879?spm=1000.2115.3001.5343">
-                                    <img src="../../assets/background.jpg">
+                                    href="/center">
+                                    <img :src="userInfo.photo">
                                 </a>
                                 <!-- 用信息弹出框 初始display:none-->
                                 <div class="navbar-profile" :style="{ display }">
                                     <div class="profile-user">
                                         <!-- 用户简介的头像 -->
                                         <a class="profile-avatar"
-                                            href="https://blog.csdn.net/weixin_52372879?spm=1000.2115.3001.5343">
-                                            <img src="../../assets/background.jpg">
+                                            href="/">
+                                            <img :src="userInfo.photo">
                                         </a>
-                                        <p class="profile-nickName">京茶吉鹿</p>
+                                        <p class="profile-nickName" >{{ userInfo.userName }}</p>
+                                    </div>
+                                    <div class="center">
+                                        <ul class="profile">
+                                            <li title=""><router-link active-class="active" to="/">个人中心</router-link></li>
+                                            <li title=""><span @click="logout">退出登录</span></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                             <!--用户未登录: 提示提示信息-->
-                            <div class="userPhoto" v-else @click.prevent="login">
-                                <a href="">登录/注册</a>
+                            <div class="userPhoto" v-show="userInfo == undefined" @click.prevent="login">
+                                <a href="">登录/注册</a><!--替换成圆形登录 => 类似CSDN的样式-->
                             </div>
                             <!-- 消息 -->
                             <div class="navbar-btn navbar-btn-news navbar-fl">
@@ -72,6 +88,9 @@
 </template>
 
 <script>
+import { getToken, getUserInfo } from '@/utils/auth'
+import Cookie from "js-cookie";
+
     export default {
         name: "CSDNHeader",
         data(){
@@ -79,10 +98,22 @@
                 opacity: 1,
                 display: 'none',
                 isLogin: false,
-                defaultText: 'CSDN——京茶吉鹿'
+                defaultText: 'CSDN——京茶吉鹿',
+                userInfo:{
+                //     // id:0,
+                //     // userName:'aaa',
+                //     // email:'',
+                //     // phone:'',
+                //     // status:false,
+                //     // photo:'',
+                //     // userRole:0
+                },
             }
         },
         methods:{
+            logout(){
+                //退出登录
+            },
             mouseOver(){
                 this.opacity = 0
                 this.display = 'block'
@@ -96,14 +127,27 @@
             },
             login(){
                 this.$router.push('/login')
+            },
+            getUserInfobyCreated() {
+            if (Cookie.get("userInfo") != undefined) {
+                this.userInfo = JSON.parse(Cookie.get("userInfo"));
             }
+            const userinfo = getUserInfo()
+            const userInfoJson = JSON.parse(userinfo);
+            const userName = userInfoJson.userName;
+            // console.log("userInfoJson" + userInfoJson)
+            console.log("用户名:" + userName)
+        }
+        },
+        created(){
+            this.getUserInfobyCreated()
         },
         mounted() {
             this.$bus.$on('isLogin',(data)=>{
                 this.isLogin = data
             })
             //此处要判断token是否存在，存在则不展示 登录/注册 选项
-            if(window.sessionStorage.getItem("loginToken")){
+            if(getToken() != null || getToken != undefined){
                 
                 this.isLogin = true
                 // console.log(isLogin)
@@ -142,10 +186,10 @@
     -webkit-box-pack: justify; /* 兼容WebKit内核的浏览器使用justify属性进行布局 */
 }
 
-    .toolbar-container-left{
-        /* 元素会根据自身宽高来设置尺寸。它是完全非弹性的：既不会缩短，也不会伸长来适应 flex 容器 */
+    /* .toolbar-container-left{
+        /* 元素会根据自身宽高来设置尺寸。它是完全非弹性的：既不会缩短，也不会伸长来适应 flex 容器 
         flex: none;
-    }
+    } */
     /* 定义logo样式 */
 .logo{
     position: relative; /* 相对定位 */
@@ -201,6 +245,78 @@ a{
     flex: 1; /* 占据剩余空间 */
 }
 
+
+
+.navbar-container-middle{
+        padding: 0 40px;
+        flex: 1;
+    }
+    .navbar-search-container{
+        width: 100%;
+        max-width: 720px;
+        height: 32px;
+        line-height: 32px;
+        margin-top: calc((48px - 32px)/ 2);
+        box-sizing: border-box;
+        font-size: 0px;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    .navbar-search-container input{
+        font-size: 14px;
+        display: inline-block;
+        width: calc(100% - 88px);
+        height: 100%;
+        line-height: inherit;
+        /* 为了后面聚焦搜索框样式，将边框外围线清除 */
+        outline: 0;
+        background: #f5f6f7;
+        color: #222226;
+        vertical-align: top;
+        text-indent: 16px;
+        border: 1px solid #e8e8ed;
+        border-right: none;
+        box-sizing: border-box;
+        border-radius: 16px 0 0 16px;
+    }
+    /* 搜索框聚焦样式 */
+    .navbar-search-container input:focus{
+        border: 1px solid #fc5531;
+        border-right: none;
+    }
+    .navbar-search-container button{
+        display: inline-block;
+        width: 88px;
+        height: 100%;
+        outline: 0;
+        border: 0 none;
+        border-radius: 0 16px 16px 0;
+        font-size: 14px;
+        line-height: 32px;
+        cursor: pointer;
+        background-color: #fc5531;
+        text-align: left;
+    }
+    .navbar-search-container i{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: url(https://g.csdnimg.cn/common/csdn-toolbar/images/csdn-white-search.png) no-repeat center center;
+        background-size: 100%;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        margin-left: 14px;
+    }
+    .navbar-search-container span{
+        display: inline-block;
+        vertical-align: top;
+        color: #fff;
+    }
+
+
+
 /* 定义按钮样式 */
 .navbar-btns-User{
     flex: 1; /* 占据剩余空间 */
@@ -236,6 +352,7 @@ a{
 /* 定义个人资料样式 */
 .navbar-profile{
     width: 248px; /* 宽度为248px */
+    height: auto;
     color: #222226; /* 颜色为深灰色 */
     background: #fff; /* 背景色为白色 */
     position: absolute; /* 绝对定位 */
@@ -262,7 +379,7 @@ a{
     height: 48px; /* 高度为48px */
     padding: 0px; /* 内边距为0px */
     top: -32px; /* 距离顶部-32px */
-    left: 50%; /* 距离左边50% */
+    left: 40%; /* 距离左边50% */
     -webkit-transform: translateX(-50%,0); /* Chrome和Safari浏览器的转换效果 */
     transform: translateX(-50%,0); /* IE浏览器的转换效果 */
     border-radius: 50%; /* 圆角为50% */
@@ -343,6 +460,29 @@ a{
     border-radius: 20px; /* 圆角为20px */
     margin-top: calc((48px - 32px)/ 2); /* 上边距为(48px - 32px) / 2 */
 }
+
+.profile{
+    width: auto; /* 宽度自适应 */
+    height: 48px; /* 高度为100% */
+    /* 去除li中的间隙，在li中设置font-size,否则没有内容 */
+    font-size: 0px;
+}
+.profile li{
+    /* position: relative; 相对定位 */
+    /* display: inline-block; 内联块级元素 */
+    font-size: 14px; /* 字体大小为14px */
+    height: 100%; /* 高度为100% */
+    line-height: 48px; /* 行高为48px */
+    list-style-type:none
+}
+
+/* 定义鼠标停留时的样式 */
+.profile li:hover{
+    background-color: #eee; /* 背景色为灰色 */
+    
+    
+}
+
 
 </style>
 
