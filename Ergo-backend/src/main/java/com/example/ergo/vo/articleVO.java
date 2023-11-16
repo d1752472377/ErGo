@@ -30,6 +30,11 @@ public class articleVO {
      */
     private String picture;
     /**
+     * 官方
+     */
+    private Boolean officalStat;
+
+    /**
      * 标题
      */
     private String title;

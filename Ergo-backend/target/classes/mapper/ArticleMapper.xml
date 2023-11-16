@@ -6,7 +6,7 @@
         <if test="pageSize >0 and pageNum >0">
             <bind name="offset" value="(pageNum-1)*pageSize"/>
         </if>
-        SELECT  article.id,title,topping_stat,picture,cream_stat,article.status,category_name,user_info.user_name,article.create_time,article.update_time
+        SELECT  article.id,title,topping_stat,picture,cream_stat,offical_stat,article.status,category_name,user_info.user_name,article.create_time,article.update_time
         from article,user_info,category
         where article.user_id=user_info.user_id and category_id = category.id and article.deleted =0
         LIMIT #{pageSize} OFFSET #{offset}

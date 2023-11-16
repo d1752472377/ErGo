@@ -4,18 +4,19 @@
             <Card class="ivu">
                 <div class="ivu-row">
                     <div class="ivu-col ivu-col-span-7">
-                        <img class="live-cover" :src="article.pic" style="width: 100%; height: 100%" />
+                        <img class="live-cover" :src="article.picture" style="width: 100%; height: 100%" />
                     </div>
                     <div class="ivu-col ivu-col-span-17">
                         <div class="live-info">
                             <div class="live-title">
-                                <div>{{ article.title }}</div>
+                                <!-- <div>{{ article.title }}</div> -->
+                                <div  title="article.title" style="width:200px;white-space: nowrap;text-overflow:ellipsis; overflow:hidden;">{{article.title}}</div>
                                 <div>
-                                    <Tag v-if="article.official == '1'" checkable color="success">官方</Tag>
-                                    <Tag v-if="article.boutique == '1'" checkable color="error">精品</Tag>
+                                    <Tag v-if="article.officalStat == true" checkable color="success">官方</Tag>
+                                    <Tag v-if="article.creamStat == true" checkable color="error">精品</Tag>
                                     <Tag v-if="article.good == '1'" checkable color="error">好文</Tag>
                                     <Tag v-if="article.recommend == '1'" checkable color="warning">推荐</Tag>
-                                    <Tag v-if="article.top == '1'" checkable color="primary">置顶</Tag>
+                                    <Tag v-if="article.toppingStat == true" checkable color="primary">置顶</Tag>
                                 </div>
                             </div>
                             <div class="live-desc">{{ article.remark }}</div>
