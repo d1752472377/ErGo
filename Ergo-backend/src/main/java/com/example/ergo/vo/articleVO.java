@@ -33,6 +33,8 @@ public class articleVO {
      * 官方
      */
     private Boolean officalStat;
+    private String shortTitle;
+    private String tagName;
 
     /**
      * 标题

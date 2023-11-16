@@ -19,11 +19,11 @@
                                     <Tag v-if="article.toppingStat == true" checkable color="primary">置顶</Tag>
                                 </div>
                             </div>
-                            <div class="live-desc">{{ article.remark }}</div>
+                            <div class="live-desc">{{ article.shortTitle }}</div>
                         </div>
                         <div class="live-down">
                             <div class="live-down-left">
-                                <div class="live-for" v-for="(item, index) in article.tagList" :key="item" :name="item">
+                                <div class="live-for" v-for="(item, index) in article.TagList" :key="item" :name="item">
                                     <Icon type="ios-pricetag" :color="index | mapTagColor" />
                                     {{ item }}
                                 </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="live-down-right">
                                 <div class="live-name">
-                                    <Icon type="ios-contact" class="icon" style="color: #1296db" />{{ article.name }}
+                                    <Icon type="ios-contact" class="icon" style="color: #1296db" />{{ article.userName }}
                                 </div>
                                 <div class="live-time">
                                     <Icon type="ios-timer-outline" style="color: #d81e06" class="icon" />{{
@@ -69,6 +69,7 @@
 import { mixin } from "@/utils";
 
 export default {
+  
     props: {
         article: {
             Type: Object,

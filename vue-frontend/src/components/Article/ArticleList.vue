@@ -3,7 +3,7 @@
         <Row>
             <Col :xs="24" :sm="24" :md="24" :lg="17">
             <div class="layout-left">
-                <section-title :mainTitle="'技术分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'">
+                <section-title :mainTitle="'文章分享'" :btnFlag="true" :tipText="'文章'" :tipHref="'/postArticle'">
                     <!-- <title-menu-filter @filterByMenu="getList" slot="menu" :downloadType="'download_count'" :title="'文章'"
                         :menu-filter-list="defaultFilterList" :show="true"></title-menu-filter> -->
                 </section-title>
