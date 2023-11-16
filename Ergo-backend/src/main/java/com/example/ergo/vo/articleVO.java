@@ -3,6 +3,7 @@ package com.example.ergo.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import java.util.Date;
  * 描述：
  */
 @Data
+@Log4j2
 @AllArgsConstructor
 @NoArgsConstructor
 public class articleVO {

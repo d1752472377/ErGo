@@ -6,7 +6,10 @@ import com.example.ergo.entity.Article;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,15 +26,18 @@ import java.util.Map;
  */
 @Service("articleService")
 @Slf4j
+@Log4j2
 @CrossOrigin
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
+    private static final Logger LOGGER = LogManager.getLogger(ArticleServiceImpl.class);
     @Autowired
     ArticleMapper articleMapper;
     @Override
     public Map getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
         Integer total = articleMapper.getTotal();
+        LOGGER.info("看看这是啥"+article);
         System.out.println(article);
         Map map = new HashMap<>();
         map.put("total",total);

@@ -47,9 +47,14 @@ knife4j:
   setting:
     language: zh_cn
 # Logger Config
+#logging:
+#  level:
+#    com.hexadecimal: debug
 logging:
+#  config: classpath:log4j2.xml
   level:
-    com.hexadecimal: debug
+    #这个指定你的dao层，也就是mapper文件的所在包
+    com.example.ergo.mapper: DEBUG
 mybatis-plus:
   global-config:
     db-config:
