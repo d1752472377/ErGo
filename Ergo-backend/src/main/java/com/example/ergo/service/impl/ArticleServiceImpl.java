@@ -1,6 +1,8 @@
 package com.example.ergo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
@@ -23,6 +25,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -50,6 +53,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
+    @Value("${elasticsearch.open}")
+    private Boolean openES;
     @Override
     public Map getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
@@ -122,28 +127,50 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<Article> queryArticleBySearchKey(String key){
-
-        if (key == null){
-
+        // 如果不使用 Elasticsearch（openES 为 false），则从MySQL数据库中检索文章记录
+        if (!openES){
+            LambdaQueryWrapper<Article> query =new LambdaQueryWrapper<>();
+            // 添加条件：未删除的文章（deleted 字段为 0）、状态为在线的文章（status 字段为 1）
+            query.eq(Article::getDeleted,0)
+                    .eq(Article::getStatus,1)
+                    // 添加动态条件：如果关键字不为空，检索标题或短标题包含关键字的文章
+                    .and(!StringUtils.isEmpty(key),
+                            v->v.like(Article::getTitle,key)
+                                    .or()
+                                    .like(Article::getShortTitle,key));
+            // 指定查询的字段，只选择文章的 id、title 和 shortTitle 字段
+            query.select(Article::getId,Article::getTitle,Article::getShortTitle)
+                    // 在 SQL 查询语句的最后追加部分，这里是添加了 limit 10，表示只返回查询结果的前 10 条记录
+                    .last("limit 10")
+                    // 按照文章的 ID 字段降序排序查询结果
+                    .orderByDesc(Article::getId);
+            return articleMapper.selectList(query);
         }
+
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        // 构建 Elasticsearch 的多字段匹配查询
         MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(key, "title", "short_title");
         searchSourceBuilder.query(multiMatchQueryBuilder);
+        // 创建 Elasticsearch 的搜索请求对象，指定索引为 "article"
         SearchRequest searchRequest = new SearchRequest(new String[]{"article"},searchSourceBuilder);
         SearchResponse searchResponse = null;
-        System.out.println(searchRequest);
+
         try {
+            // 通过 restHighLevelClient 执行 Elasticsearch 搜索请求
             searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // 从 Elasticsearch 搜索响应中获取命中的结果
         SearchHits hits = searchResponse.getHits();
-       
+
         SearchHit[] hitsList = hits.getHits();
+        // 提取 Elasticsearch 搜索结果中的文章 ID，并将其转换为整数类型
         List<Integer> ids = new ArrayList<>();
         for (SearchHit documentFields : hitsList) {
             ids.add(Integer.parseInt(documentFields.getId()));
         }
+        // 如果命中的结果为空，返回空列表
         if (ObjectUtils.isEmpty(ids)) {
             return null;
         }
