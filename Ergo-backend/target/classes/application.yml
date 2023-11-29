@@ -77,7 +77,7 @@ mybatis-plus:
 # elasticsearch配置
 elasticsearch:
   # 是否开启ES？本地启动如果没有安装ES，可以设置为false关闭ES
-  open: true
+  open: false #true
   # es集群名称
   clusterName: elasticsearch
   hosts: 62.234.58.158:9200 #62.234.58.158

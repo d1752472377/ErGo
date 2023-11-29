@@ -1,7 +1,9 @@
+com\example\ergo\config\ElasticsearchHandle.class
 com\example\ergo\entity\Article.class
 com\example\ergo\util\AESDecryptor.class
 com\example\ergo\common\CommonConstants$1$4.class
 com\example\ergo\config\JwtUtil.class
+META-INF\spring-configuration-metadata.json
 com\example\ergo\service\impl\UserServiceImpl.class
 com\example\ergo\service\impl\UserInfoServiceImpl.class
 com\example\ergo\service\impl\ArticleServiceImpl.class
@@ -54,6 +56,7 @@ com\example\ergo\vo\dto\UserDTO.class
 com\example\ergo\service\impl\CategoryServiceImpl.class
 com\example\ergo\common\CommonConstants.class
 com\example\ergo\controller\ArticleController.class
+com\example\ergo\controller\ElasticsearchHandleController.class
 com\example\ergo\common\CommonConstants$1$10.class
 com\example\ergo\enums\CodeMsg.class
 com\example\ergo\common\CommonConstants$1$6.class

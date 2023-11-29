@@ -27,7 +27,7 @@
                     <div class="navbar-container-middle">
                         <div class="navbar-search-container">
                             <input type="text" autocomplete="off" id="search" :placeholder="defaultText">
-                            <button>
+                            <button @click="searchBykey">
                                 <i></i>
                                 <span>搜索</span>
                             </button>
@@ -90,7 +90,7 @@
 <script>
 import { getToken, getUserInfo } from '@/utils/auth'
 import Cookie from "js-cookie";
-
+import {queryArticleSearchKey} from '@/api/blog'
 export default {
     name: "CSDNHeader",
     data() {
@@ -128,7 +128,14 @@ export default {
         login() {
             this.$router.push('/login')
         },
-        
+        searchBykey(){
+            const key = document.getElementById("search").value
+            const params = {
+                key:key
+            }
+            queryArticleSearchKey(params)
+            //console.log(key)
+        },
         getUserInfobyCreated() {
             
             if (Cookie.get("userInfo") != undefined) {

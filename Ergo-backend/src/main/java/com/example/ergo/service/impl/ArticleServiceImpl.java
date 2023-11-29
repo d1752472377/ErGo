@@ -127,6 +127,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<Article> queryArticleBySearchKey(String key){
+        System.out.println(key);
         // 如果不使用 Elasticsearch（openES 为 false），则从MySQL数据库中检索文章记录
         if (!openES){
             LambdaQueryWrapper<Article> query =new LambdaQueryWrapper<>();
