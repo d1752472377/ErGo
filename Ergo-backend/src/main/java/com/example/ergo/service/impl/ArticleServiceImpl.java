@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -49,19 +47,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     private static final Logger LOGGER = LogManager.getLogger(ArticleServiceImpl.class);
     @Autowired
-    ArticleMapper articleMapper;
+    private ArticleMapper articleMapper;
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
     @Value("${elasticsearch.open}")
     private Boolean openES;
     @Override
-    public Map getArticle(Integer pageNum, Integer pageSize ) {
+    public Map<String,Object> getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
         Integer total = articleMapper.getTotal();
         LOGGER.info("看看这是啥"+article);
         System.out.println(article);
-        Map map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>(16);
         map.put("total",total);
         map.put("article",article);
 
@@ -113,8 +111,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     /**
      * 搜索标题
-     * @param keyword
-     * @return
+     * @param keyword 关键字
+     * @return 返回
      */
     @Override
     public List<Article> findByTitleLike(String keyword) {
@@ -129,7 +127,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public List<Article> queryArticleBySearchKey(String key){
         System.out.println(key);
         // 如果不使用 Elasticsearch（openES 为 false），则从MySQL数据库中检索文章记录
-        if (!openES){
+        if ( !openES){
             LambdaQueryWrapper<Article> query =new LambdaQueryWrapper<>();
             // 添加条件：未删除的文章（deleted 字段为 0）、状态为在线的文章（status 字段为 1）
             query.eq(Article::getDeleted,0)
@@ -163,9 +161,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             e.printStackTrace();
         }
         // 从 Elasticsearch 搜索响应中获取命中的结果
-        SearchHits hits = searchResponse.getHits();
-
-        SearchHit[] hitsList = hits.getHits();
+//        SearchHits hits = searchResponse.getHits(); //SearchHit[] hitsList = hits.getHits();和下面是一样的，下边的解决了报空指针的问题
+        SearchHits hits = null;
+        if (searchResponse != null) {
+            hits = searchResponse.getHits();
+        }
+        SearchHit[] hitsList = new SearchHit[0];
+        if (hits != null) {
+            hitsList = hits.getHits();
+        }
         // 提取 Elasticsearch 搜索结果中的文章 ID，并将其转换为整数类型
         List<Integer> ids = new ArrayList<>();
         for (SearchHit documentFields : hitsList) {
@@ -175,8 +179,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (ObjectUtils.isEmpty(ids)) {
             return null;
         }
-        List<Article> records = articleMapper.selectBatchIds(ids);
-        return records;
+        return articleMapper.selectBatchIds(ids);
     }
 }
 
