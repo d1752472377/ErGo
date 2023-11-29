@@ -39,7 +39,7 @@
                         <div class="navbar-btns-User">
                             <!--用户登录: 展示用户的头像以及其他信息-->
                             <div class="userPhoto" @mouseover="mouseOver" @mouseleave="mouseLeave"
-                                v-show="userInfo != undefined">
+                                v-show="userInfo.userName != undefined">
                                 <!-- 用户头像 -->
                                 <a class="hasAvatar" :style="{ opacity }" href="/center">
                                     <img :src="userInfo.photo">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <!--用户未登录: 提示提示信息-->
-                            <div class="userPhoto" v-show="userInfo == undefined" @click.prevent="login">
+                            <div class="userPhoto" v-show="userInfo.userName == undefined" @click.prevent="login">
                                 <a href="">登录/注册</a><!--替换成圆形登录 => 类似CSDN的样式-->
                             </div>
                             <!-- 消息 -->
@@ -128,15 +128,18 @@ export default {
         login() {
             this.$router.push('/login')
         },
+        
         getUserInfobyCreated() {
+            
             if (Cookie.get("userInfo") != undefined) {
-                this.userInfo = JSON.parse(Cookie.get("userInfo"));
-            }
             const userinfo = getUserInfo()
             const userInfoJson = JSON.parse(userinfo);
             const userName = userInfoJson.userName;
-            // console.log("userInfoJson" + userInfoJson)
             console.log("用户名:" + userName)
+            }
+            this.userInfo = JSON.parse(Cookie.get("userInfo"))
+
+
         }
     },
     created() {
