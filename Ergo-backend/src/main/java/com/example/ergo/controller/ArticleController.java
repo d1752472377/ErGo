@@ -1,6 +1,7 @@
 package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
@@ -11,6 +12,7 @@ import com.example.ergo.util.AESUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.example.ergo.enums.PushStatusEnum.*;
 
@@ -143,5 +146,10 @@ public class ArticleController {
         Map article = articleService.getArticle(pageNo, pageSize);
         return Result.success(article);
     }
-
+/*-------------------------------Elasticsearch 实验一下------------------------------------------------*/
+    @GetMapping("/queryArticleSearchKey")
+    public Result add(String key) {
+        List<Article> articles = articleService.queryArticleBySearchKey(key);
+        return Result.success(articles);
+    }
 }

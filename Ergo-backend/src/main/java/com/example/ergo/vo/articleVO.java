@@ -35,6 +35,7 @@ public class articleVO {
     private Boolean officalStat;
     private String shortTitle;
     private String tagName;
+    private String summary;
 
     /**
      * 标题

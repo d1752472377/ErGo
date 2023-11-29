@@ -2,18 +2,32 @@ package com.example.ergo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +47,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private static final Logger LOGGER = LogManager.getLogger(ArticleServiceImpl.class);
     @Autowired
     ArticleMapper articleMapper;
+
+    @Autowired
+    private RestHighLevelClient restHighLevelClient;
     @Override
     public Map getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
@@ -87,6 +104,45 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Integer deleteArticleById(Integer id) {
 
         return articleMapper.deleteArticleById(id);
+    }
+
+    /**
+     * 搜索标题
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<Article> findByTitleLike(String keyword) {
+        return null;
+    }
+
+
+
+    /*---------------------------------ES全局搜索----------------------------------------------*/
+
+    @Override
+    public List<Article> queryArticleBySearchKey(String key){
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(key, "title", "short_title");
+        searchSourceBuilder.query(multiMatchQueryBuilder);
+        SearchRequest searchRequest = new SearchRequest(new String[]{"article"},searchSourceBuilder);
+        SearchResponse searchResponse = null;
+        try {
+            searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hitsList = hits.getHits();
+        List<Integer> ids = new ArrayList<>();
+        for (SearchHit documentFields : hitsList) {
+            ids.add(Integer.parseInt(documentFields.getId()));
+        }
+        if (ObjectUtils.isEmpty(ids)) {
+            return null;
+        }
+        List<Article> records = articleMapper.selectBatchIds(ids);
+        return records;
     }
 }
 

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+
 /**
  * 文章表(Article)表实体类
  *
@@ -19,7 +21,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("article")
-public class Article  {
+
+public class Article  implements Serializable{
+    private static final long serialVersionUID = 1L;
     //主键ID@TableId
     private Integer id;
 
@@ -28,6 +32,7 @@ public class Article  {
     //文章类型：1-博文，2-问答
     private Integer articleType;
     //文章标题
+
     private String title;
     //短标题
     private String shortTitle;

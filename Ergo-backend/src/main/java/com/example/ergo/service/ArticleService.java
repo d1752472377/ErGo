@@ -30,5 +30,8 @@ public interface ArticleService extends IService<Article> {
     Integer updateRecommend(Article article);
 
     Integer deleteArticleById(Integer id);
+
+    List<Article> findByTitleLike(String keyword);
+    List<Article> queryArticleBySearchKey(String key);
 }
 

@@ -19,7 +19,13 @@
                                     <Tag v-if="article.toppingStat == true" checkable color="primary">置顶</Tag>
                                 </div>
                             </div>
-                            <div class="live-desc">{{ article.shortTitle }}</div>
+                            <div class="live-desc" style="width:400px;
+                            display: block;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;">{{ article.summary }}</div>
                         </div>
                         <div class="live-down">
                             <div class="live-down-left">
@@ -300,8 +306,8 @@ export default {
   
   .live-desc {
     color: #9ea7b4;
-    margin-top: 20px;
-    line-height: 20px;
+    margin-top: 18px;
+    line-height: 18px;
   }
   
   .live-down-left {
