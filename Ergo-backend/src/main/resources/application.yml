@@ -25,9 +25,9 @@ spring:
       content-type: text/html
     cache: false #关闭 Thymeleaf 的缓存
   datasource:
-    url: jdbc:mysql://localhost:3306/${database.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://62.234.58.158:3306/${database.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: root
+    password: Root_123
     hikari:
       pool-name: HighConcurrencyHikariCP
       minimum-idle: 20
@@ -80,7 +80,7 @@ elasticsearch:
   open: true
   # es集群名称
   clusterName: elasticsearch
-  hosts: 127.0.0.1:9200
+  hosts: 62.234.58.158:9200 #62.234.58.158
   userName: elastic
   password: elastic
   # es 请求方式

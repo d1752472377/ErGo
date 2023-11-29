@@ -122,17 +122,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<Article> queryArticleBySearchKey(String key){
+
+        if (key == null){
+
+        }
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(key, "title", "short_title");
         searchSourceBuilder.query(multiMatchQueryBuilder);
         SearchRequest searchRequest = new SearchRequest(new String[]{"article"},searchSourceBuilder);
         SearchResponse searchResponse = null;
+        System.out.println(searchRequest);
         try {
             searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
         SearchHits hits = searchResponse.getHits();
+       
         SearchHit[] hitsList = hits.getHits();
         List<Integer> ids = new ArrayList<>();
         for (SearchHit documentFields : hitsList) {
