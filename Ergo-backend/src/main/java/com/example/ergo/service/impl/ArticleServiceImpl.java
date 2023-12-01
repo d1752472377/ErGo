@@ -57,8 +57,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Map<String,Object> getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
         Integer total = articleMapper.getTotal();
-        LOGGER.info("看看这是啥"+article);
-        System.out.println(article);
+//        LOGGER.info("看看这是啥"+article);
+//        System.out.println(article);
         Map<String,Object> map = new HashMap<>(16);
         map.put("total",total);
         map.put("article",article);
@@ -136,9 +136,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     .and(!StringUtils.isEmpty(key),
                             v->v.like(Article::getTitle,key)
                                     .or()
-                                    .like(Article::getShortTitle,key));
+                                    .like(Article::getShortTitle,key)
+                                    .or()
+                                    .like(Article::getSummary,key));
             // 指定查询的字段，只选择文章的 id、title 和 shortTitle 字段
-            query.select(Article::getId,Article::getTitle,Article::getShortTitle)
+            query.select(Article::getId,Article::getTitle,Article::getShortTitle,
+                            Article::getSummary,Article::getPicture,Article::getToppingStat,
+                            Article::getCreamStat,Article::getCreateTime)
                     // 在 SQL 查询语句的最后追加部分，这里是添加了 limit 10，表示只返回查询结果的前 10 条记录
                     .last("limit 10")
                     // 按照文章的 ID 字段降序排序查询结果

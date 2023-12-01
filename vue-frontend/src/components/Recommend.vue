@@ -89,7 +89,7 @@ export default {
                     //数据进行加密
                     this.res.requestData = AESEncrypt(dataJson, aesKey);
                     list(this.res).then((res) => {
-                        console.log(res.data.data.article)
+                        // console.log(res.data.data.article)
                         this.recommendList = res.data.data.article;
 
                     });

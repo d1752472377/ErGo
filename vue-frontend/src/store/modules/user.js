@@ -24,12 +24,12 @@ const user = {
         Login({ commit }, requestData) {
             return new Promise((resolve, reject) => {
                 login(requestData).then(response => {
-                  console.log(response.data.data.token)
+                //   console.log(response.data.data.token)
                     const token = response.data.data.token
-                    console.log(token)
+                    // console.log(token)
                     setToken(token)
                     const userInfo = JSON.stringify(response.data.data.userInfo)
-                    console.log('信息：'+userInfo)
+                    // console.log('信息：'+userInfo)
                     setUserInfo(userInfo)
                     commit('SET_TOKEN', token)
                     commit('SET_USERINFO', userInfo)

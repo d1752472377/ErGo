@@ -78,7 +78,7 @@ export default {
           let dataJson = JSON.stringify(this.param);
           //数据进行加密
           this.res.requestData = AESEncrypt(dataJson, aesKey);
-          console.log(this.res);
+          // console.log(this.res);
           list(this.res).then((res) => {
             this.articleList = res.data.data.article;
             this.total = res.data.data.total;

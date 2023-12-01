@@ -26,7 +26,7 @@
                     <!-- 中间搜索框 -->
                     <div class="navbar-container-middle">
                         <div class="navbar-search-container">
-                            <input type="text" autocomplete="off" id="search" :placeholder="defaultText">
+                            <input type="text" autocomplete="off" id="search" :placeholder="keys">
                             <button @click="searchBykey">
                                 <i></i>
                                 <span>搜索</span>
@@ -98,7 +98,7 @@ export default {
             opacity: 1,
             display: 'none',
             isLogin: false,
-            defaultText: 'CSDN——京茶吉鹿',
+            keys: 'java',
             userInfo: {
                 //     // id:0,
                 //     // userName:'aaa',
@@ -129,11 +129,21 @@ export default {
             this.$router.push('/login')
         },
         searchBykey(){
-            const key = document.getElementById("search").value
-            const params = {
+            var key = document.getElementById("search").value
+            // console.log(key)
+            if(key == ''){
+            key = this.keys
+            }    
+            
+            // const params = {
+            //     key:key
+            // }
+            this.$router.push({path:'/search',
+            query:{
                 key:key
-            }
-            queryArticleSearchKey(params)
+            }});
+            // location.reload()
+            
             //console.log(key)
         },
         getUserInfobyCreated() {
@@ -142,7 +152,7 @@ export default {
             const userinfo = getUserInfo()
             const userInfoJson = JSON.parse(userinfo);
             const userName = userInfoJson.userName;
-            console.log("用户名:" + userName)
+            // console.log("用户名:" + userName)
             }
             this.userInfo = JSON.parse(Cookie.get("userInfo"))
 

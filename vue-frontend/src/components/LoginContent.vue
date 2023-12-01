@@ -66,7 +66,7 @@ export default {
       this.res.requestData = AESEncrypt(dataJson, aesKey);
       this.$store.dispatch("Login", this.res).then(() => {
         this.$router.go(-1);
-        console.log('666')
+        // console.log('666')
       })
       
       // login(this.res).then(response=>{

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
 import Index from '@/components/index/Index.vue'
 //头和尾
 import SimpleHeader from '@/components/header/SimpleHeader.vue'
@@ -12,7 +12,12 @@ import RegistContent from '@/components/RegistContent.vue'
 import RetrievePassword from '@/components/RetrievePassword.vue'
 import ArticleList from '@/components/Article/ArticleList.vue'
 import ArticleContent from '@/components/Article/ArticleContent.vue'
+import searchContent from '@/components/searchContent.vue'
 Vue.use(Router)
+const originalPush = Router.prototype.push
+      Router.prototype.push = function push(location) {
+        return originalPush.call(this, location).catch(err => err)
+      }
 export default new Router({
   mode: 'history',
   base: __dirname,
@@ -66,39 +71,33 @@ export default new Router({
       path: '/articleList',
       name: 'articleList',
       components: {
-          header: SimpleHeader,
-          content: ArticleList,
-          footer: CommonFooter
+        header: SimpleHeader,
+        content: ArticleList,
+        footer: CommonFooter
       }
-  },
-  //文章详情页
-  {
-    path: '/article',
-    name: 'article',
-    components: {
+    },
+    //文章详情页
+    {
+      path: '/article',
+      name: 'article',
+      components: {
         header: SimpleHeader,
         content: ArticleContent,
         footer: CommonFooter
+      }
+    },
+    {
+      path: '/search/',
+      name: 'search',
+      components: {
+        header: SimpleHeader,
+        content: searchContent,
+        footer: CommonFooter
+      }
     }
-},
     ]
   }]
 
 })
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
 
 

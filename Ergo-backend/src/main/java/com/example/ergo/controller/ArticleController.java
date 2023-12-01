@@ -150,6 +150,8 @@ public class ArticleController {
     @GetMapping("/queryArticleSearchKey")
     public Result add(String key) {
         List<Article> articles = articleService.queryArticleBySearchKey(key);
-        return Result.success(articles);
+        Map map = new HashMap<>();
+        map.put("article",articles);
+        return Result.success(map);
     }
 }
