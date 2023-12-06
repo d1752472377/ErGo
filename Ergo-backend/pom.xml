@@ -143,6 +143,13 @@
             <artifactId>mapstruct</artifactId>
             <version>1.5.3.Final</version>
         </dependency>
+
+        <!--整合讯飞星火大模型-->
+        <dependency>
+            <groupId>io.github.a812086325</groupId>
+            <artifactId>xfxh-java</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
