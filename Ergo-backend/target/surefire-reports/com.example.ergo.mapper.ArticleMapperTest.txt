@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.ergo.mapper.ArticleMapperTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in com.example.ergo.mapper.ArticleMapperTest
-com.example.ergo.mapper.ArticleMapperTest.test  Time elapsed: 0 s  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.011 s <<< FAILURE! - in com.example.ergo.mapper.ArticleMapperTest
+com.example.ergo.mapper.ArticleMapperTest.test  Time elapsed: 0.002 s  <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.example.ergo.mapper.ArticleMapper.getArticle(java.lang.Integer, java.lang.Integer)" because "this.articleMapper" is null
 	at com.example.ergo.mapper.ArticleMapperTest.test(ArticleMapperTest.java:22)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

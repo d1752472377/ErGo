@@ -26,6 +26,7 @@ C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\jav
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\enums\Constant.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\ErgoApplication.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\vo\AesVo.java
+C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\config\UpyunUtil.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\controller\AesController.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\controller\UserController.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\service\impl\CategoryServiceImpl.java
@@ -33,9 +34,11 @@ C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\jav
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\entity\Article.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\config\ElasticsearchConfig.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\enums\PushStatusEnum.java
+C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\vo\dto\ArticleDTO.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\config\ElasticsearchHandle.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\service\CategoryService.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\util\SpringUtil.java
+C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\config\XfXhConfig.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\config\JwtUtil.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\vo\CategoryVO.java
 C:\Users\17524\Desktop\文档\Redis\代码\GitHub\ErGo\Ergo-backend\src\main\java\com\example\ergo\service\ArticleService.java
