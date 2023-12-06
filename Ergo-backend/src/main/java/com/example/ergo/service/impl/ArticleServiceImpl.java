@@ -8,6 +8,7 @@ import com.example.ergo.entity.Article;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
+import com.example.ergo.vo.dto.ArticleDTO;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,6 +23,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -141,13 +143,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                                     .like(Article::getSummary,key));
             // 指定查询的字段，只选择文章的 id、title 和 shortTitle 字段
             query.select(Article::getId,Article::getTitle,Article::getShortTitle,
-                            Article::getSummary,Article::getPicture,Article::getToppingStat,
-                            Article::getCreamStat,Article::getCreateTime)
+                            Article::getContent)
                     // 在 SQL 查询语句的最后追加部分，这里是添加了 limit 10，表示只返回查询结果的前 10 条记录
                     .last("limit 10")
                     // 按照文章的 ID 字段降序排序查询结果
                     .orderByDesc(Article::getId);
-            return articleMapper.selectList(query);
+            List<Article> articles = articleMapper.selectList(query);
+            return articles;
         }
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -183,7 +185,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (ObjectUtils.isEmpty(ids)) {
             return null;
         }
-        return articleMapper.selectBatchIds(ids);
+        List<Article> articles = articleMapper.selectBatchIds(ids);
+
+        return articles;
     }
 }
 

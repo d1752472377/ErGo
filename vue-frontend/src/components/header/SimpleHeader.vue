@@ -26,11 +26,23 @@
                     <!-- 中间搜索框 -->
                     <div class="navbar-container-middle">
                         <div class="navbar-search-container">
-                            <input type="text" autocomplete="off" id="search" :placeholder="keys">
+                            <el-autocomplete v-model="queryString" :fetch-suggestions="debounceQuery"
+                                placeholder="Search..." class="right item m-search" :class="{ 'm-mobile-hide': mobileHide }"
+                                popper-class="m-search-item" @select="handleSelect">
+                                <i class="search icon el-input__icon" slot="suffix"></i>
+                                <template slot-scope="{ item }">
+                                    <div class="title">{{ item.title }}</div>
+                                    <span class="content">{{ item.content }}</span>
+                                </template>
+                            </el-autocomplete>
+                            <button class="ui menu black icon button m-right-top m-mobile-show" @click="toggle">
+                                <i class="sidebar icon"></i>
+                            </button>
+                            <!-- <input type="text" autocomplete="off" id="search" :placeholder="keys">
                             <button @click="searchBykey">
                                 <i></i>
                                 <span>搜索</span>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
 
@@ -90,15 +102,19 @@
 <script>
 import { getToken, getUserInfo } from '@/utils/auth'
 import Cookie from "js-cookie";
-import {queryArticleSearchKey} from '@/api/blog'
+import { queryArticleSearchKey } from '@/api/blog'
 export default {
     name: "CSDNHeader",
     data() {
         return {
+            mobileHide: true,
+            queryResult: [],
             opacity: 1,
             display: 'none',
             isLogin: false,
             keys: 'java',
+            timer: null,
+            queryString: '',
             userInfo: {
                 //     // id:0,
                 //     // userName:'aaa',
@@ -114,6 +130,9 @@ export default {
         logout() {
             //退出登录
         },
+        toggle() {
+				this.mobileHide = !this.mobileHide
+			},
         mouseOver() {
             this.opacity = 0
             this.display = 'block'
@@ -128,36 +147,63 @@ export default {
         login() {
             this.$router.push('/login')
         },
-        searchBykey(){
-            var key = document.getElementById("search").value
-            // console.log(key)
-            if(key == ''){
-            key = this.keys
-            }    
-            
-            // const params = {
-            //     key:key
-            // }
-            this.$router.push({path:'/search',
-            query:{
-                key:key
-            }});
-            // location.reload()
-            
-            //console.log(key)
-        },
+        // searchBykey() {
+        //     var key = document.getElementById("search").value
+        //     if (key == '') {
+        //         key = this.keys
+        //     }
+        //     this.$router.push({
+        //         path: '/search',
+        //         query: {
+        //             key: key
+        //         }
+        //     });
+
+        // },
         getUserInfobyCreated() {
-            
+
             if (Cookie.get("userInfo") != undefined) {
-            const userinfo = getUserInfo()
-            const userInfoJson = JSON.parse(userinfo);
-            const userName = userInfoJson.userName;
-            // console.log("用户名:" + userName)
+                const userinfo = getUserInfo()
+                const userInfoJson = JSON.parse(userinfo);
+                const userName = userInfoJson.userName;
+                // console.log("用户名:" + userName)
             }
             this.userInfo = JSON.parse(Cookie.get("userInfo"))
-
-
-        }
+        },
+        debounceQuery(queryString,callback){
+            this.timer && clearTimeout(this.timer)
+            this.timer = setTimeout(()=>this.querySearchAsync(queryString,callback),1000)
+        },
+        querySearchAsync(queryString, callback){
+            if (queryString == null
+						|| queryString.trim() === ''
+						|| queryString.indexOf('%') !== -1
+						|| queryString.indexOf('_') !== -1
+						|| queryString.indexOf('[') !== -1
+						|| queryString.indexOf('#') !== -1
+						|| queryString.indexOf('*') !== -1
+						|| queryString.trim().length > 20) {
+					return
+				}
+                queryArticleSearchKey(queryString).then(res=>{
+                    // console.log(res.data.code)
+                    if (res.data.code === 200) {
+                        
+						this.queryResult = res.data.data.article
+						if (this.queryResult.length === 0) {
+							this.queryResult.push({title: '无相关搜索结果'})
+						}
+						callback(this.queryResult)
+					}
+                }).catch(() => {
+					console.log("请求失败")
+				})
+        },
+        handleSelect(item) {
+				if (item.id) {
+					this.$router.push(`/blog/${item.id}`)
+				}
+			}
     },
     created() {
         this.getUserInfobyCreated()
@@ -296,6 +342,23 @@ a {
     background-color: #eee;
     /* 背景色为灰色 */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 定义中间容器样式 */
 .navbar-container-middle {
@@ -586,7 +649,7 @@ a {
     /* 左边距为7px */
     vertical-align: middle;
     /* 垂直对齐方式为居中 */
-    background:  no-repeat center center;
+    background: no-repeat center center;
     /* 背景图片地址 */
     background-size: 100%;
     /* 背景图片大小为100% */
@@ -639,7 +702,44 @@ a {
 .profile li:hover {
     background-color: #eee;
     /* 背景色为灰色 */
+}
 
 
-}</style>
+.m-search {
+		min-width: 220px;
+		padding: 0 !important;
+	}
+
+	.m-search input {
+		color: rgba(255, 255, 255, .9);;
+		border: 0px !important;
+		background-color: inherit;
+		padding: .67857143em 2.1em .67857143em 1em;
+	}
+
+	.m-search i {
+		color: rgba(255, 255, 255, .9) !important;
+	}
+
+	.m-search-item {
+		min-width: 350px !important;
+	}
+
+	.m-search-item li {
+		line-height: normal !important;
+		padding: 8px 10px !important;
+	}
+
+	.m-search-item li .title {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		color: rgba(0, 0, 0, 0.87);
+	}
+
+	.m-search-item li .content {
+		text-overflow: ellipsis;
+		font-size: 12px;
+		color: rgba(0, 0, 0, .70);
+	}
+</style>
 

@@ -6,11 +6,13 @@ export function list(data) {
         data
     })
 }
-export function queryArticleSearchKey(params) {
+export function queryArticleSearchKey(query) {
     return request({
         url: '/article/queryArticleSearchKey',
         method: 'get',
-        params
+        params: {
+			query
+		}
     })
 }
 
