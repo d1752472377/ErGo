@@ -76,6 +76,16 @@ export default new Router({
         footer: CommonFooter
       }
     },
+    {
+      path: '/category/:name',
+      name: 'category',
+      components: {
+        header: SimpleHeader,
+        content: ArticleList,
+        footer: CommonFooter
+      },
+      meta: {title: '分类'}
+    },
     //文章详情页
     {
       path: '/article',

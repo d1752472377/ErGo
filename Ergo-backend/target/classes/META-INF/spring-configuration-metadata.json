@@ -20,14 +20,12 @@
     {
       "name": "elasticsearch.connect-time-out",
       "type": "java.lang.Integer",
-      "sourceType": "com.example.ergo.config.ElasticsearchConfig",
-      "defaultValue": 0
+      "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
       "name": "elasticsearch.connection-request-time-out",
       "type": "java.lang.Integer",
-      "sourceType": "com.example.ergo.config.ElasticsearchConfig",
-      "defaultValue": 0
+      "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
       "name": "elasticsearch.hosts",
@@ -37,14 +35,12 @@
     {
       "name": "elasticsearch.max-connect-num",
       "type": "java.lang.Integer",
-      "sourceType": "com.example.ergo.config.ElasticsearchConfig",
-      "defaultValue": 0
+      "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
       "name": "elasticsearch.max-connect-num-per-route",
       "type": "java.lang.Integer",
-      "sourceType": "com.example.ergo.config.ElasticsearchConfig",
-      "defaultValue": 0
+      "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
       "name": "elasticsearch.open",
@@ -64,8 +60,7 @@
     {
       "name": "elasticsearch.socket-time-out",
       "type": "java.lang.Integer",
-      "sourceType": "com.example.ergo.config.ElasticsearchConfig",
-      "defaultValue": 0
+      "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
       "name": "elasticsearch.user-name",

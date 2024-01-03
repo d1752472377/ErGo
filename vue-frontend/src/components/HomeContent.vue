@@ -13,10 +13,14 @@
       </Col>
       <Col :xs="0" :sm="0" :md="0" :lg="7">
       <div class="layout-right">
-        <el-card>
+        
+          <el-card>
           <recommend></recommend>
         </el-card>
-
+        <el-card>
+          <TagCloud></TagCloud>
+        </el-card>
+        
       </div>
       </Col>
     </Row>
@@ -29,6 +33,7 @@ import ArticleListCell from "./Article/ArticleListCell.vue";
 import { getAes } from "@/utils/auth";
 import { AESEncrypt } from "@/api/aes";
 import { list } from "@/api/blog";
+import TagCloud from "@/components/TagCloud.vue"
 
 export default {
   data() {
@@ -50,6 +55,7 @@ export default {
   },
   components: {
     recommend: Recommend,
+    TagCloud:TagCloud,
     "article-list-cell": ArticleListCell,
   },
   created() {
@@ -129,7 +135,7 @@ export default {
     margin-bottom: 200px;
   }
 
-  .layout-left, .layout-right {
+  .layout-left, .layout-right{
     padding: 0;
 
     @media only screen and (max-width: 768px) {
@@ -148,6 +154,9 @@ export default {
       padding: 0 10px;
     }
   }
+}
+.el-card{
+  padding-top : 10px;
 }
 
 </style>
