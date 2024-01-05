@@ -6,6 +6,13 @@ export function list(data) {
         data
     })
 }
+export function getNewBlog (params) {
+    return request({
+      url: '/article/list',
+      method: 'get',
+      params
+    })
+  }
 export function queryArticleSearchKey(query) {
     return request({
         url: '/article/queryArticleSearchKey',

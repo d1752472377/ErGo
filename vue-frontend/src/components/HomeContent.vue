@@ -2,28 +2,38 @@
   <div class="home-content">
     <Row>
       <Col :xs="24" :sm="24" :md="24" :lg="17">
-      <div class="layout-left">
-
-        <article-list-cell v-for="article in articleList" :article="article" :key="article.id"></article-list-cell>
-        <Page class="mt-10 text-right" :total="total" :current="param.pageNo" :page-size="param.pageSize"
-                    @on-change="changePage" @on-page-size-change="changeSize" :show-elevator="isShow" :show-total="isShow"
-                    :show-sizer="isShow" :page-size-opts="[5, 10, 15, 20]" />
-
-      </div>
+        <div class="layout-left">
+          <article-list-cell
+            v-for="article in articleList"
+            :article="article"
+            :key="article.id"
+          ></article-list-cell>
+        </div>
       </Col>
       <Col :xs="0" :sm="0" :md="0" :lg="7">
-      <div class="layout-right">
-        
+        <div class="layout-right">
           <el-card>
-          <recommend></recommend>
-        </el-card>
-        <el-card>
-          <TagCloud></TagCloud>
-        </el-card>
-        
-      </div>
+            <recommend></recommend>
+          </el-card>
+          <el-card>
+            <TagCloud></TagCloud>
+          </el-card>
+        </div>
       </Col>
     </Row>
+    <div class="isEnd">
+      <div class="loadContent" @click="loadContent" v-if="!isEnd && !loading">
+        点击加载更多
+      </div>
+      <div class="lds-css ng-scope" v-if="!isEnd && loading">
+        <div style="width:100%;height:100%" class="lds-facebook">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <span v-if="isEnd">我也是有底线的~</span>
+    </div>
   </div>
 </template>
 
@@ -32,8 +42,8 @@ import Recommend from "@/components/Recommend.vue";
 import ArticleListCell from "./Article/ArticleListCell.vue";
 import { getAes } from "@/utils/auth";
 import { AESEncrypt } from "@/api/aes";
-import { list } from "@/api/blog";
-import TagCloud from "@/components/TagCloud.vue"
+import { list,getNewBlog } from "@/api/blog";
+import TagCloud from "@/components/TagCloud.vue";
 
 export default {
   data() {
@@ -42,49 +52,54 @@ export default {
         requestData: "",
       },
       articleList: [],
+      currentPage: 1,
+      pageSize: 15,
       total: 0,
+      isEnd: false,
+      loading: false,
       isShow: true,
       param: {
         pageNo: 1,
         pageSize: 5,
-        //默认是以创建时间倒叙排序
         sortField: "create_time",
         type: "",
       },
-    }
+    };
   },
   components: {
     recommend: Recommend,
-    TagCloud:TagCloud,
+    TagCloud: TagCloud,
     "article-list-cell": ArticleListCell,
   },
   created() {
-    //获取类型
-    let type = this.$route.query.type;
-    if (type != undefined) {
-      this.param.type = type;
-    }
-    this.getList();
-    if (document.body.offsetWidth <= 678) {
-      this.isShow = false;
-    }
-
+    this.initialize();
   },
   methods: {
+    // 初始化组件
+    initialize() {
+      let type = this.$route.query.type;
+      if (type !== undefined) {
+        this.param.type = type;
+      }
+      this.getList();
+      if (document.body.offsetWidth <= 678) {
+        this.isShow = false;
+      }
+    },
+    // 获取博客列表数据
     getList(param) {
-      if (param != undefined) {
+      if (param !== undefined) {
         this.param.categoryld = param.categoryld;
       }
-      //获取保存在cookie的AES密钥
+      this.getAesKeyAndFetchData();
+    },
+    // 获取 AES 密钥并发起数据请求
+    getAesKeyAndFetchData() {
       let aesKey = getAes();
-      //为了处理aes还没有写入cookie就调接口了
       const timer = setInterval(() => {
-        if (aesKey != undefined) {
-          //进行参数加密,必须把对象转换json字符串，不然加密不了
+        if (aesKey !== undefined) {
           let dataJson = JSON.stringify(this.param);
-          //数据进行加密
           this.res.requestData = AESEncrypt(dataJson, aesKey);
-          // console.log(this.res);
           list(this.res).then((res) => {
             this.articleList = res.data.data.article;
             this.total = res.data.data.total;
@@ -95,17 +110,38 @@ export default {
         aesKey = getAes();
       }, 50);
     },
-    changePage(page) {
-            this.param.pageNo = page;
-            this.getList();
-        },
-        changeSize(size) {
-            this.param.pageSize = size;
-            this.param.pageNo = 1;
-            this.getList();
-        },
-  }
-}
+    // 加载更多博客内容
+    loadContent() {
+      this.loading = true;
+      this.currentPage++;
+      const params = new URLSearchParams();
+      params.append("currentPage", this.currentPage);
+      params.append("pageSize", this.pageSize);
+      // 使用 getNewBlog 方法替代原有的逻辑
+      getNewBlog(params).then((response) => {
+        if (
+          response.code === this.$ECode.SUCCESS &&
+          response.data.records.length > 0
+        ) {
+          this.isEnd = false;
+          // 追加新加载的博客数据
+          this.articleList = this.articleList.concat(response.data.records);
+          this.total = response.data.total;
+          this.pageSize = response.data.size;
+          this.currentPage = response.data.current;
+
+          // 判断是否加载完所有数据
+          if (this.articleList.length >= this.total) {
+            this.isEnd = true;
+          }
+        } else {
+          this.isEnd = true;
+        }
+        this.loading = false;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped rel="stylesheet/stylus">
@@ -158,5 +194,14 @@ export default {
 .el-card{
   padding-top : 10px;
 }
-
+.loadContent {
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  margin: 0 auto;
+  color: aliceblue;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.8);
+}
 </style>

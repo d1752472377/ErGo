@@ -105,8 +105,8 @@ public class ArticleController {
     @Operation(summary = "分页查询文章")
     @GetMapping("/list")
     public Result list(
-            @RequestParam(name = "PageSize") Integer PageSize,
-            @RequestParam(name = "PageNum") Integer PageNum){
+            @RequestParam(name = "pageSize") Integer PageSize,
+            @RequestParam(name = "currentPage") Integer PageNum){
         Map map = articleService.getArticle(PageNum, PageSize);
 
         return Result.success("查询成功",map);
