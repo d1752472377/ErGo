@@ -98,18 +98,19 @@ public class ArticleController {
 
     /**
      * 分页查询文章
-     * @param PageSize
-     * @param PageNum
+     * @param pageSize
+     * @param pageNo
      * @return
      */
     @Operation(summary = "分页查询文章")
     @GetMapping("/list")
     public Result list(
-            @RequestParam(name = "pageSize") Integer PageSize,
-            @RequestParam(name = "currentPage") Integer PageNum){
-        Map map = articleService.getArticle(PageNum, PageSize);
-
-        return Result.success("查询成功",map);
+            @RequestParam(name = "pageSize") Integer pageSize,
+            @RequestParam(name = "currentPage") Integer pageNo){
+        System.out.println(pageNo);
+        System.out.println(pageSize);
+        Map map = articleService.getArticle(pageNo, pageSize);
+        return Result.success(map);
     }
     @Operation(summary = "置顶头图")
     @GetMapping("/index/getBlogByLevel")

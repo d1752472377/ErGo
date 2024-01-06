@@ -36,7 +36,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Recommend from "@/components/Recommend.vue";
 import ArticleListCell from "./Article/ArticleListCell.vue";
@@ -46,71 +45,39 @@ import { list,getNewBlog } from "@/api/blog";
 import TagCloud from "@/components/TagCloud.vue";
 
 export default {
-  data() {
-    return {
-      res: {
-        requestData: "",
-      },
-      articleList: [],
-      currentPage: 1,
-      pageSize: 15,
-      total: 0,
-      isEnd: false,
-      loading: false,
-      isShow: true,
-      param: {
-        pageNo: 1,
-        pageSize: 5,
-        sortField: "create_time",
-        type: "",
-      },
-    };
-  },
   components: {
     recommend: Recommend,
     TagCloud: TagCloud,
     "article-list-cell": ArticleListCell,
   },
-  created() {
-    this.initialize();
+  data(){
+    return{
+      isEnd: false,
+      loading: false,
+      articleList: [],
+      currentPage: 1,
+      pageSize: 5,
+      total: 0,
+    }
   },
-  methods: {
-    // 初始化组件
-    initialize() {
-      let type = this.$route.query.type;
-      if (type !== undefined) {
-        this.param.type = type;
-      }
-      this.getList();
-      if (document.body.offsetWidth <= 678) {
-        this.isShow = false;
-      }
+  mounted() {
+      // 注册scroll事件并监听
+      this.loading = false;
     },
-    // 获取博客列表数据
-    getList(param) {
-      if (param !== undefined) {
-        this.param.categoryld = param.categoryld;
-      }
-      this.getAesKeyAndFetchData();
+  created(){
+    this.getList()
+  },
+  methods:{
+    getList(){
+      const params = new URLSearchParams();
+      params.append("currentPage", this.currentPage);
+      params.append("pageSize", this.pageSize);
+      getNewBlog(params).then((res) => {
+        console.log(res.data.code)
+        this.articleList = res.data.data.article;
+        this.total = res.data.data.total;
+      })
     },
-    // 获取 AES 密钥并发起数据请求
-    getAesKeyAndFetchData() {
-      let aesKey = getAes();
-      const timer = setInterval(() => {
-        if (aesKey !== undefined) {
-          let dataJson = JSON.stringify(this.param);
-          this.res.requestData = AESEncrypt(dataJson, aesKey);
-          list(this.res).then((res) => {
-            this.articleList = res.data.data.article;
-            this.total = res.data.data.total;
-          });
-          clearInterval(timer);
-          return;
-        }
-        aesKey = getAes();
-      }, 50);
-    },
-    // 加载更多博客内容
     loadContent() {
       this.loading = true;
       this.currentPage++;
@@ -119,16 +86,13 @@ export default {
       params.append("pageSize", this.pageSize);
       // 使用 getNewBlog 方法替代原有的逻辑
       getNewBlog(params).then((response) => {
-        if (
-          response.code === this.$ECode.SUCCESS &&
-          response.data.records.length > 0
-        ) {
+        if ( response.data.code === 200 ) {
           this.isEnd = false;
           // 追加新加载的博客数据
-          this.articleList = this.articleList.concat(response.data.records);
-          this.total = response.data.total;
-          this.pageSize = response.data.size;
-          this.currentPage = response.data.current;
+          this.articleList = this.articleList.concat(response.data.data.article);
+          this.total = response.data.data.total;
+          // this.pageSize = response.data.size;
+          // this.currentPage = response.data.current;
 
           // 判断是否加载完所有数据
           if (this.articleList.length >= this.total) {
@@ -140,9 +104,10 @@ export default {
         this.loading = false;
       });
     },
-  },
-};
+  }
+}
 </script>
+
 
 <style lang="stylus" scoped rel="stylesheet/stylus">
 .ivu-modal-footer {
