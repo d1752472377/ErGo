@@ -66,6 +66,7 @@ export default {
     },
   created(){
     this.getList()
+    this.getAesKey()
   },
   methods:{
     getList(){
@@ -77,6 +78,9 @@ export default {
         this.articleList = res.data.data.article;
         this.total = res.data.data.total;
       })
+    },
+    getAesKey(){
+      let aesKey = getAes();
     },
     loadContent() {
       this.loading = true;

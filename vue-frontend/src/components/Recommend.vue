@@ -27,7 +27,7 @@
   
 <script>
 import Panel from "@/components/utils/Panel";
-import { list } from "@/api/blog";
+import { list,getNewBlog } from "@/api/blog";
 import { mixin } from "@/utils/index";
 import { getAes } from "@/utils/auth";
 import { AESEncrypt } from "@/api/aes";
@@ -35,18 +35,9 @@ export default {
     mixins: [mixin],
     data() {
         return {
-            //加密后请求服务器的参数
-            res: {
-                requestData: "",
-            },
             recommendList: [],
-            param: {
-                pageNo: 1,
-                pageSize: 4,
-                //默认是以创建时间倒叙排序
-                sortField: "create_time",
-                type: "",
-            },
+            currentPage: 1,
+            pageSize: 5,
         };
     },
     filters: {
@@ -78,27 +69,16 @@ export default {
         this.getList();
     },
     methods: {
-        getList() {
-            //获取保存在cookie的AES密钥
-            let aesKey = getAes();
-            //为了处理aes还没有写入cookie就调接口了
-            const timer = setInterval(() => {
-                if (aesKey != undefined) {
-                    //进行参数加密,必须把对象转换json字符串，不然加密不了
-                    let dataJson = JSON.stringify(this.param);
-                    //数据进行加密
-                    this.res.requestData = AESEncrypt(dataJson, aesKey);
-                    list(this.res).then((res) => {
-                        // console.log(res.data.data.article)
-                        this.recommendList = res.data.data.article;
-
-                    });
-                    clearInterval(timer);
-                    return;
-                }
-                aesKey = getAes();
-            }, 50);
-        },
+        getList(){
+          const params = new URLSearchParams();
+          params.append("currentPage", this.currentPage);
+          params.append("pageSize", this.pageSize);
+          getNewBlog(params).then((res) => {
+        console.log(res.data.code)
+        this.recommendList = res.data.data.article;
+        
+      })
+        }
     },
     components: {
         panel: Panel,
