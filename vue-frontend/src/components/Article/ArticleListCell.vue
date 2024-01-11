@@ -114,17 +114,12 @@ export default {
     methods: {
         getContent(article) {
             //判断是博客内容还是源码内容
-            if (article.good == null) {
-                this.$router.push({
-                    name: "code",
-                    query: { id: article.id },
-                });
-            } else {
+             
                 this.$router.push({
                     name: "article",
                     query: { id: article.id },
                 });
-            }
+            
         },
     },
 };
