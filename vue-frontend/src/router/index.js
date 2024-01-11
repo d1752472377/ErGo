@@ -88,7 +88,7 @@ export default new Router({
     },
     //文章详情页
     {
-      path: '/article',
+      path: '/article/',
       name: 'article',
       components: {
         header: SimpleHeader,

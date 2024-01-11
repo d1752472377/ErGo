@@ -57,3 +57,10 @@ export function update(data, id) {
         data
     })
 }
+export function getArticleInfo(params) {
+    return request({
+        url: '/article/getArticleInfo',
+        method: 'get',
+        params
+    })
+}

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ergo.entity.Article;
+import com.example.ergo.vo.articleInfoVo;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
@@ -111,6 +112,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.deleteArticleById(id);
     }
 
+    @Override
+    public Map getArticleInfo(Integer id) {
+        List<articleInfoVo> articleInfo = articleMapper.getArticleInfo(id);
+        Map<String,Object> map = new HashMap<>(16);
+        map.put("info",articleInfo);
+        return map;
+    }
     /**
      * 搜索标题
      * @param keyword 关键字
@@ -189,5 +197,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         return articles;
     }
+
+
 }
 

@@ -1,55 +1,97 @@
 <template>
-  <div class="home-content">
-    <Row>
-      <Col :xs="24" :sm="24" :md="24" :lg="17">
-      <div class="layout-left" style="background-color: #ffffff; padding: 30px 20px 10px 20px">
-        <article-page-header :article="article"></article-page-header>
-        <article-page-content>
-          <article id="article-main-page" class="typo container" slot="content" ref="article" v-html="article.content"
-            v-viewer></article>
-        </article-page-content>
-        <article-page-footer
-            :tags="article.tagList"
-            :postId="article.id"
-          ></article-page-footer>
-
-      </div>
-      </Col>
-      <Col :xs="0" :sm="0" :md="0" :lg="7">
-      <div class="layout-right">
-        <recommend></recommend>
-      </div>
-      </Col>
-    </Row>
+  <div class="blog-detail">
+    <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
+    <div class="author-info">
+      <img :src="blog[0] && blog[0].photo ? blog[0].photo : '博客作者头像不可用'" alt="Author Avatar" />
+      <span>{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</span>
+    </div>
+    <div class="meta-info">
+      <span>{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</span>
+      <span>阅读量: {{ blog[0] && blog[0].readCount ? blog[0].readCount : '阅读量不可用' }}</span>
+    </div>
+    <div class="content">
+      <!-- 这里使用 v-html 来渲染富文本内容 -->
+      <div v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
+    </div>
+    
   </div>
 </template>
 
 <script>
-import { Col, Row } from 'view-design';
-import Recommend from '../Recommend.vue';
-import ArticlePageHeader from "@/components/Article/ArticlePageHeader";
-import ArticlePageContent from "@/components/Article/ArticlePageContent";
-import ArticlePageFooter from "@/components/Article/ArticlePageFooter.vue";
+import {getArticleInfo } from '@/api/blog';
 
 export default {
-  data() {
-    return {
-      article: {
-        title: "夕颜源码 - 专注于技术|源码分享的IT技术平台",
-        remark:
-          "夕颜博客,夕颜源码,夕颜社区,夕颜技术社区,,夕颜IT社区,IT社区,技术社区,Java技术分享,Spring教程,开发者社区,Java毕设,Java博客,Java项目,Java源码,Vue博客,代码,教程,web编程,前端开发,后端开发",
-      },
+  data(){
+    return{
+      blog:{}
     }
   },
-  components: {
-    "article-page-header": ArticlePageHeader,
-    "article-page-content": ArticlePageContent,
-    "article-page-footer": ArticlePageFooter,
-    Row,
-    Col,
-    recommend: Recommend,
+  created(){
+    this.getList()
+  },
+  methods:{
+    getList(){
+      const params ={
+        id:1
+      }
+      getArticleInfo(params).then(res=>{
+        this.blog = res.data.data.info
+        console.log(this.blog)
+        
+      })
+    }
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+/* 样式可以根据你的设计进行修改 */
+.blog-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.author-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.meta-info {
+  margin-top: 10px;
+}
+
+.categories,
+.tags {
+  margin-top: 10px;
+}
+
+.categories span,
+.tags span {
+  margin-right: 5px;
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.related-blogs {
+  margin-top: 20px;
+}
+
+.related-blogs div {
+  margin-bottom: 10px;
+}
+
+.qr-code {
+  margin-top: 20px;
+}
+
+.qr-code img {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+}
+</style>

@@ -2,8 +2,10 @@ package com.example.ergo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.ergo.entity.Article;
+import com.example.ergo.vo.articleInfoVo;
 import com.example.ergo.vo.articleVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
     List<articleVO> getArticle(Integer pageNum , Integer pageSize);
-
+    List<articleInfoVo> getArticleInfo(Integer id);
     Integer deleteArticleById(Integer id);
     Integer getTotal();
 }

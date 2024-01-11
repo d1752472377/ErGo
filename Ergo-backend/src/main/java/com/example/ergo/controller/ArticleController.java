@@ -147,6 +147,13 @@ public class ArticleController {
         Map article = articleService.getArticle(pageNo, pageSize);
         return Result.success(article);
     }
+
+    @Operation(summary = "根据id获取文章详情")
+    @GetMapping("/getArticleInfo")
+    public Result getArticleInfo(Integer id){
+        Map article = articleService.getArticleInfo(id);
+        return Result.success(article);
+    }
 /*-------------------------------Elasticsearch 实验一下------------------------------------------------*/
     @GetMapping("/queryArticleSearchKey")
     public Result add(String key) {

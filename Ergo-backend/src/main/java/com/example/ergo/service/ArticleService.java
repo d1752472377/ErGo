@@ -33,5 +33,7 @@ public interface ArticleService extends IService<Article> {
 
     List<Article> findByTitleLike(String keyword);
     List queryArticleBySearchKey(String key);
+
+    Map getArticleInfo(Integer id);
 }
 
