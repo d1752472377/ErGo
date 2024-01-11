@@ -117,283 +117,281 @@ export default {
              
                 this.$router.push({
                     name: "article",
-                    query: { id: article.id },
+                    params: { articleId: article.id },
                 });
             
         },
     },
 };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-  
-  .ivu-tag:nth-child(1) {
-    margin-left: 10px;
+<style scoped>
+.ivu-tag:nth-child(1) {
+  margin-left: 10px;
+}
+
+.like {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+.iconfont {
+  font-size: 14px !important;
+}
+
+.iconfont a {
+  display: block;
+  cursor: default;
+  border: 1px solid  #222a32; /* 替换为实际的边框颜色值 border: 1px solid #your-color-border; */
+}
+
+.iconfont a:hover {
+  border: 1px solid #2d8cf0; /* 替换为实际的 hover 边框颜色值 border: 1px solid #your-color-border; */
+  box-shadow: 2px 2px 3px #10161c; /* 替换为实际的 box-shadow 颜色值 border: 1px solid #your-color-border; */
+}
+
+
+.text-wrapper {
+  padding: 20px 20px 0 20px;
+  text-align: left;
+}
+
+@media only screen and (max-width: 768px) {
+  .text-wrapper {
+    padding: 15px 15px 0 15px;
   }
-  
-  .like {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-  }
-  
-  .iconfont {
-    font-size: 14px !important;
-  }
-  
-  > a {
-    display: block;
-    cursor: default;
-    border: 1px solid $color-border;
-  
-    &:hover {
-      border: 1px solid $color-border-hover;
-      box-shadow: 2px 2px 3px $color-border;
-    }
-  
-    .text-wrapper {
-      padding: 20px 20px 0 20px;
-      text-align: left;
-  
-      @media only screen and (max-width: 768px) {
-        padding: 15px 15px 0 15px;
-      }
-  
-      .title {
-        font-size: 23px;
-        font-weight: 100;
-        line-height: 27px;
-  
-        span.special {
-          border-radius: $border-radius;
-          font-size: 15px;
-          font-weight: 100;
-          padding: 3px 5px;
-          margin-left: 1px;
-          vertical-align: top;
-          color: $default-background-color;
-          background: $iview-secondary-warning-color;
-          cursor: pointer;
-        }
-  
-        a {
-          color: $color-typegraphy-title;
-          cursor: pointer;
-  
-          &:hover {
-            color: $color-typegraphy-title-hover;
-            text-decoration: underline;
-          }
-        }
-      }
-  
-      .info {
-        margin-top: 10px;
-        font-size: 14px;
-        line-height: 18px;
-        font-weight: 200;
-  
-        a {
-          color: #777;
-          cursor: pointer;
-  
-          &:hover {
-            color: $color-main-primary;
-            text-decoration: underline;
-          }
-        }
-  
-        .publish-time {
-          margin-left: 20px;
-        }
-      }
-  
-      .line {
-        width: 50px;
-        margin-top: 30px;
-        border-1px();
-        background: rgba(7, 17, 27, 0.4)
-  
-        &::after {
-          margin-bottom: 15px;
-        }
-      }
-  
-      .tags {
-        /* cursor: pointer; */
-        margin: 8px 0;
-      }
-  
-      .desc {
-        color: #666;
-        font-size: 14px;
-        line-height: 20px;
-        font-weight: 200;
-  
-        a {
-          color: $color-main-primary;
-          font-weight: 500;
-          cursor: pointer;
-  
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-  
-      .operate_info {
-        font-size: 14px;
-        margin: 15px 0 20px;
-  
-        span {
-          margin-right: 8px;
-  
-          + span {
-            margin-left: 8px;
-          }
-  
-          a {
-            cursor: default;
-  
-            &:hover {
-              color: $color-main-primary;
-            }
-          }
-  
-          img {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
-  
-  .before {
-    box-sizing: border-box;
-  }
-  
-  .ivu {
-    background-color: #fff;
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-  
+}
+
+.title {
+  font-size: 23px;
+  font-weight: 100;
+  line-height: 27px;
+}
+
+.title span.special {
+  border-radius: 5px; /* 替换为你期望的边框半径值 */
+  font-size: 15px;
+  font-weight: 100;
+  padding: 3px 5px;
+  margin-left: 1px;
+  vertical-align: top;
+  color: #ffffff; /* 替换为你期望的文本颜色值 */
+  background: #ff0000; /* 替换为你期望的背景颜色值 */
+  cursor: pointer;
+}
+
+
+.title a {
+  color: #d9d9d9; /* 替换为你期望的颜色值 */
+  cursor: pointer;
+}
+
+.title a:hover {
+  color: #d9d9d9; /* 替换为你期望的颜色值 */
+  text-decoration: underline;
+}
+
+.info {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 200;
+}
+
+.info a {
+  color: #777;
+  cursor: pointer;
+}
+
+.info a:hover {
+  color: #ff0000; /* 替换为你想要的颜色值 */
+  text-decoration: underline;
+}
+
+.info .publish-time {
+  margin-left: 20px;
+}
+
+.line {
+  width: 50px;
+  margin-top: 30px;
+  border: 1px solid rgba(7, 17, 27, 0.4);
+  background: rgba(7, 17, 27, 0.4);
+}
+
+.line::after {
+  margin-bottom: 15px;
+}
+
+.tags {
+  margin: 8px 0;
+}
+
+.desc {
+  color: #666;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 200;
+}
+
+.desc a {
+  color: #ff0000; /* 替换为你想要的颜色值 */
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.desc a:hover {
+  text-decoration: underline;
+}
+
+.operate_info {
+  font-size: 14px;
+  margin: 15px 0 20px;
+}
+
+.operate_info span {
+  margin-right: 8px;
+}
+
+.operate_info span + span {
+  margin-left: 8px;
+}
+
+.operate_info span a {
+  cursor: default;
+}
+
+.operate_info span a:hover {
+  color: #ff0000; /* 替换为你想要的颜色值 */
+}
+
+.operate_info span img {
+  width: 100%;
+}
+
+.before {
+  box-sizing: border-box;
+}
+
+.ivu {
+  background-color: #fff;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.live-cover {
+  height: 150px !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  border-radius: 4px;
+}
+
+.live-info {
+  height: 110px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.live-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.live-desc {
+  color: #9ea7b4;
+  margin-top: 18px;
+  line-height: 18px;
+}
+
+.live-down-left {
+  float: left;
+  width: 340px;
+}
+
+.live-down {
+  margin-top: -35px;
+}
+
+.live-for {
+  float: left;
+  margin-left: 10px;
+}
+
+.live-down-right {
+  width: 50px;
+  margin-left: 400px;
+  margin-top: 20px;
+}
+
+.live-name {
+  width: 200px;
+  font-size: 15px;
+}
+
+.live-time {
+  color: #9ea7b4;
+  width: 200px;
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 20px;
+}
+
+.ivu-col:hover {
+  color: #2d8cf0;
+}
+
+.ivu-col {
+  color: #798788;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
   .live-cover {
-    height: 150px !important;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50%;
-    border-radius: 4px;
+    height: 100px;
   }
-  
+
   .live-info {
-    height: 110px;
-    padding: 10px;
-    overflow: hidden;
+    height: 100px;
   }
-  
-  .live-title {
-    font-size: 16px;
-    font-weight: 700;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .live-desc {
-    color: #9ea7b4;
-    margin-top: 18px;
-    line-height: 18px;
-  }
-  
-  .live-down-left {
-    float: left;
-    width: 340px;
-  }
-  
+
   .live-down {
-    margin-top: -35px;
+    display: none;
   }
-  
-  .live-for {
-    float: left;
-    margin-left: 10px;
+
+  .live-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
   }
-  
-  .live-down-right {
-    width: 50px;
-    margin-left: 400px;
-    margin-top: 20px;
+
+  .ivu-tag:nth-child(1) {
+    margin-left: 0px;
   }
-  
-  .live-name {
-    width: 200px;
-    font-size: 15px;
+
+  .ivu-col-span-7 {
+    width: 45%;
   }
-  
-  .live-time {
-    color: #9ea7b4;
-    width: 200px;
-    margin-top: 5px;
-    font-size: 10px;
-    line-height: 20px;
+
+  .ivu-col-span-17 {
+    width: 55%;
   }
-  
-  .ivu-col:hover {
-    color: #2d8cf0;
+
+  .ivu-tag {
+    margin: 0px;
   }
-  
-  .ivu-col {
-    color: #798788;
+
+  .live-info {
+    height: 100%;
+    padding: 10px 0px 10px 10px;
   }
-  
-  .icon {
-    margin-right: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .live-cover {
-      height: 100px;
-    }
-  
-    .live-info {
-      height: 100px;
-    }
-  
-    .live-down {
-      display: none;
-    }
-  
-    .live-title {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-    }
-  
-    .ivu-tag:nth-child(1) {
-      margin-left: 0px;
-    }
-  
-    .ivu-col-span-7 {
-      width: 45%;
-    }
-  
-    .ivu-col-span-17 {
-      width: 55%;
-    }
-  
-    /deep/ .ivu-card-body {
-      padding: 5px;
-    }
-  
-    .ivu-tag {
-      margin: 0px;
-    }
-  
-    .live-info {
-      height: 100%;
-      padding: 10px 0px 10px 10px;
-    }
-  }
-  </style>
-  
+}
+
+</style>

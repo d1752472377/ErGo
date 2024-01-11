@@ -85,102 +85,92 @@ export default {
     },
 };
 </script>
-<style lang="stylus" scoped rel="stylesheet/stylus">
-  
-  .recommend {
-    .content {
-      padding: 5px 20px;
-    }
-  
-    .top, .others {
-      a {
-        display: block;
-        overflow: hidden;
-  
-        .tags {
-          margin-bottom: 10px;
-        }
-  
-        .title {
-          text-align: justify;
-          color: $color-gradually-gray-41;
-          font-size: 16px;
-          line-height: 23px;
-          margin-bottom: 5px;
-        }
-  
-        .info {
-          margin: 5px 0 0px;
-  
-          span {
-            font-size: 13px;
-            line-height: 18px;
-            font-weight: 100;
-            color: $color-secondary-info;
-  
-            + span {
-              float: right;
-              margin-left: 10px;
-            }
-          }
-  
-          a {
-            display: inline-block;
-            color: #777;
-            cursor: pointer;
-  
-            &:hover {
-              color: $color-main-primary;
-              text-decoration: underline;
-            }
-          }
-        }
-  
-        .img {
-          padding-bottom: 40%;
-          width: 100%;
-          height: 0;
-          margin: 5px 0;
-          overflow: hidden;
-  
-          img {
-            width: 100%;
-            transition: All 0.4s ease-in-out;
-            transform: scale(1);
-            zoom: 1;
-          }
-        }
-  
-        .desc {
-          text-align: justify;
-          color: $color-secondary-info;
-          font-size: 13px;
-          line-height: 20px;
-          margin: 5px 0 0;
-        }
-  
-        &:hover {
-          .title {
-            color: $color-main-primary;
-          }
-  
-          img {
-            transition: All 0.4s ease-in-out;
-            transform: scale(1.05);
-            zoom: 1.05;
-          }
-        }
-      }
-    }
-  
-    .others {
-      li {
-        list-style-type: none;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid $color-border;
-      }
-    }
-  }
-  </style>
-  @/api/aes
+<style scoped>
+.recommend .content {
+  padding: 5px 20px;
+}
+
+.recommend .top a,
+.recommend .others a {
+  display: block;
+  overflow: hidden;
+}
+
+.recommend .tags {
+  margin-bottom: 10px;
+}
+
+.recommend .title {
+  text-align: justify;
+  color: #888;
+  font-size: 16px;
+  line-height: 23px;
+  margin-bottom: 5px;
+}
+
+.recommend .info {
+  margin: 5px 0 0px;
+}
+
+.recommend .info span {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 100;
+  color: #2885f7;
+}
+
+.recommend .info span + span {
+  float: right;
+  margin-left: 10px;
+}
+
+.recommend .info a {
+  display: inline-block;
+  color: #777;
+  cursor: pointer;
+}
+
+.recommend .info a:hover {
+  color: #888;
+  text-decoration: underline;
+}
+
+.recommend .img {
+  padding-bottom: 40%;
+  width: 100%;
+  height: 0;
+  margin: 5px 0;
+  overflow: hidden;
+}
+
+.recommend .img img {
+  width: 100%;
+  transition: All 0.4s ease-in-out;
+  transform: scale(1);
+  zoom: 1;
+}
+
+.recommend .desc {
+  text-align: justify;
+  color: #888;
+  font-size: 13px;
+  line-height: 20px;
+  margin: 5px 0 0;
+}
+
+.recommend .top:hover .title,
+.recommend .top:hover img {
+  color: #888;
+  transition: All 0.4s ease-in-out;
+  transform: scale(1.05);
+  zoom: 1.05;
+}
+
+.recommend .others li {
+  list-style-type: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #777;
+}
+
+</style>
