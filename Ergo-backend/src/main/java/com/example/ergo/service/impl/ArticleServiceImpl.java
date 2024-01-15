@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ergo.entity.Article;
+import com.example.ergo.util.MarkdownToHtmlUtils;
 import com.example.ergo.vo.articleInfoVo;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
@@ -115,6 +116,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Map getArticleInfo(Integer id) {
         List<articleInfoVo> articleInfo = articleMapper.getArticleInfo(id);
+        articleInfoVo info = articleInfo.get(0);
+        String content = info.getContent();
+        String htmlContent = MarkdownToHtmlUtils.MarkdownConverter.markdownToHtml(content);
+        info.setContent(htmlContent);
+//        System.out.println(htmlContent);
         Map<String,Object> map = new HashMap<>(16);
         map.put("info",articleInfo);
         return map;

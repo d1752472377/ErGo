@@ -150,6 +150,12 @@
             <artifactId>xfxh-java</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--markdown转义html-->
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>0.64.8</version>
+        </dependency>
     </dependencies>
 
     <build>
