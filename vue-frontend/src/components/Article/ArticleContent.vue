@@ -1,7 +1,7 @@
 <template>
-   <div class="home-content">
+  <div class="home-content">
     <Col :xs="24" :sm="24" :md="24" :lg="17">
-      <div class="blog-detail">
+    <div class="blog-detail">
       <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
       <!-- <p>文章ID: {{ $route.params.articleId }}</p> -->
       <div class="author-info">
@@ -19,14 +19,14 @@
     </div>
     </Col>
     <Col :xs="0" :sm="0" :md="0" :lg="7">
-      <div class="layout-right">
-          <el-card>
-            <recommend></recommend>
-          </el-card>
-          <el-card>
-            <TagCloud></TagCloud>
-          </el-card>
-        </div>
+    <div class="layout-right">
+      <el-card>
+        <recommend></recommend>
+      </el-card>
+      <el-card>
+        <TagCloud></TagCloud>
+      </el-card>
+    </div>
     </Col>
 
   </div>
@@ -74,8 +74,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .home-content {
   display: flex;
   justify-content: space-between;
