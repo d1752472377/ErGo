@@ -1,25 +1,18 @@
 <template>
-  <div class="home-content">
-    <Col :xs="24" :sm="24" :md="24" :lg="17">
-    <div class="blog-detail">
-      <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
-      <!-- <p>文章ID: {{ $route.params.articleId }}</p> -->
-      <div class="author-info">
-        <img :src="blog[0] && blog[0].photo ? blog[0].photo : '博客作者头像不可用'" alt="Author Avatar" />
-        <span>{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</span>
-      </div>
-      <div class="meta-info">
-        <span>{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</span>
-        <span>阅读量: {{ blog[0] && blog[0].readCount ? blog[0].readCount : '阅读量不可用' }}</span>
-      </div>
-      <div class="content">
-        <!-- 这里使用 v-html 来渲染富文本内容 -->
-        <div v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
+  <div class="blog-page">
+    <div class="left-section">
+      <div class="blog-detail">
+        <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
+        <div class="author-info">
+          <img :src="blog[0] && blog[0].photo ? blog[0].photo : '博客作者头像不可用'" alt="Author Avatar" />
+          <span>{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</span>
+          <span>{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</span>
+          <span>阅读量: {{ blog[0] && blog[0].readCount ? blog[0].readCount : '阅读量不可用' }}</span>
+        </div>
+        <div class="content" v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
       </div>
     </div>
-    </Col>
-    <Col :xs="0" :sm="0" :md="0" :lg="7">
-    <div class="layout-right">
+    <div class="right-section">
       <el-card>
         <recommend></recommend>
       </el-card>
@@ -27,13 +20,10 @@
         <TagCloud></TagCloud>
       </el-card>
     </div>
-    </Col>
-
   </div>
 </template>
 
 <script>
-
 import { getArticleInfo } from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
@@ -46,104 +36,99 @@ export default {
   data() {
     return {
       blog: {}
-    }
+    };
   },
   created() {
-    let id = this.$route.params.articleId;
-    this.getList(id)
+    this.getList(this.$route.params.articleId);
   },
   watch: {
     $route(to, from) {
-      // 路由参数变化时重新获取数据
       this.getList(to.params.articleId);
     },
   },
   methods: {
-
     getList(id) {
       const params = {
         id: id
-      }
+      };
       getArticleInfo(params).then(res => {
-        this.blog = res.data.data.info
-        console.log(this.blog)
-
-      })
+        this.blog = res.data.data.info;
+      });
     }
   }
-}
+};
 </script>
 
-<style scoped>
-.home-content {
+<style>
+.blog-page {
+  width: 1260px;
   display: flex;
   justify-content: space-between;
-  width: auto;
-  min-height: calc(100vh - 108px);
-  margin: 15px;
+  margin: 15px auto; /* 设置上下边距为 15px，左右自动居中 */
+}
 
-  @media only screen and (max-width: 768px) {
-    flex-direction: column;
-    margin: 5px;
-  }
+.left-section {
+  width: 75%; /* 调整左侧宽度 */
+}
 
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
-    margin: 15px auto 0;
-    margin-bottom: 200px;
-  }
+.right-section {
+  width: 25%; /* 调整右侧宽度 */
+  margin-left: 20px; /* 添加左右间距 */
 }
 
 .blog-detail {
-  width: 100%;
+  border: 1px solid #ccc;
+  padding: 15px;
 }
 
-.blog-detail h1 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.blog-detail .author-info {
+.author-info {
+  width: 800px;
+  margin:0 auto;
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-.blog-detail .author-info img {
+.author-info img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.blog-detail .author-info span {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.blog-detail .meta-info {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 15px;
-}
-
-.blog-detail .meta-info span {
-  margin-right: 15px;
-}
-
-.blog-detail .content {
+.content {
+  width: 840px;
+  margin:0 auto;
   font-size: 16px;
   line-height: 1.6;
+  max-width: 100%; /* 限制内容宽度不超过父容器 */
+  text-align: left;
 }
 
-.layout-right {
-  width: 100%;
+.content img {
+  max-width: 100%; /* 限制图片宽度不超过父容器 */
+  height: auto; /* 保持宽高比例 */
+}
+.content li {
+  list-style-type: none;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+/* 设置标题样式 */
+.content h1,.content h2,.content h3,.content h4 {
+  color: #333; /* 设置标题颜色，可以根据需要调整 */
+  font-weight: bold; /* 设置标题粗细，可以根据需要调整 */
+  margin-top: 20px; /* 设置上边距 */
+  margin-bottom: 10px; /* 设置下边距 */
+  
+}
 
-  @media only screen and (max-width: 768px) {
-    margin-top: 20px;
-  }
-
-
+/* 添加虚线效果 */
+.content h1:after,h2:after {
+  content: '';
+  display: block;
+  border-bottom: 1px dashed #ccc; /* 设置虚线颜色，可以根据需要调整 */
+  margin-top: 5px; /* 设置虚线与标题之间的距离，可以根据需要调整 */
+  margin-bottom: 15px; /* 设置虚线底部间距，可以根据需要调整 */
 }
 </style>
