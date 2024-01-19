@@ -13,12 +13,20 @@
       </div>
     </div>
     <div class="right-section">
+      
+        <Author
+        :authorName="blog[0].userName"
+        :avatar=" blog[0].photo"
+        ></Author>
+
+      
       <el-card>
         <recommend></recommend>
       </el-card>
       <el-card>
         <TagCloud></TagCloud>
       </el-card>
+
     </div>
   </div>
 </template>
@@ -27,11 +35,13 @@
 import { getArticleInfo } from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
+import AuthorCard from '../AuthorCard.vue';
 
 export default {
   components: {
     recommend: Recommend,
     TagCloud: TagCloud,
+    Author: AuthorCard,
   },
   data() {
     return {
