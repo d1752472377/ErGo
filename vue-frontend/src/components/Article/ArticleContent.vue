@@ -10,7 +10,16 @@
           <span>阅读量: {{ blog[0] && blog[0].readCount ? blog[0].readCount : '阅读量不可用' }}</span>
         </div>
         <div class="content" v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
+        
       </div>
+      <div class="info1">
+        <ul>
+          <li>作者：{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</li>
+          <li>创建时间：{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</li>
+          <li>修改时间：{{ blog[0] && blog[0].updateTime ? blog[0].updateTime : '博客修改时间不可用' }}</li>
+        </ul>
+      </div>
+      <CommentList></CommentList>
     </div>
     <div class="right-section">
       
@@ -23,9 +32,7 @@
       <el-card>
         <recommend></recommend>
       </el-card>
-      <el-card>
-        <TagCloud></TagCloud>
-      </el-card>
+
 
     </div>
   </div>
@@ -36,12 +43,14 @@ import { getArticleInfo } from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
 import AuthorCard from '../AuthorCard.vue';
+import CommentList from '../CommentList.vue';
 
 export default {
   components: {
     recommend: Recommend,
     TagCloud: TagCloud,
     Author: AuthorCard,
+    CommentList
   },
   data() {
     return {
@@ -140,5 +149,9 @@ export default {
   border-bottom: 1px dashed #ccc; /* 设置虚线颜色，可以根据需要调整 */
   margin-top: 5px; /* 设置虚线与标题之间的距离，可以根据需要调整 */
   margin-bottom: 15px; /* 设置虚线底部间距，可以根据需要调整 */
+}
+.info1{
+  background-color: aqua;
+  text-align: left;
 }
 </style>
