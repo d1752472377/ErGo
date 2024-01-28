@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Comment;
 import com.example.ergo.service.CommentService;
+import com.example.ergo.vo.dto.CommentDto;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,9 +23,11 @@ import java.util.List;
  * @since 2024-01-23 19:31:38
  */
 @RestController
-@RequestMapping("comment")
+@RequestMapping("/comment")
 public class CommentController{
 
+    @Autowired
+    private CommentService commentService;
     /**
      * 查询
      */
@@ -32,8 +36,8 @@ public class CommentController{
     public Result getList(int articleId,int pageNum,int pageSize){
         //查询文章id下的评论 => 先查出顶级id（parent_comment_id = 0） => 再查询下面的回复( top_comment_id = comment_id)
         //查询顶级id
-
-        return Result.success();
+        List<CommentDto> commentList = commentService.getCommentList(articleId, pageNum, pageSize);
+        return Result.success(commentList);
     }
     /**
      * 添加评论

@@ -2,6 +2,9 @@ package com.example.ergo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.Comment;
+import com.example.ergo.vo.dto.CommentDto;
+
+import java.util.List;
 
 
 /**
@@ -12,5 +15,6 @@ import com.example.ergo.entity.Comment;
  */
 public interface CommentService extends IService<Comment> {
 
+    List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize);
 }
 

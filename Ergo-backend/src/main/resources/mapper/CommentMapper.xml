@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.ergo.mapper.CommentMapper">
+    <select id="getCommentList" resultType="com.example.ergo.vo.dto.CommentDto">
+        <if test="pageSize >0 and pageNum >0">
+            <bind name="offset" value="(pageNum-1)*pageSize"/>
+        </if>
+        SELECT comment.id,comment.content,top_comment_id,parent_comment_id,
+               comment.create_time,user_info.user_name,
+               photo
+        from article,user,user_info,comment
+        where article_id=#{articleId}
+          and article_id = article.id
+          and comment.user_id = user.id
+          and user_info.user_id =user.id and parent_comment_id = 0 and comment.deleted = 0
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="listTreeComment" resultType="com.example.ergo.vo.dto.CommentDto">
+        select comment.id,comment.content,top_comment_id,parent_comment_id,
+               comment.create_time,user_info.user_name,
+               photo
+        from comment,user,user_info,article
+        where article_id = article.id
+          and comment.user_id = user.id
+          and user_info.user_id =user.id
+          and comment.deleted = 0
+          and parent_comment_id = #{id}
+    </select>
+</mapper>

@@ -26,7 +26,7 @@ public class articleVO {
      */
     private String userName;
     /**
-     * 头像
+     * 图片
      */
     private String picture;
     /**
