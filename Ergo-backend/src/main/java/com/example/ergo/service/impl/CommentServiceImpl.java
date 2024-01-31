@@ -28,7 +28,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //查询子评论
         for (CommentDto commentDto:commentList) {
             commentDto.setReplyComments(commentMapper.listTreeComment(commentDto.getId()));
+            List<CommentDto> replyComments = commentDto.getReplyComments();
+            for (CommentDto commentDto1:
+                 replyComments) {
+                commentDto1.setReplyComments(commentMapper.listTreeComment(commentDto1.getId()));
+            }
         }
+
         return commentList;
     }
 }
