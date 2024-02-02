@@ -8,6 +8,7 @@ import com.example.ergo.vo.dto.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,19 +24,26 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private CommentMapper commentMapper;
     @Override
     public List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize) {
-        //查询文章评论
-        List<CommentDto> commentList = commentMapper.getCommentList(articleId, pageNum, pageSize);
-        //查询子评论
-        for (CommentDto commentDto:commentList) {
-            commentDto.setReplyComments(commentMapper.listTreeComment(commentDto.getId()));
-            List<CommentDto> replyComments = commentDto.getReplyComments();
-            for (CommentDto commentDto1:
-                 replyComments) {
-                commentDto1.setReplyComments(commentMapper.listTreeComment(commentDto1.getId()));
-            }
-        }
-
-        return commentList;
+        List<CommentDto> commentVos = this.commentMapper.getCommentList(articleId,pageNum,pageSize);
+        List<CommentDto> sons = getSons(commentVos);
+        return sons;
     }
+    private List<CommentDto> getSons(Integer parentId){
+        return this.commentMapper.listTreeComment(parentId);
+    }
+    private List<CommentDto> getSons(List<CommentDto> parents){
+        if(parents == null || parents.size() == 0){
+            return null;
+        }
+        for (CommentDto parent : parents) {
+            int parentId = parent.getId();
+            List<CommentDto> sonCommentVos = getSons(parentId);
+            //递归找子评论
+            parent.setReplyComments(getSons(sonCommentVos));
+        }
+        return parents;
+    }
+
+
 }
 
