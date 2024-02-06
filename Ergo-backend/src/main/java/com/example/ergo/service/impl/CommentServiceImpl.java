@@ -28,18 +28,24 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<CommentDto> sons = getSons(commentVos);
         return sons;
     }
+    private String getParentName(Integer id){
+        return this.commentMapper.getParentName(id);
+    }
     private List<CommentDto> getSons(Integer parentId){
         return this.commentMapper.listTreeComment(parentId);
     }
+
     private List<CommentDto> getSons(List<CommentDto> parents){
         if(parents == null || parents.size() == 0){
             return null;
         }
         for (CommentDto parent : parents) {
             int parentId = parent.getId();
+            int getParentId = parent.getParentCommentId();
             List<CommentDto> sonCommentVos = getSons(parentId);
             //递归找子评论
             parent.setReplyComments(getSons(sonCommentVos));
+            parent.setParentName(getParentName(getParentId));
         }
         return parents;
     }

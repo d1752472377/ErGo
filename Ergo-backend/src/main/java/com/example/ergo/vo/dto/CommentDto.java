@@ -22,6 +22,7 @@ public class CommentDto {
     private String content;
     private Integer topCommentId;
     private Integer parentCommentId;
+    private String parentName;
     private Date createTime;
     private Integer articleId;
     private Integer userId;

@@ -20,4 +20,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize);
 
     List<CommentDto> listTreeComment(Integer id);
+    String getParentName(Integer id);
 }

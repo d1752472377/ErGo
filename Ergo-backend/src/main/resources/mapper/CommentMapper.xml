@@ -13,6 +13,7 @@
         comment.top_comment_id,
         comment.parent_comment_id,
         comment.create_time,
+
         user_info.user_name,
         user_info.photo
         FROM
@@ -39,5 +40,10 @@
           and user_info.user_id =user.id
           and comment.deleted = 0
           and parent_comment_id = #{id}
+    </select>
+    <select id="getParentName" resultType="String">
+        select user_info.user_name
+        from user_info,comment
+        where comment.user_id = user_info.user_id and comment.id=#{id}
     </select>
 </mapper>

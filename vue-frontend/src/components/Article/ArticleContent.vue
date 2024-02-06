@@ -43,7 +43,7 @@ import { getArticleInfo } from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
 import AuthorCard from '../AuthorCard.vue';
-import CommentList from '../CommentList.vue';
+import CommentList from '../comment/CommentList.vue';
 
 export default {
   components: {
