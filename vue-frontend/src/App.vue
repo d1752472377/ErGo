@@ -26,3 +26,9 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+<style>
+/* 设置全局背景色 */
+body {
+  background-color: #f0f0f0;
+}
+</style>

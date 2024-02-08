@@ -1,9 +1,9 @@
 import request from '@/utils/request'
-export function list(data) {
+export function list(params) {
     return request({
-        url: '/web/comment/list',
-        method: 'post',
-        data
+        url: '/comment/getList',
+        method: 'get',
+        params
     })
 }
 

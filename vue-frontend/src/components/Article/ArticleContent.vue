@@ -1,6 +1,7 @@
 <template>
   <div class="blog-page">
     <div class="left-section">
+     <Card>
       <div class="blog-detail">
         <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
         <div class="author-info">
@@ -12,23 +13,20 @@
         <div class="content" v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
         
       </div>
-      <div class="info1">
-        <ul>
-          <li>作者：{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</li>
-          <li>创建时间：{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</li>
-          <li>修改时间：{{ blog[0] && blog[0].updateTime ? blog[0].updateTime : '博客修改时间不可用' }}</li>
-        </ul>
+     </Card>
+      <div class="comment">
+        <Card>
+        <CommentList></CommentList>
+      </Card>
       </div>
-      <CommentList></CommentList>
     </div>
     <div class="right-section">
-      
-        <Author
+        <Card>
+          <Author
         :authorName="blog[0].userName"
         :avatar=" blog[0].photo"
         ></Author>
-
-      
+        </Card>
       <el-card>
         <recommend></recommend>
       </el-card>
@@ -44,14 +42,16 @@ import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
 import AuthorCard from '../AuthorCard.vue';
 import CommentList from '../comment/CommentList.vue';
+import { Card } from 'view-design';
 
 export default {
   components: {
     recommend: Recommend,
     TagCloud: TagCloud,
     Author: AuthorCard,
-    CommentList
-  },
+    CommentList,
+    Card
+},
   data() {
     return {
       blog: {}
@@ -96,7 +96,7 @@ export default {
 }
 
 .blog-detail {
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   padding: 15px;
 }
 
@@ -150,8 +150,7 @@ export default {
   margin-top: 5px; /* 设置虚线与标题之间的距离，可以根据需要调整 */
   margin-bottom: 15px; /* 设置虚线底部间距，可以根据需要调整 */
 }
-.info1{
-  background-color: aqua;
-  text-align: left;
+.comment{
+  margin-top: 10px;
 }
 </style>

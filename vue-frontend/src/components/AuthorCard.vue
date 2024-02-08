@@ -72,7 +72,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 15px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 8px;
 }
 

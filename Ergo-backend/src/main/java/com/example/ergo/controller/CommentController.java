@@ -22,6 +22,7 @@ import java.util.List;
  * @author makejava
  * @since 2024-01-23 19:31:38
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/comment")
 public class CommentController{
