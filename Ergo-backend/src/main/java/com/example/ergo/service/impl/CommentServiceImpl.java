@@ -1,5 +1,7 @@
 package com.example.ergo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ergo.entity.Comment;
 import com.example.ergo.mapper.CommentMapper;
@@ -34,6 +36,23 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return sons;
     }
 
+    @Override
+    public int getAllComment(int articleId) {
+        LambdaQueryWrapper<Comment> queryWrapper =new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getArticleId,articleId);
+        int count = Math.toIntExact(commentMapper.selectCount(queryWrapper));
+        return count;
+    }
+
+    @Override
+    public int getTotalPage(int articleId, int parentCommentId) {
+        LambdaQueryWrapper<Comment> queryWrapper =new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getArticleId,articleId);
+        queryWrapper.eq(Comment::getParentCommentId,parentCommentId);
+        int count = Math.toIntExact(commentMapper.selectCount(queryWrapper));
+        return count;
+    }
+
     private String getParentName(Integer id) {
         return commentMapper.getParentName(id);
     }
@@ -57,6 +76,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     private void getParent(List<CommentDto> rawComments) {
+        if (rawComments == null){
+            return ;
+        }
         for (CommentDto topComment : rawComments) {
             LinkedList<CommentDto> comments = new LinkedList<>();
             List<CommentDto> replyCmtsByTopCmt = topComment.getReplyComments();

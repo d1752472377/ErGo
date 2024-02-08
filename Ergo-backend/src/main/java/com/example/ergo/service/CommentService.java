@@ -17,5 +17,8 @@ public interface CommentService extends IService<Comment> {
 
     List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize);
 
+    int getAllComment(int articleId);
+
+    int getTotalPage(int articleId, int parentCommentId);
 }
 

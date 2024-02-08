@@ -2,19 +2,16 @@ package com.example.ergo.controller;
 
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ergo.config.Result;
-import com.example.ergo.entity.Comment;
 import com.example.ergo.service.CommentService;
 import com.example.ergo.vo.dto.CommentDto;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论表(Comment)表控制层
@@ -34,12 +31,19 @@ public class CommentController{
      */
     @Operation(summary = "查询评论")
     @GetMapping("/getList")
-    public Result getList(int articleId,int pageNum,int pageSize){
-        //查询文章id下的评论 => 先查出顶级id（parent_comment_id = 0） => 再查询下面的回复( top_comment_id = comment_id)
-        //查询顶级id
+    public Result<Map<Object, Object>> getList(int articleId, int pageNum, int pageSize){
         List<CommentDto> commentList = commentService.getCommentList(articleId, pageNum, pageSize);
-        return Result.success(commentList);
+        int allComment = commentService.getAllComment (articleId);
+        int total = commentService.getTotalPage(articleId,0);
+        int totalPage = (total-1)/10 +1;
+        Map<Object, Object> map = new HashMap<>();
+        map.put("allComment",allComment);
+        map.put("totalPage",totalPage);
+        map.put("commentList",commentList);
+        return Result.success(map);
     }
+
+
     /**
      * 添加评论
      */

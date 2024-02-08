@@ -1,7 +1,7 @@
 <template>
     <div class="comment">
         <div class="wenzi">
-            <h2>共 {{total}} 条评论</h2>
+            <h2>共 {{ allComment }} 条评论</h2>
         </div>
         <div class="comment-header">
             <el-tooltip class="item" effect="dark" content="点我更换头像" placement="top-start">
@@ -80,6 +80,12 @@
         </div>
         <!-- 暂无评论的空状态 -->
         <el-empty :description="emptyText" v-show="comments.length === 0"></el-empty>
+        <div class="block">
+
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" small
+                :current-page.sync="pageNum" :page-size="pageSize" layout="total, prev, pager, next" :page-count="totalPage">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -123,6 +129,10 @@ export default {
             userName: "孤城浪人", //你的用户名
             firstIdx: 1,
             secIdx: 1,
+            pageNum: 1,
+            pageSize: 10,
+            totalPage: 100,
+            allComment:'',
             photo:
                 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         };
@@ -141,15 +151,36 @@ export default {
             const file = Array.prototype.slice.call(e.target.files)[0];
             console.log(file);
         },
+        // async handleSizeChange(newSize) {
+        //     // 用户改变每页显示条目数量时触发的方法
+        //     // 更新每页显示条目数量并重新请求数据
+        //     this.pageSize = newSize;
+        //     await this.getCommentList(this.articleId, this.pageSize, newPage);
+        // },
+        async handleCurrentChange(val) {
+            // 用户点击分页器上的页码时触发的方法
+            // 更新当前页码并重新请求数据
+            this.pageNum = val;
+            
+            await this.getCommentList(this.$route.params.articleId, val, this.pageSize);
+        },
+        loadData() {
+      // 模拟请求数据的方法
+      console.log(`加载第 ${this.pageNum} 页，每页 ${this.pageSize} 条数据`);
+      // 在这里进行实际的数据请求，根据 pageNum 和 pageSize 来获取对应的数据
+    },
+
         // 获取本篇文章所有评论
         async getCommentList(articleId) {
             const params = {
                 articleId: articleId,
-                pageSize: '10',
-                pageNum: '1'
+                pageSize: this.pageSize,
+                pageNum: this.pageNum
             }
             list(params).then(res => {
-                this.comments = res.data.data
+                this.comments = res.data.data.commentList
+                this.totalPage = res.data.data.totalPage
+                this.allComment = res.data.data.allComment
             })
         },
         // 评论点赞
@@ -262,22 +293,23 @@ export default {
   
 <style  scoped>
 .wenzi {
-  margin-bottom: 10px;
-  text-align: left; 
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .wenzi h2 {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .wenzi h2::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 1px;
-  background-color: #aaa; 
-  margin-top: 5px;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #aaa;
+    margin-top: 5px;
 }
+
 .comment {
     min-height: 26vh;
     border-radius: 5px;
