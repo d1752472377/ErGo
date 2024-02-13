@@ -201,7 +201,7 @@ export default {
         },
         handleSelect(item) {
 				if (item.id) {
-					this.$router.push(`/blog/${item.id}`)
+					this.$router.push(`/article/${item.id}`)
 				}
 			}
     },
