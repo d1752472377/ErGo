@@ -132,7 +132,7 @@ export default {
             secIdx: 1,
             pageNum: 1,
             pageSize: 10,
-            totalPage: 100,
+            totalPage: 0,
             allComment:'',
             userPhoto:
                 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
