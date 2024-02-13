@@ -13,5 +13,8 @@ export default {
 </script>
 
 <style>
-
+.foot{
+  background: #000000;
+  height: 100px;
+}
 </style>

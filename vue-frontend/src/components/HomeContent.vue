@@ -25,13 +25,6 @@
       <div class="loadContent" @click="loadContent" v-if="!isEnd && !loading">
         点击加载更多
       </div>
-      <div class="lds-css ng-scope" v-if="!isEnd && loading">
-        <div style="width:100%;height:100%" class="lds-facebook">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
       <span v-if="isEnd">我也是有底线的~</span>
     </div>
   </div>
@@ -114,73 +107,17 @@ export default {
 
 
 <style scoped>
-.ivu-modal-footer {
-  display: none !important;
+.home-content{
+  width: 1260px;
+  margin: auto;
+  margin-bottom: 20px;
 }
-
-.home-content {
-  width: auto;
-  min-height: calc(100vh - 108px);
+.layout-left{
+  margin: 20px 10px 0px 5px;
 }
-
-@media only screen and (max-width: 768px) {
-  .home-content {
-    margin: 5px 5px 0 5px;
-  }
+.layout-right{
+  margin: 20px 5px 0px 10px;
 }
-
-@media screen and (min-width: 768px) {
-  .home-content {
-    margin: 10px 10px 0 10px;
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .home-content {
-    margin: 15px 35px 0 35px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .home-content {
-    width: 1200px;
-    margin: 15px auto 0;
-    margin-bottom: 200px;
-  }
-}
-
-.layout-left, .layout-right {
-  padding: 0;
-}
-
-@media only screen and (max-width: 768px) {
-  .layout-left, .layout-right {
-    padding: 0;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .layout-left, .layout-right {
-    padding: 0;
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .layout-left, .layout-right {
-    padding: 0 10px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .layout-left, .layout-right {
-    padding: 0 10px;
-  }
-}
-
-.el-card {
-  padding-top: 10px;
-}
-
 .loadContent {
   width: 120px;
   height: 30px;

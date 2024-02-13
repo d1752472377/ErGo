@@ -35,7 +35,7 @@ public class TagController {
     @Operation(summary = "获取标签列表")
     public Result getTagList(){
         LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.orderByAsc(Tag::getId).last("limit 10");
+        queryWrapper.orderByAsc(Tag::getId).last("limit 25");
         List<Tag> list = tagService.list(queryWrapper);
         return Result.success(list);
     }
