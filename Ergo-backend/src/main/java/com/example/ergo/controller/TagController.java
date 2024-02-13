@@ -2,6 +2,7 @@ package com.example.ergo.controller;
 
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,8 +34,9 @@ public class TagController {
     @GetMapping("index/getTagList")
     @Operation(summary = "获取标签列表")
     public Result getTagList(){
-        List<Tag> list = tagService.list();
-
+        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByAsc(Tag::getId).last("limit 10");
+        List<Tag> list = tagService.list(queryWrapper);
         return Result.success(list);
     }
 }
