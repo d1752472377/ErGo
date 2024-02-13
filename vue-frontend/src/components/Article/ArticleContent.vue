@@ -23,8 +23,12 @@
     <div class="right-section">
         <Card>
           <Author
-        :authorName="blog[0].userName"
-        :avatar=" blog[0].photo"
+        :userName="blog[0] && blog[0].userName ? blog[0].userName:'用户名不可用'"
+        :avatar=" blog[0] && blog[0].photo ? blog[0].photo:'图片不可用'"
+        :followers="100"
+        :articles="100"
+        :likes="100"
+        :bio="'123'"
         ></Author>
         </Card>
       <el-card>

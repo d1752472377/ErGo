@@ -2,7 +2,7 @@
     <div class="author-card">
         <img :src="avatar" alt="Author Avatar" class="avatar" />
         <div class="info">
-            <h3>{{ authorName }}</h3>
+            <h3>{{ userName }}</h3>
             <p>{{ bio }}</p>
             <div class="social-links">
                 <button @click="follow">关注</button>
@@ -29,7 +29,7 @@
 <script>
 export default {
     props: {
-        authorName: {
+        userName: {
             type: String,
             required: true,
         },

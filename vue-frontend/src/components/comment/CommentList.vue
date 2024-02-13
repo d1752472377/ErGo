@@ -7,8 +7,8 @@
             <el-tooltip class="item" effect="dark" content="点我更换头像" placement="top-start">
                 <div @click="handleClick">
                     <input type="file" style="display: none" @change="dealWithdAvatar" ref="avatar" />
-                    <el-avatar :src="photo
-                        ? photo
+                    <el-avatar :src="userPhoto
+                        ? userPhoto
                         : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
                         " :size="40"></el-avatar>
                 </div>
@@ -82,7 +82,7 @@
         <el-empty :description="emptyText" v-show="comments.length === 0"></el-empty>
         <div class="block">
 
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" small
+            <el-pagination @current-change="handleCurrentChange" small
                 :current-page.sync="pageNum" :page-size="pageSize" layout="total, prev, pager, next" :page-count="totalPage">
             </el-pagination>
         </div>
@@ -90,6 +90,7 @@
 </template>
 <script>
 import { list } from '@/api/comment';
+import { getUserInfo } from '@/utils/auth';
 
 export default {
     props: {
@@ -133,15 +134,29 @@ export default {
             pageSize: 10,
             totalPage: 100,
             allComment:'',
-            photo:
+            userPhoto:
                 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         };
     },
     created() {
         // 获取评论数据
         this.getCommentList(this.$route.params.articleId);
+        this.getUser()
     },
     methods: {
+        getUser(){
+            
+            const a ={"id":8,"userName":"爆裂的橘子",
+            "email":null,"phone":"13154101341","status":true,
+            "photo":"https://cdn.tobebetterjavaer.com/paicoding/avatar/0042.png",
+            "userRole":1}
+            const info = JSON.parse(getUserInfo())
+            if (info != null){
+                this.userPhoto =info.photo
+            }else{
+                this.userPhoto = null
+            }
+        },
         // 唤起文件选择
         handleClick() {
             this.$refs.avatar.click();
