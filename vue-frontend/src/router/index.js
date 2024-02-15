@@ -13,6 +13,7 @@ import RetrievePassword from '@/components/RetrievePassword.vue'
 import ArticleList from '@/components/Article/ArticleList.vue'
 import ArticleContent from '@/components/Article/ArticleContent.vue'
 import searchContent from '@/components/searchContent.vue'
+import FOUR from '../views/404.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
       Router.prototype.push = function push(location) {
@@ -104,9 +105,14 @@ export default new Router({
         content: searchContent,
         footer: CommonFooter
       }
-    }
-    ]
-  }]
+    },
+    ],
+  },{
+    path: '*',
+    name: '404',
+    component: FOUR
+  }
+]
 
 })
 

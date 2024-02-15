@@ -76,7 +76,29 @@ export default {
       };
       getArticleInfo(params).then(res => {
         this.blog = res.data.data.info;
-      });
+      }).catch(error=>{
+        if (error.response) {
+        const status = error.response.status;
+        if (status === 404) {
+          // 处理404错误
+          this.$router.push({ path: '/404' });
+        } else if (status === 400) {
+          // 处理400错误
+          // 例如，显示一个错误消息
+          this.$router.push({ path: '/404' });
+        } else if (status === 403) {
+          // 处理403错误
+          // 例如，显示一个权限不足的错误消息
+          console.error('权限不足');
+        } else {
+          // 处理其他错误
+          this.$router.push({ path: '/404' });
+        }
+      } else {
+        // 处理没有响应的情况
+        console.error('请求出错:', error);
+      }
+      })
     }
   }
 };
