@@ -45,16 +45,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    
-    if (getAes() == undefined) {
+  created() {
       //获取aes密钥
       getKey().then((response) => {
         // console.log(response.data.key)
         //设置到cookie中
-        setAesKey(response.key);
+        setAesKey(response.data.key);
       });
-    }
   },
   methods: {
     handleSubmit() {
@@ -65,8 +62,7 @@ export default {
       //数据进行加密
       this.res.requestData = AESEncrypt(dataJson, aesKey);
       this.$store.dispatch("Login", this.res).then(() => {
-        this.$router.go(-1);
-        // console.log('666')
+        this.$router.back();
       })
       
       // login(this.res).then(response=>{
@@ -98,4 +94,4 @@ export default {
   text-align: center;
   margin-bottom: 20px;
 }
-</style>@/api/aes
+</style>

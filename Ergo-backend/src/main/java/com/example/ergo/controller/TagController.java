@@ -37,6 +37,7 @@ public class TagController {
         LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByAsc(Tag::getId).last("limit 25");
         List<Tag> list = tagService.list(queryWrapper);
+        System.out.println(list);
         return Result.success(list);
     }
 }
