@@ -13,12 +13,12 @@ export function getNewBlog (params) {
       params
     })
   }
-export function queryArticleSearchKey(query) {
+export function queryArticleSearchKey(key) {
     return request({
         url: '/article/queryArticleSearchKey',
         method: 'get',
         params: {
-			query
+			key
 		}
     })
 }
