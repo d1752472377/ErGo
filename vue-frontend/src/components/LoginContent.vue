@@ -62,15 +62,10 @@ export default {
       //数据进行加密
       this.res.requestData = AESEncrypt(dataJson, aesKey);
       this.$store.dispatch("Login", this.res).then(() => {
-        this.$router.back();
+        this.$router.go(-1); // 返回上一页
       })
-      
-      // login(this.res).then(response=>{
-      //   this.$router.go(-1);
-      //   // this.reload();
-      //   console.log(response.data.data.userInfo)
-      // })
-    }
+    },
+    
   }
 }
 </script><style scoped>
