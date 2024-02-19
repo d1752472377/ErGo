@@ -121,6 +121,8 @@ export default {
     },
     methods: {
         logout() {
+            this.$store.dispatch("LogOut")
+            location.reload();
             //退出登录
         },
         toggle() {
@@ -201,7 +203,14 @@ export default {
     created() {
         this.getUserInfobyCreated()
     },
+    
+watch:{
+  $route(to,from){
+    location.reload()
+  }
+},
     mounted() {
+         
         this.$bus.$on('isLogin', (data) => {
             this.isLogin = data
         })
