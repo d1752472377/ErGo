@@ -71,7 +71,7 @@
                                 <el-input :placeholder="placeholderText" class="input" v-model.trim="replyContext"
                                     :maxlength="contentLength"></el-input>
                                 <el-button type="info" size="mini" class="reply-button"
-                                    @click="addComment(item.id, reply.userName)">回复</el-button>
+                                    @click="addComment(reply.id, reply.userName)">回复</el-button>
                             </div>
                         </div>
                     </div>
@@ -82,14 +82,14 @@
         <el-empty :description="emptyText" v-show="comments.length === 0"></el-empty>
         <div class="block">
 
-            <el-pagination @current-change="handleCurrentChange" small
-                :current-page.sync="pageNum" :page-size="pageSize" layout="total, prev, pager, next" :page-count="totalPage">
+            <el-pagination @current-change="handleCurrentChange" small :current-page.sync="pageNum" :page-size="pageSize"
+                layout="total, prev, pager, next" :page-count="totalPage">
             </el-pagination>
         </div>
     </div>
 </template>
 <script>
-import { list } from '@/api/comment';
+import { list, addComment } from '@/api/comment';
 import { getUserInfo } from '@/utils/auth';
 
 export default {
@@ -133,7 +133,7 @@ export default {
             pageNum: 1,
             pageSize: 10,
             totalPage: 0,
-            allComment:'',
+            allComment: '',
             userPhoto:
                 "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         };
@@ -144,16 +144,19 @@ export default {
         this.getUser()
     },
     methods: {
-        getUser(){
-            
-            const a ={"id":8,"userName":"爆裂的橘子",
-            "email":null,"phone":"13154101341","status":true,
-            "photo":"https://cdn.tobebetterjavaer.com/paicoding/avatar/0042.png",
-            "userRole":1}
+        getUser() {
+
+            const a = {
+                "id": 8, "userName": "爆裂的橘子",
+                "email": null, "phone": "13154101341", "status": true,
+                "photo": "https://cdn.tobebetterjavaer.com/paicoding/avatar/0042.png",
+                "userRole": 1
+            }
             const info = JSON.parse(getUserInfo())
-            if (info != null){
-                this.userPhoto =info.photo
-            }else{
+            if (info != null) {
+                this.userPhoto = info.photo
+                this.userId = info.id
+            } else {
                 this.userPhoto = null
             }
         },
@@ -176,14 +179,14 @@ export default {
             // 用户点击分页器上的页码时触发的方法
             // 更新当前页码并重新请求数据
             this.pageNum = val;
-            
+
             await this.getCommentList(this.$route.params.articleId, val, this.pageSize);
         },
         loadData() {
-      // 模拟请求数据的方法
-      console.log(`加载第 ${this.pageNum} 页，每页 ${this.pageSize} 条数据`);
-      // 在这里进行实际的数据请求，根据 pageNum 和 pageSize 来获取对应的数据
-    },
+            // 模拟请求数据的方法
+            console.log(`加载第 ${this.pageNum} 页，每页 ${this.pageSize} 条数据`);
+            // 在这里进行实际的数据请求，根据 pageNum 和 pageSize 来获取对应的数据
+        },
 
         // 获取本篇文章所有评论
         async getCommentList(articleId) {
@@ -254,54 +257,46 @@ export default {
             }
         },
         async addComment(id, parentName) {
-            let res = {};
-            // 评论添加成功，返回的数据
-            //本地更新评论列表
-            if (parentName) {
-                // 添加二级评论
-                if (!this.replyContext) {
-                    this.$message.warning("评论或留言不能为空哦！");
-                    return;
+            try{
+                let res = {}
+                if(parentName){
+                    if (!this.replyContext) {
+                        this.$message({message:"评论或留言不能为空哦！",type: 'warning', customClass: 'global-messageZindex'})
+                        return
+                    }
+                    // 构建要发送的评论数据
+                    const commentData = {
+                        articleId: this.$route.params.articleId,
+                        userId: this.userId,
+                        parentCommentId: id,
+                        content: this.replyContext
+                    };
+                    addComment(commentData).then(res=>{
+                        this.getCommentList(this.$route.params.articleId);
+                     })
+
+                }else{
+                    if (!this.context) {
+                        this.$message({message:"评论或留言不能为空哦！",type: 'warning', customClass: 'global-messageZindex'})
+                        return
+                    } 
+                     // 构建要发送的评论数据
+                     const commentData ={
+                        articleId: this.$route.params.articleId,
+                        userId:this.userId,
+                        content: this.context,
+                        parentCommentId:0
+                     }
+                     // 向后端发送 POST 请求保存评论数据
+                     addComment(commentData).then(res=>{
+                        this.getCommentList(this.$route.params.articleId);
+                     })
                 }
-                // 模拟数据提交成功后返回数据
-                res.data = {
-                    userName: this.userName,
-                    userId: this.userId,
-                    photo: this.photo,
-                    id: "sec" + this.secIdx++, // 评论id
-                    parentName,
-                    createTime: "2022.09.01", //创建日期
-                    favour: [], //点赞的用户id
-                    content: this.replyContext //评论内容
-                };
-                const comment = this.comments.find(item => item.id == id);
-                if (!comment.replyComments) {
-                    comment.replyComments = [];
-                }
-                comment.replyComments.push(res.data);
-                this.replyContext = "";
-            } else {
-                // 添加一级评论，提交数据到后端
-                if (!this.context) {
-                    this.$message.warning("评论或留言不能为空哦！");
-                    return;
-                }
-                // 模拟数据提交成功后返回数据
-                res.data = {
-                    userName: this.userName,
-                    photo: this.photo,
-                    userId: this.userId,
-                    id: "first" + this.firstIdx++, // 评论id
-                    createTime: "2022.09.01", //创建日期
-                    articleId: this.articleId, // 评论的文章id
-                    favour: [], //点赞的用户id
-                    content: this.context //评论内容
-                };
-                this.comments.push(res.data);
-                this.context = "";
+            }catch{
+
             }
-            this.isShowSec = this.isClickId = "";
         }
+
     }
 };
 </script>

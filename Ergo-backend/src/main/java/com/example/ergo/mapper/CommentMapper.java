@@ -5,6 +5,7 @@ import com.example.ergo.entity.Comment;
 import com.example.ergo.vo.dto.CommentDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,6 +17,9 @@ import java.util.List;
  */
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
+
+    int saveComment(Comment comment);
+
 
     List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize);
 

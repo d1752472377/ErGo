@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -51,6 +51,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         queryWrapper.eq(Comment::getParentCommentId,parentCommentId);
         int count = Math.toIntExact(commentMapper.selectCount(queryWrapper));
         return count;
+    }
+
+    @Override
+    public int addComment(Comment comment) {
+        int i =commentMapper.saveComment(comment);
+        return i;
     }
 
     private String getParentName(Integer id) {

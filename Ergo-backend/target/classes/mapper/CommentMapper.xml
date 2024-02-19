@@ -46,4 +46,8 @@
         from user_info,comment
         where comment.user_id = user_info.user_id and comment.id=#{id}
     </select>
+    <insert id="saveComment" parameterType="com.example.ergo.entity.Comment" >
+        INSERT INTO comment (article_id, user_id, content, parent_comment_id)
+        VALUES (#{articleId}, #{userId}, #{content}, #{parentCommentId})
+    </insert>
 </mapper>

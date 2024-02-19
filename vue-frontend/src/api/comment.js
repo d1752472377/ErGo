@@ -8,9 +8,9 @@ export function list(params) {
 }
 
 
-export function add(data) {
+export function addComment(data) {
     return request({
-        url: '/web/comment/add',
+        url: '/comment/addComment',
         method: 'post',
         data
     })

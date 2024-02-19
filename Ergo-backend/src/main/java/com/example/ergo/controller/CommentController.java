@@ -3,12 +3,14 @@ package com.example.ergo.controller;
 
 
 import com.example.ergo.config.Result;
+import com.example.ergo.entity.Comment;
 import com.example.ergo.service.CommentService;
 import com.example.ergo.vo.dto.CommentDto;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +50,13 @@ public class CommentController{
      * 添加评论
      */
     @Operation(summary = "添加评论")
-    @GetMapping("/addComment")
-    public Result addComment(){
-        return Result.success();
+    @PostMapping("/addComment")
+    public Result addComment(@RequestBody Comment comment){
+        int i = commentService.addComment(comment);
+        if (i == 1){
+            return Result.success();
+        }
+        return Result.fail("修改失败");
     }
     /**
      * 删除评论

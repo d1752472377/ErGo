@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.Comment;
 import com.example.ergo.vo.dto.CommentDto;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,5 +21,7 @@ public interface CommentService extends IService<Comment> {
     int getAllComment(int articleId);
 
     int getTotalPage(int articleId, int parentCommentId);
+
+    int addComment(Comment comment);
 }
 
