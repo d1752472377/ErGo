@@ -24,25 +24,19 @@
 
                     <!-- 中间搜索框 -->
                     <div class="navbar-container-middle">
-                        <div class="navbar-search-container">
-                            <el-autocomplete v-model="queryString" :fetch-suggestions="debounceQuery"
-                                placeholder="Search..." class="right item m-search" :class="{ 'm-mobile-hide': mobileHide }"
-                                popper-class="m-search-item" @select="handleSelect">
-                                <i class="search icon el-input__icon" slot="suffix"></i>
-                                <template slot-scope="{ item }">
-                                    <div class="title">{{ item.title }}</div>
-                                    <span class="content">{{ item.content }}</span>
-                                </template>
-                            </el-autocomplete>
-                            <button class="ui menu black icon button m-right-top m-mobile-show" @click="toggle">
-                                <i class="sidebar icon"></i>
-                            </button>
-                            <!-- <input type="text" autocomplete="off" id="search" :placeholder="keys">
-                            <button @click="searchBykey">
-                                <i></i>
-                                <span>搜索</span>
-                            </button> -->
-                        </div>
+
+                        <el-autocomplete v-model="queryString" :fetch-suggestions="debounceQuery" placeholder="Search..."
+                            class="right item m-search" 
+                            :class="{ 'm-mobile-hide': mobileHide }"
+                            popper-class="m-search-item"
+                             @select="handleSelect">
+                            <i class="search icon el-input__icon" slot="suffix"></i>
+                            <template slot-scope="{ item }">
+                                <div class="title">{{ item.title }}</div>
+                            </template>
+                            <el-button slot="append" icon="el-icon-search"></el-button>
+                        </el-autocomplete>
+                        
                     </div>
 
                     <!-- 右侧导航栏 -->
@@ -130,8 +124,8 @@ export default {
             //退出登录
         },
         toggle() {
-				this.mobileHide = !this.mobileHide
-			},
+            this.mobileHide = !this.mobileHide
+        },
         mouseOver() {
             this.opacity = 0
             this.display = 'block'
@@ -169,40 +163,40 @@ export default {
             }
             this.userInfo = JSON.parse(Cookie.get("userInfo"))
         },
-        debounceQuery(queryString,callback){
+        debounceQuery(queryString, callback) {
             this.timer && clearTimeout(this.timer)
-            this.timer = setTimeout(()=>this.querySearchAsync(queryString,callback),1000)
+            this.timer = setTimeout(() => this.querySearchAsync(queryString, callback), 1000)
         },
-        querySearchAsync(queryString, callback){
+        querySearchAsync(queryString, callback) {
             if (queryString == null
-						|| queryString.trim() === ''
-						|| queryString.indexOf('%') !== -1
-						|| queryString.indexOf('_') !== -1
-						|| queryString.indexOf('[') !== -1
-						|| queryString.indexOf('#') !== -1
-						|| queryString.indexOf('*') !== -1
-						|| queryString.trim().length > 20) {
-					return
-				}
-                queryArticleSearchKey(queryString).then(res=>{
-                    // console.log(res.data.code)
-                    if (res.data.code === 200) {
-                        
-						this.queryResult = res.data.data.article
-						if (this.queryResult.length === 0) {
-							this.queryResult.push({title: '无相关搜索结果'})
-						}
-						callback(this.queryResult)
-					}
-                }).catch(() => {
-					console.log("请求失败")
-				})
+                || queryString.trim() === ''
+                || queryString.indexOf('%') !== -1
+                || queryString.indexOf('_') !== -1
+                || queryString.indexOf('[') !== -1
+                || queryString.indexOf('#') !== -1
+                || queryString.indexOf('*') !== -1
+                || queryString.trim().length > 20) {
+                return
+            }
+            queryArticleSearchKey(queryString).then(res => {
+                // console.log(res.data.code)
+                if (res.data.code === 200) {
+
+                    this.queryResult = res.data.data.article
+                    if (this.queryResult.length === 0) {
+                        this.queryResult.push({ title: '无相关搜索结果' })
+                    }
+                    callback(this.queryResult)
+                }
+            }).catch(() => {
+                console.log("请求失败")
+            })
         },
         handleSelect(item) {
-				if (item.id) {
-					this.$router.push(`/article/${item.id}`)
-				}
-			}
+            if (item.id) {
+                this.$router.push(`/article/${item.id}`)
+            }
+        }
     },
     created() {
         this.getUserInfobyCreated()
@@ -340,115 +334,6 @@ a {
 .left-ul li:hover {
     background-color: #eee;
     /* 背景色为灰色 */
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 定义中间容器样式 */
-.navbar-container-middle {
-    padding: 0 40px;
-    /* 内边距为0 40px */
-    flex: 1;
-    /* 占据剩余空间 */
-}
-
-
-
-.navbar-container-middle {
-    padding: 0 40px;
-    flex: 1;
-}
-
-.navbar-search-container {
-    width: 100%;
-    max-width: 720px;
-    height: 32px;
-    line-height: 32px;
-    margin-top: calc((48px - 32px)/ 2);
-    box-sizing: border-box;
-    font-size: 0px;
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-.navbar-search-container input {
-    font-size: 14px;
-    display: inline-block;
-    width: calc(100% - 88px);
-    height: 100%;
-    line-height: inherit;
-    /* 为了后面聚焦搜索框样式，将边框外围线清除 */
-    outline: 0;
-    background: #f5f6f7;
-    color: #222226;
-    vertical-align: top;
-    text-indent: 16px;
-    border: 1px solid #e8e8ed;
-    border-right: none;
-    box-sizing: border-box;
-    border-radius: 16px 0 0 16px;
-}
-
-/* 搜索框聚焦样式 */
-.navbar-search-container input:focus {
-    border: 1px solid #4e6072;
-    border-right: none;
-}
-
-.navbar-search-container button {
-    display: inline-block;
-    width: 88px;
-    height: 100%;
-    outline: 0;
-    border: 0 none;
-    border-radius: 0 16px 16px 0;
-    font-size: 14px;
-    line-height: 32px;
-    cursor: pointer;
-    background-color: #4e6072;
-    text-align: left;
-}
-
-.navbar-search-container i {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url(https://g.csdnimg.cn/common/csdn-toolbar/images/csdn-white-search.png) no-repeat center center;
-    background-size: 100%;
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
-    margin-left: 14px;
-}
-
-.navbar-search-container span {
-    display: inline-block;
-    vertical-align: top;
-    color: #fff;
-}
-
-
-
-/* 定义按钮样式 */
-.navbar-btns-User {
-    flex: 1;
-    /* 占据剩余空间 */
 }
 
 /* 定义用户头像样式 */
@@ -703,42 +588,5 @@ a {
     /* 背景色为灰色 */
 }
 
-
-.m-search {
-		min-width: 220px;
-		padding: 0 !important;
-	}
-
-	.m-search input {
-		color: rgba(255, 255, 255, .9);;
-		border: 0px !important;
-		background-color: inherit;
-		padding: .67857143em 2.1em .67857143em 1em;
-	}
-
-	.m-search i {
-		color: rgba(255, 255, 255, .9) !important;
-	}
-
-	.m-search-item {
-		min-width: 350px !important;
-	}
-
-	.m-search-item li {
-		line-height: normal !important;
-		padding: 8px 10px !important;
-	}
-
-	.m-search-item li .title {
-		text-overflow: ellipsis;
-		overflow: hidden;
-		color: rgba(0, 0, 0, 0.87);
-	}
-
-	.m-search-item li .content {
-		text-overflow: ellipsis;
-		font-size: 12px;
-		color: rgba(0, 0, 0, .70);
-	}
 </style>
 
