@@ -56,11 +56,11 @@ pnpm run serve
 
 
 
-![前端截图](picture\前端截图.png)
+![前端截图](/picture/前端截图.png)
 
 地址：http://localhost:8888/
 
-![image-20240221010735386](picture\前端首页.png)
+![前端首页](/picture/前端首页.png)
 
 ## 开发环境
 
