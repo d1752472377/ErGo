@@ -56,7 +56,7 @@ pnpm run serve
 
 
 
-![前端截图](/picture/前端截图.png)
+![前端截图](/picture/%E5%89%8D%E7%AB%AF%E6%88%AA%E5%9B%BE.png)
 
 地址：http://localhost:8888/
 
