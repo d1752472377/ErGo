@@ -13,6 +13,7 @@ import RetrievePassword from '@/components/RetrievePassword.vue'
 import ArticleList from '@/components/Article/ArticleList.vue'
 import ArticleContent from '@/components/Article/ArticleContent.vue'
 import searchContent from '@/components/searchContent.vue'
+import UserCenter from '@/components/UserCenter/UserCenter.vue'
 import FOUR from '../views/404.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
@@ -106,6 +107,15 @@ export default new Router({
         footer: CommonFooter
       }
     },
+    {
+      path:'/user-center/:id',
+      name:'user-center',
+      components:{
+        header: SimpleHeader,
+        content: UserCenter,
+        footer: CommonFooter
+      }
+    }
     ],
   },{
     path: '*',

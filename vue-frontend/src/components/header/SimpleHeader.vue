@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="center">
                                         <ul class="profile">
-                                            <li title=""><router-link active-class="active" to="/">个人中心</router-link></li>
+                                            <li title=""><router-link active-class="active" :to="{name:'user-center',params: { id: userInfo.id } }">个人中心</router-link></li>
                                             <li title=""><span @click="logout">退出登录</span></li>
                                         </ul>
                                     </div>
