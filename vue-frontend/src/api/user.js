@@ -25,3 +25,21 @@ export function send(data) {
         data
     })
 }
+
+//获取关注与粉丝数目
+export function queryRelationCount(params) {
+    return request({
+        url: '/relation/queryRelationCount',
+        method: 'get',
+        params
+    })
+}
+//获取关注与粉丝详情
+export function queryRelation(params) {
+    return request({
+        url: '/relation/queryRelation',
+        method: 'get',
+        params
+    })
+}
+

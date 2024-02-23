@@ -4,25 +4,25 @@
             <el-card>
                 <div class="flex">
                     <div class="block">
-                        <el-avatar :size="100" :src="circleUrl"></el-avatar>
-                        <h3>WECHAT-ss5ziu</h3>
-                        <p>这家伙很懒，什么都没有留下<el-button type="text"><i class="el-icon-edit"></i></el-button></p>
+                        <el-avatar :size="100" :src="userInfo.photo"></el-avatar>
+                        <h3>{{ userInfo.userName }}</h3>
+                        <p>{{ profile }}<el-button type="text"><i class="el-icon-edit"></i></el-button></p>
                     </div>
                     <div class="count">
                         <div class="itop">
                             <div class="item">
                                 <p><span class="highlighted">加入天数</span></p>
-                                <p>120</p>
+                                <p>{{ difftime }}</p>
                             </div>
                             <div class="divider"></div> <!-- 中间的分割线 -->
                             <div class="item">
                                 <p><span class="highlighted">粉丝数</span></p>
-                                <p>100</p>
+                                <p>{{ countFans }}</p>
                             </div>
                             <div class="divider"></div> <!-- 中间的分割线 -->
                             <div class="item">
                                 <p><span class="highlighted">关注数</span></p>
-                                <p>105</p>
+                                <p>{{ countFollow }}</p>
                             </div>
                         </div>
                         <div class="update">
@@ -57,43 +57,62 @@
         <div class="dibu">
             <el-card>
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="文章" name="first">
-        <div v-if="1+1==2">
-            <el-empty description="描述文字"></el-empty>
-        </div>
-    </el-tab-pane>
-    <el-tab-pane label="浏览记录" name="second">
-        <div v-if="1+1==2">
-            <el-empty description="描述文字">
-
-            </el-empty>
-        </div></el-tab-pane>
-    <el-tab-pane label="关注" name="third">
-        <el-tabs v-model="activeFollow" @tab-click="handleClickByFollow">
-            <el-tab-pane label="关注列表" name="first">
-                <div v-if="1+1==2">
-            <el-empty description="描述文字"></el-empty>
-        </div>
-            </el-tab-pane>
-            <el-tab-pane label="粉丝列表" name="second">
-                <div v-if="1+1==2">
-            <el-empty description="描述文字"></el-empty>
-        </div>
-            </el-tab-pane>
-        </el-tabs>
-    </el-tab-pane>
-    <el-tab-pane label="收藏" name="fourth">
-        <div v-if="1+1==2">
-            <el-empty description="描述文字"></el-empty>
-        </div>
-    </el-tab-pane>
-  </el-tabs>
+                    <el-tab-pane label="文章" name="first">
+                        <div v-if="blog == null || blog == undefined">
+                            <el-empty description="暂无内容"></el-empty>
+                        </div>
+                        <div>
+                            {{ blog }}
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="浏览记录" name="second">
+                        <div v-if="readHistory == null || readHistory == undefined">
+                            <el-empty description="暂无内容">
+                            </el-empty>
+                        </div>
+                        <div>
+                            {{ readHistory }}
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="关注" name="third">
+                        <el-tabs v-model="activeFollow" @tab-click="handleClickByFollow">
+                            <el-tab-pane label="关注列表" name="first">
+                                <div v-if="fans == null  || fans == undefined">
+                                    <el-empty description="暂无内容"></el-empty>
+                                </div>
+                                <div v-else>
+                                    {{ follow }}
+                                </div>
+                            </el-tab-pane>
+                            <el-tab-pane label="粉丝列表" name="second">
+                                <div v-if="follow == null || follow == undefined">
+                                    <el-empty description="暂无内容"></el-empty>
+                                </div>
+                                <div v-else>
+                                    {{ fans }}
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </el-tab-pane>
+                    <el-tab-pane label="收藏" name="fourth">
+                        <div v-if="collect.length === 0">
+                            <el-empty description="暂无内容"></el-empty>
+                        </div>
+                        <div v-else>
+                            {{ collect }}
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
             </el-card>
         </div>
     </div>
 </template>
   
 <script>
+import { getUserInfo } from '@/utils/auth';
+import { queryRelationCount,queryRelation } from '@/api/user'
+import {getUserWrite,getUserFootForRead,getUserFootForCollection} from '@/api/blog'
+
 export default {
     data() {
         return {
@@ -107,14 +126,82 @@ export default {
                 delivery: false,
                 type: [],
                 resource: '',
-                desc: ''
+                desc: '',
             },
             formLabelWidth: '120px',
             activeName: 'first',
-            activeFollow:'first',
+            activeFollow: 'first',
+            userInfo: {},
+            profile: "这个家伙很懒，什么也没有留下",
+            difftime: '',
+            countFans: '',
+            countFollow: '',
+            fans:[],
+            follow:[],
+            blog:[],
+            readHistory:[],
+            collect:[],
         };
     },
+    created() {
+        this.getUser()
+        this.getCountByRelation()
+        this.getBlogById()
+        this.getReadById()
+        this.getCollectionById()
+    },
     methods: {
+        getUser() {
+            const userinfo1 = getUserInfo()
+            this.userInfo = JSON.parse(userinfo1);
+            if (this.userInfo.profile != null) {
+                this.profile = this.userInfo.profile
+            }
+            var new_date = new Date();
+            var old_date = new Date(this.userInfo.createTime);
+            // console.log(new_date)
+            // console.log(old_date)
+            this.difftime = Math.round((new_date - old_date) / 1000 / 86400)
+
+        },
+        getBlogById(){
+            const params = {
+                userId: this.$route.params.id
+            }
+            getUserWrite(params).then(res=>{
+                this.blog = res.data.data
+                // console.log(this.blog)
+            })
+        },
+        getCountByRelation() {
+            const params = {
+                userId: this.$route.params.id
+            }
+            queryRelation(params).then(res => {
+                this.countFans = res.data.data.countFans
+                this.countFollow = res.data.data.countFollow
+                this.fans = res.data.data.fans
+                this.follow = res.data.data.follow
+                
+            })
+        },
+        getReadById(){
+            const params = {
+                userId: this.$route.params.id
+            }
+            getUserFootForRead(params).then(res=>{
+                this.readHistory = res.data.data
+            })
+        },
+        getCollectionById(){
+            const params = {
+                userId: this.$route.params.id
+            }
+            getUserFootForCollection(params).then(res=>{
+                this.collect = res.data.data
+                // console.log(this.collect.length)
+            })
+        },
         handleClose(done) {
             this.$confirm('确认关闭？')
                 .then(_ => {
@@ -123,11 +210,11 @@ export default {
                 .catch(_ => { });
         },
         handleClick() {
-        console.log('发送请求获取内容');
-      },
-      handleClickByFollow(){
-        console.log("发送请求获取内容");
-      }
+            // console.log('发送请求获取内容');
+        },
+        handleClickByFollow() {
+            // console.log("发送请求获取内容");
+        }
     }
 };
 </script>

@@ -29,7 +29,6 @@ public class Article  implements Serializable{
     private Integer id;//主键ID@TableId
     private Integer userId;//用户ID
     private Integer articleType;//文章类型：1-博文，2-问答
-    private String content; //文章内容
     private String title;//文章标题
     private String shortTitle; //短标题
     private String picture;//文章头图

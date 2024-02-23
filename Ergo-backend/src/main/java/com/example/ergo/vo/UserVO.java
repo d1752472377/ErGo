@@ -2,6 +2,8 @@ package com.example.ergo.vo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author 董冠男
  * @date 2023/10/16
@@ -22,6 +24,9 @@ public class UserVO {
     private String photo;
     //权限
     private Integer userRole;
+    private String profile;
+    private Object ip;
+    private Date createTime;
 
 
 }

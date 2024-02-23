@@ -154,6 +154,15 @@ public class ArticleController {
         Map article = articleService.getArticleInfo(id);
         return Result.success(article);
     }
+
+    @Operation(summary = "获取用户所写文章")
+    @GetMapping("/getUserWrite")
+    public Result getUserWrite(@RequestParam(name = "userId") int userId){
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getUserId,userId);
+        List<Article> list = articleService.list(queryWrapper);
+        return Result.success(list);
+    }
 /*-------------------------------Elasticsearch 实验一下------------------------------------------------*/
     @GetMapping("/queryArticleSearchKey")
     public Result add(String key) {

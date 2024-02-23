@@ -1,5 +1,6 @@
 package com.example.ergo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.ergo.config.JwtUtil;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.User;

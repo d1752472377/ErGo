@@ -46,7 +46,6 @@ import java.util.Map;
 @Service("articleService")
 @Slf4j
 @Log4j2
-@CrossOrigin
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private static final Logger LOGGER = LogManager.getLogger(ArticleServiceImpl.class);

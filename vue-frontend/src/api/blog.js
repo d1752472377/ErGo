@@ -64,3 +64,26 @@ export function getArticleInfo(params) {
         params
     })
 }
+export function getUserWrite(params){
+    return request({
+        url: '/article/getUserWrite',
+        method: 'get',
+        params
+    })
+}
+export function getUserFootForRead(params){
+    return request({
+        url: '/foot/getUserFootForRead',
+        method: 'get',
+        params
+    })
+}
+export function getUserFootForCollection(params){
+    return request({
+        url: '/foot/collection',
+        method: 'get',
+        params
+    })
+}
+
+
