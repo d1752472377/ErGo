@@ -76,7 +76,7 @@
                             </div>
                             <!-- 发布 -->
                             <div class="navbar-btn navbar-btn-write navbar-fl">
-                                <a class="write" href="">
+                                <a class="write" href="/edit" target="_blank">
                                     <i></i>发布
                                     <i></i></a>
                             </div>
