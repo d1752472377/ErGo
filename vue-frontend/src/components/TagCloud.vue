@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .cloud { clear: both; overflow: hidden; background: #fff; margin-bottom: 20px }
 .cloud ul { overflow: hidden; font-size: 14px }
 .cloud ul a { line-height: 24px;  display: block; background: #999; float: left; padding: 3px 11px; margin: 10px 10px 0 0; border-radius: 8px; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; -ms-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; transition: all 0.5s; color: #FFF }
