@@ -1,7 +1,6 @@
 package com.example.ergo.config;
 
 /**
- * @author 董冠男
  * @date 2023/12/1
  * 描述：
  */

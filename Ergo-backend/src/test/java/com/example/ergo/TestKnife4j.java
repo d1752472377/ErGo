@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @author 董冠男
  * @date 2023/9/18
  * 描述：测试knife4j
  */

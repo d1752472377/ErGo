@@ -16,7 +16,6 @@ import java.util.Map;
 
 
 /**
- * @author 董冠男
  * @date 2023/9/24
  * 描述：一个JwtTokenUtil工具类，用于创建token、验证token
  */

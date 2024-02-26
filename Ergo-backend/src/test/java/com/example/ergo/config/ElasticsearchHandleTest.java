@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author 董冠男
  * @date 2023/11/25
  * 描述：
  */

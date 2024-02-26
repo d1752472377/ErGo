@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @author 董冠男
  * @date 2023/9/25
  * 描述：JWT过滤器,进行token的校验和判断
  */

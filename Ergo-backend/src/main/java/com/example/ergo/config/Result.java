@@ -7,7 +7,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author 董冠男
  * @date 2023/9/18
  * 描述：返回类结果封装
  */

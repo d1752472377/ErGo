@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author 董冠男
  * @date 2023/11/23
  * 描述：
  */

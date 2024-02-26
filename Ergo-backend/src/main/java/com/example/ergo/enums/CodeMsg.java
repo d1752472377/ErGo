@@ -1,7 +1,6 @@
 package com.example.ergo.enums;
 
 /**
- * @author 董冠男
  * @date 2023/9/18
  * 描述：返回值枚举类
  */

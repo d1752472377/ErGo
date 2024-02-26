@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.example.ergo.ErgoApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.868 s - in com.example.ergo.ErgoApplicationTests
