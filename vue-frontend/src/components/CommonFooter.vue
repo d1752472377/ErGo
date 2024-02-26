@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .foot{
   background: #000000;
   height: 100px;
