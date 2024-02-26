@@ -104,7 +104,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .blog-page {
   width: 1260px;
   display: flex;
