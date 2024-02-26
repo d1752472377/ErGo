@@ -14,6 +14,7 @@ import ArticleList from '@/components/Article/ArticleList.vue'
 import ArticleContent from '@/components/Article/ArticleContent.vue'
 import searchContent from '@/components/searchContent.vue'
 import UserCenter from '@/components/UserCenter/UserCenter.vue'
+import EditArticle from '@/components/EditArticle.vue'
 import FOUR from '../views/404.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
@@ -115,12 +116,18 @@ export default new Router({
         content: UserCenter,
         footer: CommonFooter
       }
-    }
+    },
+    
     ],
   },{
     path: '*',
     name: '404',
     component: FOUR
+  },
+  {
+    path:'/edit',
+    name:'edit',
+    component: EditArticle
   }
 ]
 
