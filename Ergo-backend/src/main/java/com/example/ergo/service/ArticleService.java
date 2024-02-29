@@ -2,8 +2,6 @@ package com.example.ergo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.Article;
-import com.example.ergo.mapper.ArticleMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

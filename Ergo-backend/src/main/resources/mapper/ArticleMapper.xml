@@ -19,14 +19,13 @@
     </update>
     <select id="getArticleInfo" resultType="com.example.ergo.vo.articleInfoVo">
         select title,
-               article_detail.content,
-               article_detail.create_time,
-               article_detail.update_time,
+               article.content,
+               article.create_time,
+               article.update_time,
                user_name,
                photo
-        from article,user_info,article_detail
+        from article,user_info
         where user_info.user_id =article.user_id
-          and article.id = article_detail.article_id
           and article.id=#{id}
     </select>
 </mapper>

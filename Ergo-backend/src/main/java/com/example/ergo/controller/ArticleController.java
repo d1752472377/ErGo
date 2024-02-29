@@ -1,7 +1,6 @@
 package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
@@ -12,7 +11,6 @@ import com.example.ergo.util.AESUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.example.ergo.enums.PushStatusEnum.*;
 
@@ -45,15 +42,15 @@ public class ArticleController {
 
     // TODO 增删改查
     @Operation(summary = "保存文章")
-    @PostMapping("save")
+    @PostMapping("/save")
     public Result save(@RequestBody Article article){
         Integer status = article.getStatus();
         if (status != OFFLINE.getCode() && status != ONLINE.getCode() && status != REVIEW.getCode()){
             return Result.fail("文章状态不合法");
         }
         //获取json
-        articleService.write(article);
-        return null;
+        Integer write = articleService.write(article);
+        return Result.success(write);
     }
 
     @Operation(summary = "操作文章")
@@ -106,8 +103,6 @@ public class ArticleController {
     public Result list(
             @RequestParam(name = "pageSize") Integer pageSize,
             @RequestParam(name = "currentPage") Integer pageNo){
-        System.out.println(pageNo);
-        System.out.println(pageSize);
         Map map = articleService.getArticle(pageNo, pageSize);
         return Result.success(map);
     }

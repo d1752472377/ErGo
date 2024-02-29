@@ -43,6 +43,7 @@ public class Article  implements Serializable{
     private Integer deleted;//是否删除
     private Integer level;//推荐层级
     private Integer sort;//是否排序
+    private String content; //正文
     private Date createTime;//创建时间
     private Date updateTime; //最后更新时间
 }

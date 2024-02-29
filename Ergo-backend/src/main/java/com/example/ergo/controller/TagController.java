@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2023-12-31 22:07:34
  */
 @RestController
-@RequestMapping("tag")
+@RequestMapping("/tag")
 @CrossOrigin
 public class TagController {
 
@@ -40,4 +40,11 @@ public class TagController {
         System.out.println(list);
         return Result.success(list);
     }
+    @GetMapping("/getAllTagList")
+    @Operation(summary = "获取标签列表")
+    public Result getAllTagList(){
+        List<Tag> list = tagService.list();
+        return Result.success(list);
+    }
+
 }

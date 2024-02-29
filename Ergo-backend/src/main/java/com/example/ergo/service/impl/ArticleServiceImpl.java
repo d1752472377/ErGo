@@ -10,7 +10,6 @@ import com.example.ergo.vo.articleInfoVo;
 import com.example.ergo.vo.articleVO;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
-import com.example.ergo.vo.dto.ArticleDTO;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -25,11 +24,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,19 +57,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Map<String,Object> getArticle(Integer pageNum, Integer pageSize ) {
         List<articleVO> article = articleMapper.getArticle(pageNum, pageSize);
         Integer total = articleMapper.getTotal();
-//        LOGGER.info("看看这是啥"+article);
-//        System.out.println(article);
         Map<String,Object> map = new HashMap<>(16);
         map.put("total",total);
         map.put("article",article);
-
         return map;
     }
 
     @Override
     public Integer write(Article article) {
-
-        return null;
+        return articleMapper.insert(article);
     }
 
     @Override

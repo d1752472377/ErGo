@@ -87,3 +87,26 @@ export function getUserFootForCollection(params){
 }
 
 
+export function upload(data){
+    return request({
+        url: '/files/vMdEditor',
+        method: 'post',
+        data
+    })
+}
+
+
+export function getCategoryList(params){
+    return request({
+        url: '/category/list',
+        method: 'get',
+        params
+    })
+}
+export function save(data){
+    return request({
+        url: '/article/save',
+        method: 'post',
+        data
+    })
+}

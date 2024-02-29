@@ -7,3 +7,9 @@ export function getHotTag(params) {
         params
     })
 }
+export function getAllTagList() {
+    return request({
+        url: '/tag/getAllTagList',
+        method: 'get',
+    })
+}

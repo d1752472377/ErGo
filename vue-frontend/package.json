@@ -19,6 +19,7 @@
     "@bytemd/plugin-medium-zoom": "^1.21.0",
     "@bytemd/plugin-mermaid": "^1.21.0",
     "@bytemd/vue": "^1.21.0",
+    "@kangc/v-md-editor": "^1.7.12",
     "@moefe/vue-aplayer": "2.0.0-beta.5",
     "axios": "^1.6.0",
     "bytemd": "^1.21.0",
