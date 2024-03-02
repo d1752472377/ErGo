@@ -1,6 +1,7 @@
 package com.example.ergo;
 
-import com.example.ergo.config.XfXhConfig;
+import com.example.ergo.config.XFunConfig;
+import com.example.ergo.util.XfunListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +12,9 @@ import top.hualuo.XhStreamClient;
 
 @SpringBootApplication
 public class ErgoApplication {
+
     @Autowired
-    private XfXhConfig xfXhConfig;
+    private XFunConfig xFunConfig;
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ErgoApplication.class, args);
@@ -21,15 +23,13 @@ public class ErgoApplication {
         System.out.println(" ============> 巴啦啦能量小魔仙乌卡拉全身变");
     }
     @Bean
-    public XhStreamClient xhStreamClient (){
-        return XhStreamClient.builder()
-                .apiHost(xfXhConfig.getApiHost())
-                .apiPath(xfXhConfig.getApiPath())
-                .appId(xfXhConfig.getAppId())
-                .apiKey(xfXhConfig.getApiKey())
-                .apiSecret(xfXhConfig.getApiSecret())
-
-                .build();
+    public XfunListener getXfunListener(){
+        return XfunListener.builder()
+                .apiKey(xFunConfig.getApiKey())
+                .apiSecret(xFunConfig.getApiSecret())
+                .hostUrl(xFunConfig.getHostUrl())
+                .appid(xFunConfig.getAppid()).build();
     }
+
 
 }

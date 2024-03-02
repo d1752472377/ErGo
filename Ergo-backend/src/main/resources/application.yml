@@ -96,10 +96,9 @@ elasticsearch:
   # es 每个路由的最大连接数
   maxConnectNumPerRoute: 100
 
-
-  xfxh:
-    apiHost: spark-api.xf-yun.com
-    apiPath: /v1.1/chat
-    appId: e0c1f212
-    apiKey: N2NkMjg4M2JlMzBhYTg2MDMyNTllNzlh
-    apiSecret: 3554aa0a17812c93448c245fb9a6228d
+xfun:
+  open:
+    appid: xxxxxxxxxxxxxxxxxxx
+    apiSecret: xxxxxxxxxxxxxxxxxxxxxxxxx
+    hostUrl: https://spark-api.xf-yun.com/v2.1/chat
+    apiKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxx

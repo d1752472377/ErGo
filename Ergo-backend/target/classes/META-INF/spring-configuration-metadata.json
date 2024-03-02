@@ -1,14 +1,19 @@
 {
   "groups": [
     {
+      "name": "",
+      "type": "com.example.ergo.vo.dto.Xfun.MsgDTO",
+      "sourceType": "com.example.ergo.vo.dto.Xfun.MsgDTO"
+    },
+    {
       "name": "elasticsearch",
       "type": "com.example.ergo.config.ElasticsearchConfig",
       "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
-      "name": "xfxh",
-      "type": "com.example.ergo.config.XfXhConfig",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
+      "name": "xfun.open",
+      "type": "com.example.ergo.config.XFunConfig",
+      "sourceType": "com.example.ergo.config.XFunConfig"
     }
   ],
   "properties": [
@@ -68,29 +73,24 @@
       "sourceType": "com.example.ergo.config.ElasticsearchConfig"
     },
     {
-      "name": "xfxh.api-host",
+      "name": "xfun.open.api-key",
       "type": "java.lang.String",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
+      "sourceType": "com.example.ergo.config.XFunConfig"
     },
     {
-      "name": "xfxh.api-key",
+      "name": "xfun.open.api-secret",
       "type": "java.lang.String",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
+      "sourceType": "com.example.ergo.config.XFunConfig"
     },
     {
-      "name": "xfxh.api-path",
+      "name": "xfun.open.appid",
       "type": "java.lang.String",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
+      "sourceType": "com.example.ergo.config.XFunConfig"
     },
     {
-      "name": "xfxh.api-secret",
+      "name": "xfun.open.host-url",
       "type": "java.lang.String",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
-    },
-    {
-      "name": "xfxh.app-id",
-      "type": "java.lang.String",
-      "sourceType": "com.example.ergo.config.XfXhConfig"
+      "sourceType": "com.example.ergo.config.XFunConfig"
     }
   ],
   "hints": []
