@@ -6,6 +6,7 @@ import com.vladsch.flexmark.ext.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
 import com.vladsch.flexmark.ext.gitlab.GitLabExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
@@ -30,6 +31,7 @@ public class MarkdownToHtmlUtils {
                     GitLabExtension.create(),       // GitLab特有的Markdown扩展
                     FootnoteExtension.create(),     // 脚注扩展，用于添加和解析脚注
                     TaskListExtension.create(),     // 任务列表扩展，用于创建任务列表
+                    TocExtension.create(),          // TOC目录解析
                     TablesExtension.create()));     // 表格扩展，用于解析和渲染表格
 
             // 使用配置的选项构建一个 Markdown 解析器
