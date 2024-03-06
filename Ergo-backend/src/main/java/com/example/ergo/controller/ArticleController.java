@@ -1,22 +1,32 @@
 package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
+import com.example.ergo.entity.Category;
+import com.example.ergo.entity.UserInfo;
 import com.example.ergo.enums.Constant;
 import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.service.ArticleService;
+import com.example.ergo.service.CategoryService;
+import com.example.ergo.service.UserInfoService;
 import com.example.ergo.util.AESUtil;
+import com.example.ergo.vo.articleVO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +49,10 @@ public class ArticleController {
     ArticleMapper articleMapper;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private UserInfoService userInfoService;
+    @Autowired
+    private CategoryService categoryService;
 
     // TODO 增删改查
     @Operation(summary = "保存文章")
@@ -90,7 +104,19 @@ public class ArticleController {
         }
         return Result.fail("成功");
     }
-
+    @Operation(summary = "获取所有文章标题")
+    @GetMapping("/getAllArticleTitle")
+    public Result getAllArticleTitle(){
+        List<Article> list = articleService.list();
+        List idAndTitle= new ArrayList<>();
+        for (Article article:list) {
+            Map<String,Object> map =new HashMap<>();
+            map.put("id",article.getId());
+            map.put("title",article.getTitle());
+            idAndTitle.add(map);
+        }
+        return Result.success(idAndTitle);
+    }
 
     /**
      * 分页查询文章
@@ -157,6 +183,34 @@ public class ArticleController {
         List<Article> list = articleService.list(queryWrapper);
         return Result.success(list);
     }
+    @Operation(summary = "根据标题获取文章")
+    @GetMapping("/getArticleListByTitle")
+    public Result getArticleListByTitle(String title,int pageSize,int currentPage){
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(Article::getTitle,title);
+        Page<Article> page = new Page<>(currentPage,pageSize);
+        IPage<Article> iPage = articleMapper.selectPage(page,queryWrapper);
+        List<Article> list = iPage.getRecords();
+        List<articleVO> articleVOList = new ArrayList<>();
+        for (Article article:list){
+            Category category = categoryService.getById(article.getCategoryId());
+            UserInfo info = userInfoService.getById(article.getUserId());
+            articleVO articleVO = new articleVO();
+            BeanUtils.copyProperties(article, articleVO);
+            if (category != null) {
+                articleVO.setCategoryName(category.getCategoryName());
+            }
+            if (info != null) {
+                articleVO.setUserName(info.getUserName());
+            }
+            articleVOList.add(articleVO);
+        }
+        Map<String,Object> map =new HashMap<>();
+        map.put("list",articleVOList);
+        map.put("total",iPage.getTotal());
+        return Result.success(map);
+    }
+
 /*-------------------------------Elasticsearch 实验一下------------------------------------------------*/
     @GetMapping("/queryArticleSearchKey")
     public Result add(String key) {

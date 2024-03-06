@@ -45,6 +45,7 @@ public class JwtUtil {
                 .withHeader(map)//添加头部
                 .withClaim("id",user.getId())
                 .withClaim("userName",user.getUserName())
+                .withClaim("photo",user.getPhoto())
 //                .withClaim("password",user.getPassword())
                 .withExpiresAt(expireDate)//超时设置,设置过期的日期
                 .withIssuedAt(new Date())//签发日期

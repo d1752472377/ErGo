@@ -37,6 +37,9 @@ Vue.component('MdEditor', mdEditor);
 /* v-md-editor 编辑器 end  */
 
 
+import { VueJsonp  } from 'vue-jsonp'
+Vue.use(VueJsonp) // $jsonp被挂载到vue原型上,可直接使用vm.$jsonp()
+
 
 Vue.config.devtools = true
 Vue.config.productionTip = false

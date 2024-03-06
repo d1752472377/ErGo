@@ -6,6 +6,7 @@ import com.example.ergo.vo.dto.CommentDto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,5 +24,7 @@ public interface CommentService extends IService<Comment> {
     int getTotalPage(int articleId, int parentCommentId);
 
     int addComment(Comment comment);
+
+    Map getCOmmentListByPage(int pagesize, int currentPage);
 }
 

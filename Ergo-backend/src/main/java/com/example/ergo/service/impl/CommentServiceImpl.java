@@ -1,19 +1,25 @@
 package com.example.ergo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.ergo.entity.Article;
 import com.example.ergo.entity.Comment;
+import com.example.ergo.entity.UserInfo;
+import com.example.ergo.mapper.ArticleMapper;
 import com.example.ergo.mapper.CommentMapper;
+import com.example.ergo.mapper.UserInfoMapper;
 import com.example.ergo.service.CommentService;
+import com.example.ergo.vo.dto.CommentAndArticleAndUserInfoDTO;
 import com.example.ergo.vo.dto.CommentDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 /**
  * 评论表(Comment)表服务实现类
  *
@@ -27,6 +33,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Autowired
     private CommentMapper commentMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @Override
     public List<CommentDto> getCommentList(int articleId, int pageNum, int pageSize) {
@@ -57,6 +67,28 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public int addComment(Comment comment) {
         int i =commentMapper.saveComment(comment);
         return i;
+    }
+
+    @Override
+    public Map getCOmmentListByPage(int pagesize, int currentPage) {
+        Page<Comment> commentPage = new Page<>(currentPage , pagesize);
+        IPage<Comment> commentIPage = commentMapper.selectPage(commentPage,null);
+        List<Object> list =new ArrayList<>();
+        for (Comment comment: commentPage.getRecords()) {
+            UserInfo userInfo = userInfoMapper.getByUserId(comment.getUserId());
+            Article article = articleMapper.selectById(comment.getArticleId());
+            CommentAndArticleAndUserInfoDTO cau = new CommentAndArticleAndUserInfoDTO();
+            BeanUtils.copyProperties(comment,cau);
+            cau.setTitle(article.getTitle());
+            cau.setPhoto(userInfo.getPhoto());
+            cau.setUserName(userInfo.getUserName());
+            list.add(cau);
+        }
+
+        Map<String,Object> map =new HashMap<>();
+        map.put("list",list);
+        map.put("Total",commentIPage.getTotal());
+        return map;
     }
 
     private String getParentName(Integer id) {

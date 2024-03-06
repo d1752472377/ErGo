@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class User  {
     //主键ID@TableId
 
-    private Long id;
+    private Integer id;
 
     //第三方用户ID
     private String thirdAccountId;

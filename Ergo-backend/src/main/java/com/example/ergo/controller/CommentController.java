@@ -66,5 +66,20 @@ public class CommentController{
     public Result deleteComment(){
         return Result.success();
     }
+
+    /*-------------------------后台------------------------------------*/
+    @Operation(summary = "后台查询评论")
+    @GetMapping("/getListByPage")
+    public Result<Map<Object, Object>> getListByPage(int pagesize,int currentPage){
+        Map map =commentService.getCOmmentListByPage(pagesize,currentPage);
+        return Result.success(map);
+    }
+    @Operation(summary = "后台删除评论")
+    @GetMapping("/deleteCommentById")
+    public Result deleteCommentById(int id){
+        commentService.removeById(id);
+        return Result.success("请求成功");
+    }
+
 }
 

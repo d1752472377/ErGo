@@ -1,6 +1,8 @@
 package com.example.ergo.controller;
 
+import com.auth0.jwt.interfaces.Claim;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.JwtUtil;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.User;
@@ -48,6 +50,8 @@ public class UserController {
         String username =request.getParameter("username");
         String password = request.getParameter("password");
         User user = userService.passwordlogin(username,password);
+        UserInfo userInfo = userInfoService.getById(user.getId());
+        String photo = userInfo.getPhoto();
         // TODO 账号不存在，是否注册账户
         // TODO 账户已被冻结
         if (user == null){
@@ -55,6 +59,7 @@ public class UserController {
         }
         UserVO userVO =new UserVO();
         BeanUtils.copyProperties(user,userVO);
+        userVO.setPhoto(photo);
         String token = JwtUtil.creatToken(userVO);
         Map<String,String> map = new HashMap<>();
         map.put("token",token);
@@ -101,11 +106,15 @@ public class UserController {
     @Operation(summary = "获取登录信息")
     @GetMapping("/info")
     public Map info(String token){
+        Map<String, Claim> stringClaimMap = JwtUtil.verifyToken(token);
+        String userName = stringClaimMap.get("userName").asString();
+        String photo = stringClaimMap.get("photo").asString();
+
         HashMap<String, Object> responseInfo = new HashMap<>();
         HashMap<String, Object> responseData = new HashMap<>();
         responseData.put("roles","?");
-        responseData.put("name","666");
-        responseData.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        responseData.put("name",userName);
+        responseData.put("avatar",photo);
         responseInfo.put("code",200);
         responseInfo.put("msg","登录成功");
         responseInfo.put("data",responseData);
@@ -139,11 +148,26 @@ public class UserController {
         return Result.success("查询成功",map);
     }
 
-    @Operation(summary = "获取所有的白名单用户")
-    @GetMapping("/666")
-    public Result queryAllArticleWhiteListAuthors(){
-
-        return null;
+    @Operation(summary = "修改用户状态")
+    @PutMapping("/user/updateUserInfoForStatus")
+    public Result updateUserInfoForStatus(@RequestBody UserInfo userInfo){
+        boolean b = userInfoService.updateById(userInfo);
+        if (b){
+            return Result.success("修改成功");
+        }
+        return Result.fail("修改失败");
     }
+    @Operation(summary = "修改用户密码")
+    @PutMapping("/user/updatePassword")
+    public Result updatePassword(@RequestBody User user){
+        String username = user.getUserName();
+        String password = user.getPassword();
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getUserName,username);
+        updateWrapper.set(User::getPassword,password);
+        userService.update(updateWrapper);
+        return Result.success("修改成功");
+    }
+
 
 }

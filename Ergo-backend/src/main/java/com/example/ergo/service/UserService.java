@@ -2,6 +2,7 @@ package com.example.ergo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.User;
+import com.example.ergo.entity.UserInfo;
 import com.example.ergo.vo.dto.UserDTO;
 
 import java.util.Map;

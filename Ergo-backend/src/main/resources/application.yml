@@ -98,7 +98,7 @@ elasticsearch:
 
 xfun:
   open:
-    appid: xxxxxxxxxxxxxxxxxxx
-    apiSecret: xxxxxxxxxxxxxxxxxxxxxxxxx
+    appid: e0c1f212
+    apiSecret: N2NkMjg4M2JlMzBhYTg2MDMyNTllNzlh
     hostUrl: https://spark-api.xf-yun.com/v2.1/chat
-    apiKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    apiKey: 3554aa0a17812c93448c245fb9a6228d

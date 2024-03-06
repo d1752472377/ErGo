@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.example.ergo.config.SnowFlakeUtil;
 import com.example.ergo.entity.User;
+import com.example.ergo.entity.UserInfo;
+import com.example.ergo.mapper.UserInfoMapper;
 import com.example.ergo.vo.dto.UserDTO;
 import com.example.ergo.mapper.UserMapper;
 import com.example.ergo.service.UserService;
@@ -25,6 +27,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public User passwordlogin(String username, String password) {
@@ -66,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user1 = new User();
         SnowFlakeUtil snowFlakeUtil = new SnowFlakeUtil(12, 13);
         Long id = snowFlakeUtil.getNextId();
-        user1.setId(id);
+//        user1.setId(id);
         user1.setUserName(userName);
         user1.setPassword(password);
         userMapper.insert(user1);

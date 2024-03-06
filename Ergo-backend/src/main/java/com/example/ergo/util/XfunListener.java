@@ -131,7 +131,7 @@ public class XfunListener extends WebSocketListener {
                 addQueryParameter("date", date).
                 addQueryParameter("host", url.getHost()).
                 build();
-        // System.err.println(httpUrl.toString());
+         System.err.println(httpUrl.toString());
         return httpUrl.toString();
     }
     // msgs和uid 转成 XfunSendRequest

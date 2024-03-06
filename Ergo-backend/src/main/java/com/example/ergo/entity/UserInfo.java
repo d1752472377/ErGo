@@ -29,6 +29,8 @@ public class UserInfo  {
     private String userName;
     //手机号;
     private String phone;
+    //邮箱
+    private String email;
     //用户图像
     private String photo;
     //职位

@@ -16,6 +16,7 @@ import searchContent from '@/components/searchContent.vue'
 import UserCenter from '@/components/UserCenter/UserCenter.vue'
 import EditArticle from '@/components/EditArticle.vue'
 import FOUR from '../views/404.vue'
+import News from '@/components/News.vue'
 Vue.use(Router)
 const originalPush = Router.prototype.push
       Router.prototype.push = function push(location) {
@@ -114,6 +115,15 @@ export default new Router({
       components:{
         header: SimpleHeader,
         content: UserCenter,
+        footer: CommonFooter
+      }
+    },
+    {
+      path:'/news',
+      name:'news',
+      components:{
+        header: SimpleHeader,
+        content: News,
         footer: CommonFooter
       }
     },
