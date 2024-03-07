@@ -29,6 +29,15 @@ Spring Boot + Vue前后端分离系统
 
 后台管理界面基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 进行二次修改，使用了 Element UI 组件库。
 
+内容：
+
+1. 系统设置，修改用户密码，管理定时任务（未完成）
+2. 分类管理，分类的增删改查
+3. 标签管理，标签的增删改查
+4. 文章管理，文章的查询、修改、删除（同时会删除评论）
+5. 用户管理，查询用户，冻结用户
+6. 评论管理，查询评论，删除评论
+
 ```shell
 npm install
 npm run dev
@@ -72,7 +81,15 @@ npm run dev
 
 ### 前台 UI
 
-vue2.x
+vue2.x + vuex + Element UI
+
+内容：
+
+1. 用户注册，登录，发送邮箱验证码，找回密码，在任何需要登录的页面，都会随时弹出登录框，以达到登陆后才能操作。
+2. 用户发表文章，设置文章摘要，上传文章头图
+3. 文章详情，文章点赞、收藏
+4. 文章评论，评论点赞
+5. 个人中心，展示粉丝和关注、发表过的文章、浏览历史记录、收藏记录
 
 [Element UI](https://github.com/ElemeFE/element)
 
