@@ -29,7 +29,22 @@ Spring Boot + Vue前后端分离系统
 
 后台管理界面基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 进行二次修改，使用了 Element UI 组件库。
 
-暂时没上传
+```shell
+npm install
+npm run dev
+```
+
+```
+#访问地址
+  - Local:   http://localhost:8081/
+  - Network: http://192.168.1.2:8081/
+```
+
+首页图片
+
+![首页图片](https://tc.bian666.cf/file/cd798aa968c2c49490f02.png)
+
+
 
 ### 前台 UI
 
