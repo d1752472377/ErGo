@@ -42,31 +42,31 @@ npm run dev
 
 首页图片
 
-![首页图片](https://upload.cc/i1/2024/03/07/cdWQmq.png)
+![首页图片](https://p.sda1.dev/16/29e5109d4bb6e203f9cde610391ce168/后台首页.png)
 
 修改账户
 
-![](C:\Users\17524\AppData\Roaming\Typora\typora-user-images\image-20240307232357986.png)
+![](https://p.sda1.dev/16/1fa121dc3eaad15226e2f1874fba6d72/后台修改账户.png)
 
 分类管理
 
-![](https://upload.cc/i1/2024/03/07/XWgjZ8.png)
+![](https://p.sda1.dev/16/577380359ba27d2c8201ded1722b4b10/后台分类.png)
 
 标签管理
 
-![](https://upload.cc/i1/2024/03/07/PM6NVF.png)
+![](https://p.sda1.dev/16/d7dbba717d97c9e28f080c4cd4549aab/后台标签.png)
 
 文章管理
 
-![](https://upload.cc/i1/2024/03/07/DYA1Zv.png)
+![](https://p.sda1.dev/16/23f0dde3266d5e06ef997dade39fdc7f/后台文章.png)
 
 用户管理
 
-![](https://upload.cc/i1/2024/03/07/Bi9Pzn.png)
+![](https://p.sda1.dev/16/af436fef9adb55784159c6996757a69e/后台用户.png)
 
 评论管理
 
-![](https://upload.cc/i1/2024/03/07/x5Vjel.png)
+![](https://p.sda1.dev/16/b38bfce0d6fcb86b577b1d42c8b3331d/后台评论.png)
 
 
 
