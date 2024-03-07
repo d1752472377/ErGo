@@ -8,11 +8,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.entity.Category;
+import com.example.ergo.entity.Comment;
 import com.example.ergo.entity.UserInfo;
 import com.example.ergo.enums.Constant;
 import com.example.ergo.mapper.ArticleMapper;
+import com.example.ergo.mapper.CommentMapper;
 import com.example.ergo.service.ArticleService;
 import com.example.ergo.service.CategoryService;
+import com.example.ergo.service.CommentService;
 import com.example.ergo.service.UserInfoService;
 import com.example.ergo.util.AESUtil;
 import com.example.ergo.vo.articleVO;
@@ -53,6 +56,10 @@ public class ArticleController {
     private UserInfoService userInfoService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private CommentMapper commentMapper;
 
     // TODO 增删改查
     @Operation(summary = "保存文章")
@@ -99,6 +106,10 @@ public class ArticleController {
     @DeleteMapping("/deleteArticleById")
     public Result deleteArticleById(Integer id){
         Integer i = articleService.deleteArticleById(id);
+        //根据文章id查询评论
+        LambdaQueryWrapper<Comment> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Comment::getArticleId,id);
+        commentService.remove(lambdaQueryWrapper);
         if(i ==1){
             return Result.success(200,"成功");
         }
