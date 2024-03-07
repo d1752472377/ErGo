@@ -60,7 +60,7 @@ export const constantRoutes = [
     redirect: '/resource/updateUser',
     name: 'Nested',
     meta: {
-      title: '教程管理',
+      title: '系统管理',
       icon: 'nested'
     },
     children: [
