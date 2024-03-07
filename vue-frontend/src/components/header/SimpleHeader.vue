@@ -9,7 +9,7 @@
 
                         <!-- 网页logo -->
                         <div class="logo">
-                            <img src="https://ts1.cn.mm.bing.net/th/id/R-C.2c7e4d41fc29592168145efb4c27f825?rik=EfVURrooBsEe%2bg&riu=http%3a%2f%2fimg.juimg.com%2ftuku%2fyulantu%2f110611%2f9120-110611114P085.jpg&ehk=ruz2W6AZs%2bLUNeJ83%2ferKheRxWYQyYFYt5GGHhnu4BI%3d&risl=&pid=ImgRaw&r=0"
+                            <img src="../../assets/logo.png"
                                 alt="">
                         </div>
 
