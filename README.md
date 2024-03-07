@@ -42,7 +42,31 @@ npm run dev
 
 首页图片
 
-![首页图片](https://tc.bian666.cf/file/cd798aa968c2c49490f02.png)
+![首页图片](https://upload.cc/i1/2024/03/07/cdWQmq.png)
+
+修改账户
+
+![](C:\Users\17524\AppData\Roaming\Typora\typora-user-images\image-20240307232357986.png)
+
+分类管理
+
+![](https://upload.cc/i1/2024/03/07/XWgjZ8.png)
+
+标签管理
+
+![](https://upload.cc/i1/2024/03/07/PM6NVF.png)
+
+文章管理
+
+![](https://upload.cc/i1/2024/03/07/DYA1Zv.png)
+
+用户管理
+
+![](https://upload.cc/i1/2024/03/07/Bi9Pzn.png)
+
+评论管理
+
+![](https://upload.cc/i1/2024/03/07/x5Vjel.png)
 
 
 
@@ -69,13 +93,17 @@ pnpm install
 pnpm run serve
 ```
 
-
-
-![前端截图](/picture/%E5%89%8D%E7%AB%AF%E6%88%AA%E5%9B%BE.png)
-
 地址：http://localhost:8888/
 
-![前端首页](/picture/前端首页.png)
+首页截图
+
+![前端截图](https://p.sda1.dev/16/060fc1cf004b9a873955944e24f86fd1/Snipaste_2024-03-08_01-10-28.png)
+
+发布文章
+
+![](https://p.sda1.dev/16/52af92cf2e766bd7136f8140738c8d1e/Snipaste_2024-03-08_01-15-33.png)
+
+
 
 ## 开发环境
 
