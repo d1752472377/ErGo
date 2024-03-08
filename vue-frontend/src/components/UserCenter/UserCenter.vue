@@ -62,7 +62,14 @@
                             <el-empty description="暂无内容"></el-empty>
                         </div>
                         <div>
-                            {{ blog }}
+                            <el-row :gutter="20">
+                                <el-card v-for="article in blog" :key="article.id">
+                                    <div >
+                                        <router-link class="main-text" :to="'/article/' + article.id" v-html="article.title"></router-link>
+                                    </div>
+                                </el-card>
+                            </el-row>
+                           
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="浏览记录" name="second">
