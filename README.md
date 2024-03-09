@@ -120,7 +120,9 @@ pnpm run serve
 
 ![](https://p.sda1.dev/16/52af92cf2e766bd7136f8140738c8d1e/Snipaste_2024-03-08_01-15-33.png)
 
+新闻界面
 
+![](https://p.sda1.dev/16/743f227903101868268753466b626e96/新闻界面.png)
 
 ## 开发环境
 
