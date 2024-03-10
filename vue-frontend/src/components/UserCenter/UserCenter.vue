@@ -236,7 +236,7 @@ export default {
                 userId: this.$route.params.id
             }
             getUserWrite(params).then(res => {
-                this.blog = res.data.data
+                this.blog = res.data.data.list
                 // console.log(this.blog)
             })
         },
@@ -266,7 +266,7 @@ export default {
                 userId: this.$route.params.id
             }
             getUserFootForCollection(params).then(res => {
-                this.collect = res.data.data
+                this.collect = res.data.data.list
                 // console.log(this.collect.length)
             })
         },

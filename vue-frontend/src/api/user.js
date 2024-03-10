@@ -51,6 +51,24 @@ export function updateRelation(params) {
         params
     })
 }
+//点击关注用户/取消关注用户
+export function followUserOrUnfollowUser(params) {
+    return request({
+        url: '/relation/followUserOrUnfollowUser',
+        method: 'get',
+        params
+    })
+}
+//查询登录用户与文章用户之间是否关注
+export function queryFollowBetweenLoggedUserAndArticleUser(params) {
+    return request({
+        url: '/relation/queryFollowBetweenLoggedUserAndArticleUser',
+        method: 'get',
+        params
+    })
+}
+
+
 export function getDateForUser(params) {
     return request({
         url: '/getDateForUser',

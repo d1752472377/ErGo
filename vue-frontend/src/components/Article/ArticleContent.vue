@@ -2,15 +2,15 @@
   <div class="blog-page">
     <div class="left-section">
      <Card>
-      <div class="blog-detail">
-        <h1>{{ blog[0] && blog[0].title ? blog[0].title : '博客标题不可用' }}</h1>
+      <div class="blog-detail" v-for="article in blog " :key="article.id">
+        <h1>{{ article.title }}</h1>
         <div class="author-info">
-          <img :src="blog[0] && blog[0].photo ? blog[0].photo : '博客作者头像不可用'" alt="Author Avatar" />
-          <span>{{ blog[0] && blog[0].userName ? blog[0].userName : '博客作者不可用' }}</span>
-          <span>{{ blog[0] && blog[0].createTime ? blog[0].createTime : '博客创建时间不可用' }}</span>
-          <span>阅读量: {{ blog[0] && blog[0].readCount ? blog[0].readCount : '阅读量不可用' }}</span>
+          <img :src="article.photo" alt="Author Avatar" />
+          <span>{{ article.userName }}</span>
+          <span>{{ article.createTime }}</span>
+          <!-- <span>阅读量: {{ article.readCount }}</span> -->
         </div>
-        <div class="content" v-html="blog[0] && blog[0].content ? blog[0].content : '博客内容不可用'"></div>
+        <div class="content" v-html="article.content "></div>
         
       </div>
      </Card>
@@ -21,16 +21,13 @@
       </div>
     </div>
     <div class="right-section">
-        <Card>
-          <Author
-        :userName="blog[0] && blog[0].userName ? blog[0].userName:'用户名不可用'"
-        :avatar=" blog[0] && blog[0].photo ? blog[0].photo:'图片不可用'"
-        :followers="100"
-        :articles="100"
-        :likes="100"
-        :bio="'123'"
-        ></Author>
-        </Card>
+        <div v-for="article in blog" :key="article.id">
+          <Author 
+          :userId="article.userId"
+          :userName="article.userName"
+          :avatar="article.photo"
+          ></Author>
+        </div>
       <el-card>
         <recommend></recommend>
       </el-card>
