@@ -1,14 +1,12 @@
 package com.example.ergo.controller;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.JwtUtil;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.User;
 import com.example.ergo.entity.UserInfo;
 import com.example.ergo.enums.Constant;
-import com.example.ergo.util.AESDecryptor;
 import com.example.ergo.util.AESUtil;
 import com.example.ergo.vo.UserVO;
 import com.example.ergo.vo.dto.UserDTO;
@@ -25,9 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URLDecoder;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Tag(name = "用户管理")
@@ -167,6 +164,20 @@ public class UserController {
         updateWrapper.set(User::getPassword,password);
         userService.update(updateWrapper);
         return Result.success("修改成功");
+    }
+
+    @Operation(summary = "查询用户天数")
+    @GetMapping("/getDateForUser")
+    public Result getDateForUser(@RequestParam(name = "userId") int userId){
+        User user = userService.getById(userId);
+        Date createTime = user.getCreateTime();
+//        System.out.println(createTime);
+        Date date = new Date();
+//        System.out.println(date);
+        long diffInMillis = date.getTime() - createTime.getTime();
+        long day = diffInMillis/1000/60/60/24;
+//        System.out.println("时间差（天）: " + day);
+        return Result.success(day);
     }
 
 
