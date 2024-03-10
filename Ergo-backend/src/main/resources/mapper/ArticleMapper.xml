@@ -19,6 +19,7 @@
     </update>
     <select id="getArticleInfo" resultType="com.example.ergo.vo.articleInfoVo">
         select title,
+               article.user_id,
                article.content,
                article.create_time,
                article.update_time,
