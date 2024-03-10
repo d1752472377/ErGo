@@ -2,6 +2,7 @@ package com.example.ergo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.ergo.entity.UserFoot;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -10,6 +11,7 @@ import com.example.ergo.entity.UserFoot;
  * @author makejava
  * @since 2024-02-24 03:09:47
  */
+@Mapper
 public interface UserFootMapper extends BaseMapper<UserFoot> {
 
 }
