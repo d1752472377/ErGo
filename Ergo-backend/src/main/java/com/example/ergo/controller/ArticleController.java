@@ -192,7 +192,11 @@ public class ArticleController {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getUserId,userId);
         List<Article> list = articleService.list(queryWrapper);
-        return Result.success(list);
+        Long count = articleMapper.selectCount(queryWrapper);
+        Map<String,Object> map= new HashMap<>();
+        map.put("list",list);
+        map.put("count",count);
+        return Result.success(map);
     }
     @Operation(summary = "根据标题获取文章")
     @GetMapping("/getArticleListByTitle")
