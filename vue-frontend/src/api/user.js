@@ -43,3 +43,11 @@ export function queryRelation(params) {
     })
 }
 
+//修改关注状态
+export function updateRelation(params) {
+    return request({
+        url: '/relation/updateRelation',
+        method: 'get',
+        params
+    })
+}

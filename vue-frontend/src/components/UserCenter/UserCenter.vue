@@ -64,12 +64,20 @@
                         <div>
                             <el-row :gutter="20">
                                 <el-card v-for="article in blog" :key="article.id">
-                                    <div >
-                                        <router-link class="main-text" :to="'/article/' + article.id" v-html="article.title"></router-link>
+                                    <div>
+                                        <router-link class="main-text" :to="'/article/' + article.id"
+                                            v-html="article.title"></router-link>
+                                        <div class="timie" style="margin-top: 10px;">
+                                            <span class="publish-time">
+                                                <Icon type="ios-timer-outline" class="icon" />{{
+                                                    article.createTime | formatDate
+                                                }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </el-card>
                             </el-row>
-                           
+
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="浏览记录" name="second">
@@ -78,25 +86,63 @@
                             </el-empty>
                         </div>
                         <div>
-                            {{ readHistory }}
+                            <el-card v-for="article in readHistory" :key="article.id">
+                                <div>
+                                    <router-link class="main-text" :to="'/article/' + article.id"
+                                        v-html="article.title"></router-link>
+                                    <div class="timie" style="margin-top: 10px;">
+                                        <span class="publish-time">
+                                            <Icon type="ios-timer-outline" class="icon" />{{
+                                                article.createTime | formatDate
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </el-card>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="关注" name="third">
                         <el-tabs v-model="activeFollow" @tab-click="handleClickByFollow">
                             <el-tab-pane label="关注列表" name="first">
-                                <div v-if="fans == null  || fans == undefined">
+                                <div v-if="follow.length == 0">
                                     <el-empty description="暂无内容"></el-empty>
                                 </div>
                                 <div v-else>
-                                    {{ follow }}
+                                   
+                                    <el-card v-for="article in follow" :key="article.id">
+    <div style="display: flex; justify-content: space-between;">
+        <div style="display: flex;">
+            <el-avatar :size="50" :src="article.photo"></el-avatar>
+            <div style="margin-left: 20px;">
+                {{ article.userName }}
+                <div style="font-size: smaller; color: grey; margin-top:5px;">{{ article.profile }}</div>
+            </div>
+        </div>
+        <el-button :type="followed ? 'danger' : 'success'" @click="toggleFollow(article)">
+    {{ followed ? '取消关注' : '关注' }}
+  </el-button>
+    </div>
+</el-card>
+
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="粉丝列表" name="second">
-                                <div v-if="follow == null || follow == undefined">
+                                <div v-if="fans.length == 0">
                                     <el-empty description="暂无内容"></el-empty>
                                 </div>
                                 <div v-else>
-                                    {{ fans }}
+                                    <el-card v-for="article in fans" :key="article.id">
+    <div style="display: flex; justify-content: space-between;">
+        <div style="display: flex;">
+            <el-avatar :size="50" :src="article.photo"></el-avatar>
+            <div style="margin-left: 20px;">
+                {{ article.userName }}
+                <div style="font-size: smaller; color: grey; margin-top:5px;">{{ article.profile }}</div>
+            </div>
+        </div>
+    </div>
+</el-card>
+
                                 </div>
                             </el-tab-pane>
                         </el-tabs>
@@ -106,7 +152,19 @@
                             <el-empty description="暂无内容"></el-empty>
                         </div>
                         <div v-else>
-                            {{ collect }}
+                            <el-card v-for="article in collect" :key="article.id">
+                                <div>
+                                    <router-link class="main-text" :to="'/article/' + article.id"
+                                        v-html="article.title"></router-link>
+                                    <div class="timie" style="margin-top: 10px;">
+                                        <span class="publish-time">
+                                            <Icon type="ios-timer-outline" class="icon" />{{
+                                                article.createTime | formatDate
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </el-card>
                         </div>
                     </el-tab-pane>
                 </el-tabs>
@@ -117,8 +175,9 @@
   
 <script>
 import { getUserInfo } from '@/utils/auth';
-import { queryRelationCount,queryRelation } from '@/api/user'
-import {getUserWrite,getUserFootForRead,getUserFootForCollection} from '@/api/blog'
+import { queryRelationCount, queryRelation,updateRelation } from '@/api/user'
+import { getUserWrite, getUserFootForRead, getUserFootForCollection } from '@/api/blog'
+
 
 export default {
     data() {
@@ -143,11 +202,12 @@ export default {
             difftime: '',
             countFans: '',
             countFollow: '',
-            fans:[],
-            follow:[],
-            blog:[],
-            readHistory:[],
-            collect:[],
+            fans: [],
+            follow: [],
+            blog: [],
+            readHistory: [],
+            collect: [],
+            followed: true 
         };
     },
     created() {
@@ -171,11 +231,11 @@ export default {
             this.difftime = Math.round((new_date - old_date) / 1000 / 86400)
 
         },
-        getBlogById(){
+        getBlogById() {
             const params = {
                 userId: this.$route.params.id
             }
-            getUserWrite(params).then(res=>{
+            getUserWrite(params).then(res => {
                 this.blog = res.data.data
                 // console.log(this.blog)
             })
@@ -189,22 +249,23 @@ export default {
                 this.countFollow = res.data.data.countFollow
                 this.fans = res.data.data.fans
                 this.follow = res.data.data.follow
-                
+                console.log(this.follow)
+
             })
         },
-        getReadById(){
+        getReadById() {
             const params = {
                 userId: this.$route.params.id
             }
-            getUserFootForRead(params).then(res=>{
+            getUserFootForRead(params).then(res => {
                 this.readHistory = res.data.data
             })
         },
-        getCollectionById(){
+        getCollectionById() {
             const params = {
                 userId: this.$route.params.id
             }
-            getUserFootForCollection(params).then(res=>{
+            getUserFootForCollection(params).then(res => {
                 this.collect = res.data.data
                 // console.log(this.collect.length)
             })
@@ -221,8 +282,42 @@ export default {
         },
         handleClickByFollow() {
             // console.log("发送请求获取内容");
+        },
+        toggleFollow(article) {
+            const followState = this.followed ? 1 : 2;
+            // console.log(article)
+            const params = {
+                userId :article.id,
+                followUserId:this.userInfo.id,
+                followState:followState
+            }
+            updateRelation(params).then(res=>{
+                this.followed = !this.followed;
+            }).catch(error => {
+                console.error('关注状态切换失败', error);
+            });
+            
         }
-    }
+    },
+    filters: {
+        formatDate: function (value) {
+            if (value != null) {
+                let date = new Date(value);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? "0" + MM : MM;
+                let d = date.getDate();
+                d = d < 10 ? "0" + d : d;
+                let h = date.getHours();
+                h = h < 10 ? "0" + h : h;
+                let m = date.getMinutes();
+                m = m < 10 ? "0" + m : m;
+                let s = date.getSeconds();
+                s = s < 10 ? "0" + s : s;
+                return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+            }
+        },
+    },
 };
 </script>
   

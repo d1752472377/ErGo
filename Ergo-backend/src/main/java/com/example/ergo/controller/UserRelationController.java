@@ -1,6 +1,7 @@
 package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.UserInfo;
 import com.example.ergo.entity.UserRelation;
@@ -59,6 +60,7 @@ public class UserRelationController {
         //关注
         LambdaQueryWrapper<UserRelation> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(UserRelation::getFollowUserId,userId);
+        wrapper.eq(UserRelation::getFollowState,1);
         List<UserRelation> follow = userRelationService.list(wrapper);
         long countFollow = userRelationService.count(wrapper);
         List<UserInfo> collectedUser = new ArrayList<>();
@@ -103,5 +105,27 @@ public class UserRelationController {
         return Result.success(map);
     }
 
+    @Operation(summary = "修改关注状态")
+    @GetMapping("/updateRelation")
+    public Result updateRelation(@RequestParam(name = "userId") int userId,
+                                 @RequestParam(name = "followUserId")int followUserId,
+                                 @RequestParam(name = "followState") int followState){
+        LambdaUpdateWrapper<UserRelation> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(UserRelation::getUserId,userId);
+        wrapper.eq(UserRelation::getFollowUserId,followUserId);
+        int updateState;
+        System.out.println(followState);
+        if(followState ==1){
+            updateState = 2;
+        }else{
+            updateState = 1;
+        }
+        wrapper.set(UserRelation::getFollowState,updateState);
+        boolean update = userRelationService.update(wrapper);
+        if (update){
+            return Result.success();
+        }
+        return Result.fail("修改失败");
+    }
 
 }
