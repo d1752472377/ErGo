@@ -110,3 +110,17 @@ export function save(data){
         data
     })
 }
+export function getNumberOfLikesOfArticlesWrittenByUser(params){
+    return request({
+        url: '/foot/getNumberOfLikesOfArticlesWrittenByUser',
+        method: 'get',
+        params
+    })
+}
+export function getNumberOfCollectOfArticlesWrittenByUser(params){
+    return request({
+        url: '/foot/getNumberOfCollectOfArticlesWrittenByUser',
+        method: 'get',
+        params
+    })
+}
