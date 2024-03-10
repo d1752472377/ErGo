@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.entity.UserFoot;
+import com.example.ergo.mapper.UserFootMapper;
 import com.example.ergo.service.ArticleService;
 import com.example.ergo.service.UserFootService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @date 2024/2/24
@@ -28,6 +31,8 @@ public class UserFootController {
     private UserFootService userFootService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private UserFootMapper userFootMapper;
 
     @Operation(summary = "浏览历史")
     @GetMapping("/getUserFootForRead")
@@ -54,6 +59,7 @@ public class UserFootController {
         LambdaQueryWrapper<UserFoot> queryWrapper =new LambdaQueryWrapper<>();
         queryWrapper.eq(UserFoot::getUserId,userId)
                 .eq(UserFoot::getCollectionStat,1);
+        Long count = userFootMapper.selectCount(queryWrapper);
         List<UserFoot> list = userFootService.list(queryWrapper);
         List<Article> collectedArticle = new ArrayList<>();
         for (UserFoot foot:list){
@@ -64,6 +70,32 @@ public class UserFootController {
             List<Article> list1 = articleService.list(wrapper);
             collectedArticle.addAll(list1);
         }
-        return Result.success(collectedArticle);
+        Map<String ,Object> map = new HashMap<>();
+        map.put("list",collectedArticle);
+        map.put("count",count);
+        return Result.success(map);
     }
+
+    @Operation(summary = "查询某用户所写文章被点赞数量")
+    @GetMapping("/getNumberOfLikesOfArticlesWrittenByUser")
+    public Result getNumberOfLikesOfArticlesWrittenByUser(@RequestParam(name = "userId")int userId){
+
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getDocumentUserId,userId)
+                .eq(UserFoot::getPraiseStat,1);
+        Long count = userFootMapper.selectCount(queryWrapper);
+        return Result.success(count);
+    }
+    @Operation(summary = "查询某用户所写文章被收藏数量")
+    @GetMapping("/getNumberOfCollectOfArticlesWrittenByUser")
+    public Result getNumberOfCollectOfArticlesWrittenByUser(@RequestParam(name = "userId")int userId){
+
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getDocumentUserId,userId)
+                .eq(UserFoot::getCollectionStat,1);
+        Long count = userFootMapper.selectCount(queryWrapper);
+        return Result.success(count);
+    }
+
+
 }
