@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class articleInfoVo {
     private Integer id;
+    private Integer UserId;
     /**
      * 作者
      */
