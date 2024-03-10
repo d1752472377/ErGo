@@ -12,7 +12,7 @@
                 article.createTime | formatDate
               }} 发布
             </span>
-            <!-- <span>阅读量: {{ article.readCount }}</span> -->
+            <span style="margin-left: 15px;">阅读量: {{ readCount }}</span>
           </div>
           <div class="content" v-html="article.content"></div>
 
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getArticleInfo } from '@/api/blog';
+import { getArticleInfo ,getNumberOfReadForArticle} from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
 import AuthorCard from '../AuthorCard.vue';
@@ -55,11 +55,13 @@ export default {
   },
   data() {
     return {
-      blog: {}
+      blog: {},
+      readCount:'',
     };
   },
   created() {
     this.getList(this.$route.params.articleId);
+    this.getReadNum()
   },
   watch: {
     $route(to, from) {
@@ -67,6 +69,14 @@ export default {
     },
   },
   methods: {
+    getReadNum(){
+      const params = {
+        documentId:this.$route.params.articleId
+      }
+      getNumberOfReadForArticle(params).then(res=>{
+        this.readCount = res.data.data
+      })
+    },
     getList(id) {
       const params = {
         id: id

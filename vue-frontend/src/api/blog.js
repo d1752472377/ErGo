@@ -124,3 +124,11 @@ export function getNumberOfCollectOfArticlesWrittenByUser(params){
         params
     })
 }
+export function getNumberOfReadForArticle(params){
+    return request({
+        url: '/foot/getNumberOfReadForArticle',
+        method: 'get',
+        params
+    })
+}
+

@@ -96,7 +96,16 @@ public class UserFootController {
         Long count = userFootMapper.selectCount(queryWrapper);
         return Result.success(count);
     }
+    @Operation(summary = "查询文章阅读数量")
+    @GetMapping("/getNumberOfReadForArticle")
+    public Result getNumberOfReadForArticle(@RequestParam(name = "documentId")int documentId){
 
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getDocumentId,documentId)
+                .eq(UserFoot::getReadStat,1);
+        Long count = userFootMapper.selectCount(queryWrapper);
+        return Result.success(count);
+    }
 
 
 }
