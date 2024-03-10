@@ -51,3 +51,10 @@ export function updateRelation(params) {
         params
     })
 }
+export function getDateForUser(params) {
+    return request({
+        url: '/getDateForUser',
+        method: 'get',
+        params
+    })
+}
