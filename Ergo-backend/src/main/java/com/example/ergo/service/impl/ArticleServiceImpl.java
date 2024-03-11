@@ -26,7 +26,9 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ import java.util.Map;
 @Service("articleService")
 @Slf4j
 @Log4j2
+@Component
+@Transactional
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private static final Logger LOGGER = LogManager.getLogger(ArticleServiceImpl.class);

@@ -2,16 +2,19 @@ package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.example.ergo.config.ListenHandler;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.entity.UserFoot;
 import com.example.ergo.mapper.UserFootMapper;
 import com.example.ergo.service.ArticleService;
 import com.example.ergo.service.UserFootService;
+import com.example.ergo.util.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +37,8 @@ public class UserFootController {
     private ArticleService articleService;
     @Autowired
     private UserFootMapper userFootMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Operation(summary = "浏览历史")
     @GetMapping("/getUserFootForRead")
@@ -101,10 +106,19 @@ public class UserFootController {
     @GetMapping("/getNumberOfReadForArticle")
     public Result getNumberOfReadForArticle(@RequestParam(name = "documentId")int documentId){
 
-        LambdaQueryWrapper<UserFoot> queryWrapperForRead = new LambdaQueryWrapper<>();
-        queryWrapperForRead.eq(UserFoot::getDocumentId,documentId)
-                .eq(UserFoot::getReadStat,1);
-        Long countForRead = userFootMapper.selectCount(queryWrapperForRead);
+//        LambdaQueryWrapper<UserFoot> queryWrapperForRead = new LambdaQueryWrapper<>();
+//        queryWrapperForRead.eq(UserFoot::getDocumentId,documentId)
+//                .eq(UserFoot::getReadStat,1);
+//        Long countForRead = userFootMapper.selectCount(queryWrapperForRead);
+        Map<String, Integer> readCount = redisUtil.getAllValuesByKey("readCount");
+        int countForRead = 0;
+        for (Map.Entry<String, Integer> entry : readCount.entrySet()){
+            int articleId = Integer.parseInt(entry.getKey());
+            Integer cnt = entry.getValue();
+            if(articleId == documentId){
+                countForRead = cnt;
+            }
+        }
         LambdaQueryWrapper<UserFoot> queryWrapperForPraise = new LambdaQueryWrapper<>();
         queryWrapperForPraise.eq(UserFoot::getDocumentId,documentId)
                 .eq(UserFoot::getReadStat,1);
@@ -218,9 +232,5 @@ public class UserFootController {
             return Result.success(false);
         }
     }
-//    @Operation(summary = "redis计数")
 
-    public void invokeRedisCountRead(){
-        //
-    }
 }

@@ -18,6 +18,7 @@ import com.example.ergo.service.CategoryService;
 import com.example.ergo.service.CommentService;
 import com.example.ergo.service.UserInfoService;
 import com.example.ergo.util.AESUtil;
+import com.example.ergo.util.AnnotationTest;
 import com.example.ergo.vo.articleVO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ import static com.example.ergo.enums.PushStatusEnum.*;
 @Slf4j
 @CrossOrigin
 @RequestMapping("/article")
+@Component
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
@@ -181,6 +184,7 @@ public class ArticleController {
 
     @Operation(summary = "根据id获取文章详情")
     @GetMapping("/getArticleInfo")
+    @AnnotationTest()
     public Result getArticleInfo(Integer id){
         Map article = articleService.getArticleInfo(id);
         return Result.success(article);

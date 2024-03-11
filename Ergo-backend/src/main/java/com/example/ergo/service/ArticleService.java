@@ -3,6 +3,7 @@ package com.example.ergo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.Article;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @since 2023-09-27 00:23:05
  */
 @Service
+@Transactional
 public interface ArticleService extends IService<Article> {
 
     Map getArticle(Integer pageNum , Integer pageSize);
