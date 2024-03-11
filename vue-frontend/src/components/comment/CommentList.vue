@@ -199,7 +199,11 @@ export default {
                 this.comments = res.data.data.commentList
                 this.totalPage = res.data.data.totalPage
                 this.allComment = res.data.data.allComment
+                this.setTotal()
             })
+        },
+        setTotal:function(){
+            this.$emit('transfer',this.allComment)
         },
         // 评论点赞
         giveALike(item, id) {

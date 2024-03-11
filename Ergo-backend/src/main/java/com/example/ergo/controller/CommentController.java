@@ -2,9 +2,14 @@ package com.example.ergo.controller;
 
 
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.Result;
+import com.example.ergo.entity.Article;
 import com.example.ergo.entity.Comment;
+import com.example.ergo.entity.UserFoot;
+import com.example.ergo.service.ArticleService;
 import com.example.ergo.service.CommentService;
+import com.example.ergo.service.UserFootService;
 import com.example.ergo.vo.dto.CommentDto;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,10 @@ public class CommentController{
 
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private UserFootService userFootService;
     /**
      * 查询
      */
@@ -49,9 +58,19 @@ public class CommentController{
     /**
      * 添加评论
      */
-    @Operation(summary = "添加评论")
+    @Operation(summary = "添加评论/修改评论状态")
     @PostMapping("/addComment")
     public Result addComment(@RequestBody Comment comment){
+        Integer articleId = comment.getArticleId();
+        Article article = articleService.getById(articleId);
+        Integer doucmentUserId = article.getUserId();
+        Integer userId = comment.getUserId();
+        LambdaUpdateWrapper<UserFoot>  updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserFoot::getDocumentId,article)
+                .eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentUserId,doucmentUserId)
+                .set(UserFoot::getCommentStat,1);
+        userFootService.update(updateWrapper);
         int i = commentService.addComment(comment);
         if (i == 1){
             return Result.success();
@@ -77,6 +96,7 @@ public class CommentController{
     @Operation(summary = "后台删除评论")
     @GetMapping("/deleteCommentById")
     public Result deleteCommentById(int id){
+
         commentService.removeById(id);
         return Result.success("请求成功");
     }

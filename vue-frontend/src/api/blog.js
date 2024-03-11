@@ -131,4 +131,42 @@ export function getNumberOfReadForArticle(params){
         params
     })
 }
+export function queryOrAddReadStatus(params){
+    return request({
+        url: '/foot/queryOrAddReadStatus',
+        method: 'get',
+        params
+    })
+}
+export function getPraiseStatus(params){
+    return request({
+        url: '/foot/getPraiseStatus',
+        method: 'get',
+        params
+    })
+}
+export function getCollectionStatus(params){
+    return request({
+        url: '/foot/getCollectionStatus',
+        method: 'get',
+        params
+    })
+}
+export function addPraiseStatus(params){
+    return request({
+        url: '/foot/addPraiseStatus',
+        method: 'get',
+        params
+    })
+}
+
+export function addCollectionStatus(params){
+    return request({
+        url: '/foot/addCollectionStatus',
+        method: 'get',
+        params
+    })
+}
+
+
 

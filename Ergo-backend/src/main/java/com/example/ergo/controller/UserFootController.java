@@ -1,6 +1,7 @@
 package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.entity.UserFoot;
@@ -96,16 +97,130 @@ public class UserFootController {
         Long count = userFootMapper.selectCount(queryWrapper);
         return Result.success(count);
     }
-    @Operation(summary = "查询文章阅读数量")
+    @Operation(summary = "查询文章|点赞|收藏阅读数量")
     @GetMapping("/getNumberOfReadForArticle")
     public Result getNumberOfReadForArticle(@RequestParam(name = "documentId")int documentId){
 
-        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserFoot::getDocumentId,documentId)
+        LambdaQueryWrapper<UserFoot> queryWrapperForRead = new LambdaQueryWrapper<>();
+        queryWrapperForRead.eq(UserFoot::getDocumentId,documentId)
                 .eq(UserFoot::getReadStat,1);
-        Long count = userFootMapper.selectCount(queryWrapper);
-        return Result.success(count);
+        Long countForRead = userFootMapper.selectCount(queryWrapperForRead);
+        LambdaQueryWrapper<UserFoot> queryWrapperForPraise = new LambdaQueryWrapper<>();
+        queryWrapperForPraise.eq(UserFoot::getDocumentId,documentId)
+                .eq(UserFoot::getReadStat,1);
+        Long countForPraise = userFootMapper.selectCount(queryWrapperForPraise);
+        LambdaQueryWrapper<UserFoot> queryWrapperForCollection = new LambdaQueryWrapper<>();
+        queryWrapperForCollection.eq(UserFoot::getDocumentId,documentId)
+                .eq(UserFoot::getReadStat,1);
+        Long countForCollection = userFootMapper.selectCount(queryWrapperForCollection);
+        Map<String,Object> map = new HashMap<>();
+        map.put("countForRead",countForRead);
+        map.put("countForPraise",countForPraise);
+        map.put("countForCollection",countForCollection);
+        return Result.success(map);
+    }
+    @Operation(summary = "查询/添加阅读状态")
+    @GetMapping("/queryOrAddReadStatus")
+    public Result queryOrAddReadStatus(@RequestParam(name = "userId") int userId,
+                                       @RequestParam(name = "articleId") int articleId,
+                                       @RequestParam(name = "documentUserId") int documentUserId){
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentUserId,documentUserId)
+                .eq(UserFoot::getDocumentId,articleId);
+        UserFoot one = userFootService.getOne(queryWrapper);
+        if (one == null){
+            userFootService.addReadStatus(userId,articleId,documentUserId);
+            return Result.success();
+        }else {
+            if (one.getReadStat() == 0){
+                LambdaUpdateWrapper<UserFoot> updateWrapper = new LambdaUpdateWrapper<>();
+                updateWrapper.eq(UserFoot::getUserId,userId)
+                        .eq(UserFoot::getDocumentId,articleId)
+                        .eq(UserFoot::getDocumentUserId,documentUserId)
+                        .set(UserFoot::getReadStat,1);
+                userFootService.update(updateWrapper);
+                return Result.success();
+            }else {
+                return Result.success();
+            }
+        }
     }
 
+    @Operation(summary = "添加收藏状态/取消收藏")
+    @GetMapping("/addCollectionStatus")
+    public Result addCollectionStatus(@RequestParam(name = "userId") int userId,
+                                      @RequestParam(name = "articleId") int articleId,
+                                      @RequestParam(name = "documentUserId") int documentUserId,
+                                      @RequestParam(name = "collectionState") int collectionState){
+        LambdaUpdateWrapper<UserFoot> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentUserId,documentUserId)
+                .eq(UserFoot::getDocumentId,articleId)
+                .set(UserFoot::getCollectionStat,collectionState);
+        userFootService.update(updateWrapper);
+        return Result.success();
+    }
+    @Operation(summary = "添加点赞状态/取消点赞")
+    @GetMapping("/addPraiseStatus")
+    public Result addPraiseStatus(@RequestParam(name = "userId") int userId,
+                                  @RequestParam(name = "articleId") int articleId,
+                                  @RequestParam(name = "documentUserId") int documentUserId,
+                                  @RequestParam(name = "praiseState") int praiseState){
+        LambdaUpdateWrapper<UserFoot> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentUserId,documentUserId)
+                .eq(UserFoot::getDocumentId,articleId)
+                .set(UserFoot::getPraiseStat,praiseState);
+        userFootService.update(updateWrapper);
+        return Result.success();
+    }
+    @Operation(summary = "获取点赞状态")
+    @GetMapping("/getPraiseStatus")
+    public Result getPraiseStatus(@RequestParam(name = "userId") int userId,
+                                  @RequestParam(name = "documentUserId") int documentUserId,
+                                  @RequestParam(name = "articleId") int articleId){
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentId,articleId)
+                .eq(UserFoot::getDocumentUserId,documentUserId);
+        UserFoot one = userFootService.getOne(queryWrapper);
+        if (one.getPraiseStat() == 0){
+            return Result.success(false);
+        }else if (one.getPraiseStat() == 2){
+            return Result.success(false);
 
+        }else if (one.getPraiseStat() == 1){
+            return Result.success(true);
+        }else {
+            return Result.success(false);
+        }
+    }
+    @Operation(summary = "获取收藏状态")
+    @GetMapping("/getCollectionStatus")
+    public Result getCollectionStatus(@RequestParam(name = "userId") int userId,
+                                      @RequestParam(name = "documentUserId") int documentUserId,
+                                      @RequestParam(name = "articleId") int articleId){
+        LambdaQueryWrapper<UserFoot> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserFoot::getUserId,userId)
+                .eq(UserFoot::getDocumentId,articleId)
+                .eq(UserFoot::getDocumentUserId,documentUserId);
+
+        UserFoot one = userFootService.getOne(queryWrapper);
+        if (one.getCollectionStat() == 0){
+            return Result.success(false);
+        }else if (one.getCollectionStat() == 2){
+            return Result.success(false);
+
+        }else if (one.getCollectionStat() == 1){
+            return Result.success(true);
+        }else {
+            return Result.success(false);
+        }
+    }
+//    @Operation(summary = "redis计数")
+
+    public void invokeRedisCountRead(){
+        //
+    }
 }

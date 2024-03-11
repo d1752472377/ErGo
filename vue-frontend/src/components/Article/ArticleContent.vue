@@ -1,6 +1,15 @@
 <template>
   <div class="blog-page">
     <div class="left-section">
+      <div v-for="article in blog " :key="article.id">
+        <FloatingWindows :praiseCount="praiseCount" 
+      :collectionCount="collectionCount"
+      :allCOmmentTotal="allCOmmentTotal"
+      :documentUserId="article.userId"
+      @comment-clicked="scrollToComment"></FloatingWindows>
+      </div>
+      
+
       <Card>
         <div class="blog-detail" v-for="article in blog " :key="article.id">
           <h1>{{ article.title }}</h1>
@@ -18,9 +27,9 @@
 
         </div>
       </Card>
-      <div class="comment">
+      <div ref="commentDetail">
         <Card>
-          <CommentList></CommentList>
+          <CommentList  @transfer="getAllCOmmentTotal" ref="comment"></CommentList>
         </Card>
       </div>
     </div>
@@ -38,12 +47,14 @@
 </template>
 
 <script>
-import { getArticleInfo ,getNumberOfReadForArticle} from '@/api/blog';
+import { getArticleInfo, getNumberOfReadForArticle, queryOrAddReadStatus,getCollectionStatus,getPraiseStatus } from '@/api/blog';
 import Recommend from "@/components/Recommend.vue";
 import TagCloud from "@/components/TagCloud.vue";
 import AuthorCard from '../AuthorCard.vue';
 import CommentList from '../comment/CommentList.vue';
+import FloatingWindows from '../FloatingWindow.vue'
 import { Card } from 'view-design';
+import { getUserInfo } from '@/utils/auth';
 
 export default {
   components: {
@@ -51,17 +62,27 @@ export default {
     TagCloud: TagCloud,
     Author: AuthorCard,
     CommentList,
-    Card
+    Card,
+    FloatingWindows
   },
   data() {
     return {
       blog: {},
-      readCount:'',
+      readCount: 0,
+      praiseCount:0,
+      collectionCount:0,
+      userInfo: {},
+      allCOmmentTotal:0,
     };
   },
   created() {
     this.getList(this.$route.params.articleId);
     this.getReadNum()
+
+    this.getInfo()
+    setTimeout(() => {
+      this.getOrAddReadStatus()
+    }, 5000);
   },
   watch: {
     $route(to, from) {
@@ -69,12 +90,37 @@ export default {
     },
   },
   methods: {
-    getReadNum(){
+    getAllCOmmentTotal(msg){
+      this.allCOmmentTotal = msg
+      console.log(msg)
+    },
+    getInfo() {
+      this.userInfo = JSON.parse(getUserInfo())
+
+    },
+
+    getOrAddReadStatus() {
       const params = {
-        documentId:this.$route.params.articleId
+        userId: this.userInfo.id,
+        articleId: this.$route.params.articleId,
+        documentUserId: this.blog[0].userId
       }
-      getNumberOfReadForArticle(params).then(res=>{
-        this.readCount = res.data.data
+      console.log(params)
+      queryOrAddReadStatus(params).then(res => {
+        //处理逻辑
+        console.log("查询添加阅读状态",res)
+      })
+    },
+    getReadNum() {
+      const params = {
+        documentId: this.$route.params.articleId
+      }
+      getNumberOfReadForArticle(params).then(res => {
+        this.readCount = res.data.data.countForRead
+        this.praiseCount = res.data.data.countForPraise
+        this.collectionCount = res.data.data.countForCollection
+        console.log("praiseCount:",this.praiseCount )
+        console.log("collectionCount:",this.collectionCount )
       })
     },
     getList(id) {
@@ -82,7 +128,8 @@ export default {
         id: id
       };
       getArticleInfo(params).then(res => {
-        this.blog = res.data.data.info;
+        this.blog = res.data.data.info
+        
       }).catch(error => {
         if (error.response) {
           const status = error.response.status;
@@ -106,7 +153,16 @@ export default {
           console.error('请求出错:', error);
         }
       })
-    }
+    },
+    scrollToComment() {
+       // 使用 $refs 来访问 ref="comment" 的组件实例
+       const commentComponent = this.$refs.comment;
+      // 使用 commentComponent.$el 来访问评论组件的根 DOM 元素
+      const commentDetailElement = commentComponent.$el;
+      // 使用 scrollIntoView 方法滚动到评论详情
+      commentDetailElement.scrollIntoView({ behavior: 'smooth' });
+    },
+    
   },
   filters: {
     formatDate: function (value) {
@@ -225,4 +281,5 @@ h2:after {
 
 .comment {
   margin-top: 10px;
-}</style>
+}
+</style>

@@ -11,6 +11,8 @@ import com.example.ergo.entity.UserFoot;
  * @since 2024-02-24 03:09:47
  */
 public interface UserFootService extends IService<UserFoot> {
+    //添加阅读状态（插入数据）
+    void addReadStatus(int userId,int articleId,int documentUserId);
 
 }
 
