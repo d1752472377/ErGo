@@ -1,11 +1,11 @@
 package com.example.ergo.entity;
 
-import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.util.Date;
 /**
  * 用户登录表(User)表实体类
  *
@@ -23,10 +23,6 @@ public class User  {
 
     //第三方用户ID
     private String thirdAccountId;
-    //邮箱;
-    private String email;
-    //手机号;
-    private String phone;
     //用户名
     private String userName;
     //密码

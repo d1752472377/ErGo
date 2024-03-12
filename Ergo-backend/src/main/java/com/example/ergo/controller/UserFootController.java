@@ -2,7 +2,6 @@ package com.example.ergo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.example.ergo.config.ListenHandler;
 import com.example.ergo.config.Result;
 import com.example.ergo.entity.Article;
 import com.example.ergo.entity.UserFoot;
@@ -12,9 +11,7 @@ import com.example.ergo.service.UserFootService;
 import com.example.ergo.util.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

@@ -9,10 +9,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import top.hualuo.XhStreamClient;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@EnableScheduling
 public class ErgoApplication {
 
     @Autowired

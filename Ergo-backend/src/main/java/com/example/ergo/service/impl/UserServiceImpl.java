@@ -2,14 +2,12 @@ package com.example.ergo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.example.ergo.config.SnowFlakeUtil;
 import com.example.ergo.entity.User;
-import com.example.ergo.entity.UserInfo;
 import com.example.ergo.mapper.UserInfoMapper;
-import com.example.ergo.vo.dto.UserDTO;
 import com.example.ergo.mapper.UserMapper;
 import com.example.ergo.service.UserService;
+import com.example.ergo.vo.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +37,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(user == null){
             return null;
         }
-
-
         return user;
     }
     @Override
