@@ -8,6 +8,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Map;
 public class OkHttpClientUtil {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType XML = MediaType.parse("application/xml; charset=utf-8");
-
+    private static final MediaType FILE = MediaType.parse("application/octet-stream");
     private static OkHttpClient okHttpClient;
 
     // 为使用静态调用异步注入
@@ -198,6 +200,14 @@ public class OkHttpClientUtil {
         log.info("do post request and url[{}]", url);
         return executePost(url, xml, XML);
     }
+    public static String doPostFile(String url, File file) throws IOException {
+        log.info("do post request and url[{}]", url);
+        RequestBody requestBody = RequestBody.create(file,FILE);
+        Request.Builder requestBuilder = new Request.Builder();
+        Request request = requestBuilder.url(url).post(requestBody).build();
+//        Response response = okHttpClient.newCall(request).execute();
+        return execute(request);
+    }
     private static String executePost(String url, String data, MediaType contentType) {
         RequestBody requestBody = RequestBody.create(data ,contentType);
         Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -253,6 +263,7 @@ public class OkHttpClientUtil {
         }
         return null;
     }
+
 
 
 }

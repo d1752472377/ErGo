@@ -29,7 +29,7 @@ export default {
             formData.append('file', files[i]);
                 upload(formData).then(res => {
                     // 获取返回数据
-                    let data = res.data.data
+                    let data = res.data.data.url
                     // 添加图片到内容
                     insertImage({
                         url: data,

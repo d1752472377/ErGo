@@ -1,6 +1,7 @@
 package com.example.ergo.controller;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.JwtUtil;
 import com.example.ergo.config.Result;
@@ -84,7 +85,9 @@ public class UserController {
             return Result.fail("账号密码错误，请重新输入");
         }
         Integer id= Math.toIntExact(user.getId());
-        UserInfo userInfo = userInfoService.getById(id);
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserInfo::getUserId,id);
+        UserInfo userInfo = userInfoService.getOne(queryWrapper);
         System.out.println(userInfo);
         UserVO userVo =new UserVO();
         BeanUtils.copyProperties(userInfo,userVo);
@@ -125,8 +128,8 @@ public class UserController {
     }
 
     @Operation(summary = "注册")
-    @PostMapping("register")
-    public Result register(UserDTO userDTO){
+    @PostMapping("/user/register")
+    public Result register(@RequestBody UserDTO userDTO){
         Integer num = userService.register(userDTO);
         if (num == 0){
             return Result.fail("账户已存在，请登录");
@@ -179,6 +182,24 @@ public class UserController {
 //        System.out.println("时间差（天）: " + day);
         return Result.success(day);
     }
-
+    @Operation(summary = "修改用户信息")
+    @PutMapping("/user/updateUserXinxi")
+    public Result updateUserXinxi(@RequestBody UserInfo userInfo){
+        Integer userId = userInfo.getUserId();
+        LambdaUpdateWrapper<UserInfo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserInfo::getUserId,userId);
+        updateWrapper.set(UserInfo::getUserName,userInfo.getUserName())
+                        .set(UserInfo::getPhoto,userInfo.getPhoto())
+                                .set(UserInfo::getProfile,userInfo.getProfile());
+        userInfoService.update(updateWrapper);
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserInfo::getUserId,userId);
+        UserInfo userInfoServiceOne = userInfoService.getOne(queryWrapper);
+        UserVO userVo =new UserVO();
+        BeanUtils.copyProperties(userInfo,userVo);
+        Map<String,Object> map = new HashMap<>();
+        map.put("userInfo",userVo);
+        return Result.success("修改成功",map);
+    }
 
 }

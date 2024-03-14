@@ -20,6 +20,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/schedule")
+@CrossOrigin
 public class ScheduleJobController {
     @Autowired
     private ScheduleJobService scheduleJobService;
@@ -31,8 +32,8 @@ public class ScheduleJobController {
      * @return
      */
     @GetMapping("/jobs")
-    public Result jobs(@RequestParam(defaultValue = "1") Integer pageNum,
-                       @RequestParam(defaultValue = "10") Integer pageSize) {
+    public Result jobs(@RequestParam(name = "pageNum") Integer pageNum,
+                       @RequestParam(name = "pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<ScheduleJob> pageInfo = new PageInfo<>(scheduleJobService.getJobList());
         return Result.success("请求成功", pageInfo);

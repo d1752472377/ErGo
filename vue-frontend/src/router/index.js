@@ -40,36 +40,6 @@ export default new Router({
         footer: CommonFooter
       }
     },
-    //登录页
-    {
-      path: '/login',
-      name: 'login',
-      components: {
-        header: SimpleHeader,
-        content: LoginContentVue,
-        footer: CommonFooter
-      }
-    },
-    //注册页
-    {
-      path: '/regist',
-      name: 'regist',
-      components: {
-        header: SimpleHeader,
-        content: RegistContent,
-        footer: CommonFooter
-      }
-    },
-    //修改密码
-    {
-      path: '/recover',
-      name: 'recover',
-      components: {
-        header: SimpleHeader,
-        content: RetrievePassword,
-        footer: CommonFooter
-      }
-    },
     //全部文章列表
     {
       path: '/articleList',
@@ -138,7 +108,25 @@ export default new Router({
     path:'/edit',
     name:'edit',
     component: EditArticle
-  }
+  },
+  //登录页
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginContentVue,
+  },
+  //注册页
+  {
+    path: '/regist',
+    name: 'regist',
+    component: RegistContent,
+  },
+  //修改密码
+  {
+    path: '/recover',
+    name: 'recover',
+    component: RetrievePassword,
+  },
 ]
 
 })

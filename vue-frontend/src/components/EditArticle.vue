@@ -160,12 +160,13 @@ export default {
           this.uploadImg(file)//调用上传文件api接口
         }
         },
-        uploadImg(file){//文件上传操作
+        async uploadImg(file){//文件上传操作
         let formData=new FormData()
         formData.append('file',file.raw)
         upload(formData).then(res=>{
+            console.log(res)
             if (res.data.code == '200') {
-                this.obj.picture = res.data.data
+                this.obj.picture = res.data.data.url
             	console.log(this.obj.picture)
             }
         })

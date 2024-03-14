@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function register(data) {
     return request({
-        url: '/auth/user/register',
+        url: '/user/register',
         method: 'post',
         data
     })

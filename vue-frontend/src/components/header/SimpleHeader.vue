@@ -67,8 +67,10 @@
                                 </div>
                             </div>
                             <!--用户未登录: 提示提示信息-->
-                            <div class="userPhoto" v-show="userInfo.userName == undefined" @click.prevent="login">
-                                <a href="">登录/注册</a><!--替换成圆形登录 => 类似CSDN的样式-->
+                            <div class="userPhoto" v-show="userInfo.userName == undefined" >
+                                <a href="/login">登录</a><!--替换成圆形登录 => 类似CSDN的样式-->
+                                <span>|</span>
+                                <a href="/regist">注册</a><!--替换成圆形登录 => 类似CSDN的样式-->
                             </div>
                             <!-- 消息 -->
                             <div class="navbar-btn navbar-btn-news navbar-fl">
@@ -139,9 +141,7 @@ export default {
         transIndex() {
             this.$router.push('/index')
         },
-        login() {
-            this.$router.push('/login')
-        },
+       
         // searchBykey() {
         //     var key = document.getElementById("search").value
         //     if (key == '') {

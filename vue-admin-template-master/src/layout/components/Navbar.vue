@@ -12,7 +12,7 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item>框架官网</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出登录</span>

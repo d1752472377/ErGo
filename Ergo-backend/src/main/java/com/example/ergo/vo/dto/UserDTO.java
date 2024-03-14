@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * @date 2023/9/20
  * 描述：
@@ -22,6 +20,8 @@ public class UserDTO {
     private String email;
     //手机号;
     private String phone;
+    //手机号;
+    private String photo;
     //用户名
     private String userName;
     //密码

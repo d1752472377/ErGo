@@ -76,3 +76,10 @@ export function getDateForUser(params) {
         params
     })
 }
+export function updateUserXinxi(data) {
+    return request({
+        url: '/user/updateUserXinxi',
+        method: 'PUT',
+        data
+    })
+}

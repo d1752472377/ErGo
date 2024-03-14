@@ -6,7 +6,8 @@
                     <div class="block">
                         <el-avatar :size="100" :src="userInfo.photo"></el-avatar>
                         <h3>{{ userInfo.userName }}</h3>
-                        <p>{{ profile }}<el-button type="text"><i class="el-icon-edit"></i></el-button></p>
+                        <p>{{ profile }}<el-button type="text"><i class="el-icon-edit"
+                                    @click="dialogFormVisible = true"></i></el-button></p>
                     </div>
                     <div class="count">
                         <div class="itop">
@@ -31,20 +32,25 @@
                                     class="el-icon-arrow-right"></i></el-button>
                             <!-- Form -->
                             <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-                                <el-form :model="form">
-                                    <el-form-item label="活动名称" :label-width="formLabelWidth">
-                                        <el-input v-model="form.name" autocomplete="off"></el-input>
+                                <el-form>
+                                    <el-form-item label="用户名" :label-width="formLabelWidth">
+                                        <el-input v-model="userInfo.userName" autocomplete="off"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="活动区域" :label-width="formLabelWidth">
-                                        <el-select v-model="form.region" placeholder="请选择活动区域">
-                                            <el-option label="区域一" value="shanghai"></el-option>
-                                            <el-option label="区域二" value="beijing"></el-option>
-                                        </el-select>
+                                    <el-form-item label="头像" :label-width="formLabelWidth">
+                                        <el-upload class="upload-demo" :show-file-list="false" :auto-upload="false"
+                                            :action="''" :on-change="handlePictureChange" style="width:60px;height:60px;">
+
+
+                                            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                                        </el-upload>
+                                    </el-form-item>
+                                    <el-form-item label="简介" :label-width="formLabelWidth">
+                                        <el-input v-model="profile" autocomplete="off"></el-input>
                                     </el-form-item>
                                 </el-form>
                                 <div slot="footer" class="dialog-footer">
                                     <el-button @click="dialogFormVisible = false">取 消</el-button>
-                                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                                    <el-button type="primary" @click="editUserInfo">确 定</el-button>
                                 </div>
                             </el-dialog>
 
@@ -58,7 +64,7 @@
             <el-card>
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="文章" name="first">
-                        <div v-if="blog == null || blog == undefined">
+                        <div v-if="follow.length == 0">
                             <el-empty description="暂无内容"></el-empty>
                         </div>
                         <div>
@@ -81,7 +87,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="浏览记录" name="second">
-                        <div v-if="readHistory == null || readHistory == undefined">
+                        <div v-if="readHistory.length == 0">
                             <el-empty description="暂无内容">
                             </el-empty>
                         </div>
@@ -108,21 +114,23 @@
                                     <el-empty description="暂无内容"></el-empty>
                                 </div>
                                 <div v-else>
-                                   
+
                                     <el-card v-for="article in follow" :key="article.id">
-    <div style="display: flex; justify-content: space-between;">
-        <div style="display: flex;">
-            <el-avatar :size="50" :src="article.photo"></el-avatar>
-            <div style="margin-left: 20px;">
-                {{ article.userName }}
-                <div style="font-size: smaller; color: grey; margin-top:5px;">{{ article.profile }}</div>
-            </div>
-        </div>
-        <el-button :type="followed ? 'danger' : 'success'" @click="toggleFollow(article)">
-    {{ followed ? '取消关注' : '关注' }}
-  </el-button>
-    </div>
-</el-card>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div style="display: flex;">
+                                                <el-avatar :size="50" :src="article.photo"></el-avatar>
+                                                <div style="margin-left: 20px;">
+                                                    {{ article.userName }}
+                                                    <div style="font-size: smaller; color: grey; margin-top:5px;">{{
+                                                        article.profile }}</div>
+                                                </div>
+                                            </div>
+                                            <el-button :type="followed ? 'danger' : 'success'"
+                                                @click="toggleFollow(article)">
+                                                {{ followed ? '取消关注' : '关注' }}
+                                            </el-button>
+                                        </div>
+                                    </el-card>
 
                                 </div>
                             </el-tab-pane>
@@ -132,16 +140,17 @@
                                 </div>
                                 <div v-else>
                                     <el-card v-for="article in fans" :key="article.id">
-    <div style="display: flex; justify-content: space-between;">
-        <div style="display: flex;">
-            <el-avatar :size="50" :src="article.photo"></el-avatar>
-            <div style="margin-left: 20px;">
-                {{ article.userName }}
-                <div style="font-size: smaller; color: grey; margin-top:5px;">{{ article.profile }}</div>
-            </div>
-        </div>
-    </div>
-</el-card>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div style="display: flex;">
+                                                <el-avatar :size="50" :src="article.photo"></el-avatar>
+                                                <div style="margin-left: 20px;">
+                                                    {{ article.userName }}
+                                                    <div style="font-size: smaller; color: grey; margin-top:5px;">{{
+                                                        article.profile }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </el-card>
 
                                 </div>
                             </el-tab-pane>
@@ -174,9 +183,9 @@
 </template>
   
 <script>
-import { getUserInfo } from '@/utils/auth';
-import { queryRelationCount, queryRelation,updateRelation } from '@/api/user'
-import { getUserWrite, getUserFootForRead, getUserFootForCollection } from '@/api/blog'
+import { getUserInfo, setUserInfo } from '@/utils/auth';
+import { queryRelationCount, queryRelation, updateRelation,updateUserXinxi } from '@/api/user'
+import { getUserWrite, getUserFootForRead, getUserFootForCollection, upload } from '@/api/blog'
 
 
 export default {
@@ -193,6 +202,7 @@ export default {
                 type: [],
                 resource: '',
                 desc: '',
+                picture: ''
             },
             formLabelWidth: '120px',
             activeName: 'first',
@@ -207,7 +217,8 @@ export default {
             blog: [],
             readHistory: [],
             collect: [],
-            followed: true 
+            followed: true,
+            imageUrl: ''
         };
     },
     created() {
@@ -221,9 +232,10 @@ export default {
         getUser() {
             const userinfo1 = getUserInfo()
             this.userInfo = JSON.parse(userinfo1);
-            if (this.userInfo.profile != null) {
+            if (this.userInfo.profile != '') {
                 this.profile = this.userInfo.profile
             }
+            this.imageUrl = this.userInfo.photo
             var new_date = new Date();
             var old_date = new Date(this.userInfo.createTime);
             // console.log(new_date)
@@ -287,17 +299,55 @@ export default {
             const followState = this.followed ? 1 : 2;
             // console.log(article)
             const params = {
-                userId :article.id,
-                followUserId:this.userInfo.id,
-                followState:followState
+                userId: article.id,
+                followUserId: this.userInfo.id,
+                followState: followState
             }
-            updateRelation(params).then(res=>{
+            updateRelation(params).then(res => {
                 this.followed = !this.followed;
             }).catch(error => {
                 console.error('关注状态切换失败', error);
             });
-            
-        }
+        },
+        editUserInfo() {
+            const userInfo = {
+                userId:this.userInfo.id,
+                userName: this.userInfo.userName,
+                photo: this.imageUrl,
+                profile: this.profile,
+            }
+            updateUserXinxi(userInfo).then(res=>{
+                setUserInfo(JSON.stringify(res.data.data.userInfo))
+               
+            })
+            this.dialogFormVisible = false
+        },
+        handlePictureChange(file) {
+            console.log(file);
+            const isJPG = file.raw.type === 'image/jpeg'
+            const isPNG = file.raw.type === 'image/png'
+            if (!isPNG && !isJPG) {
+                this.$message.error('上传图片只能是 JPG/PNG 格式!')
+                this.showUploadIcon = true;
+                return false
+            } else {
+                this.imageUrl = URL.createObjectURL(file.raw);//赋值图片的url，用于图片回显功能
+                this.showUploadIcon = false;
+                this.uploadImg(file)//调用上传文件api接口
+            }
+        },
+        async uploadImg(file) {//文件上传操作
+            let formData = new FormData()
+            formData.append('file', file.raw)
+            upload(formData).then(res => {
+                console.log(res)
+                if (res.data.code == '200') {
+                    this.imageUrl= res.data.data.url
+                    console.log(this.obj.picture)
+                }
+            })
+        },
+
     },
     filters: {
         formatDate: function (value) {

@@ -36,13 +36,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -78,7 +76,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/category',
     component: Layout,
@@ -140,25 +137,17 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/nested1',
+    path: '/log',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: '数据统计',
-      icon: 'nested'
-    },
     children: [
       {
-        path: '专栏',
-        component: () => import('@/views/nested/menu1/index'),
-        name: '专栏',
-        meta: { title: '访客统计' }
-      },
+        path: 'index',
+        name: 'log',
+        component: () => import('@/views/log/index'),
+        meta: { title: '日志', icon: 'form' }
+      }
     ]
   },
-
-
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
@@ -185,10 +174,10 @@ export const asyncRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        //重点：role
-        meta: { title: 'External Link', icon: 'link', role: ['admin'] },
+        // 重点：role
+        meta: { title: 'External Link', icon: 'link', role: ['admin'] }
       }
     ]
-  },
+  }
 ]
 export default router

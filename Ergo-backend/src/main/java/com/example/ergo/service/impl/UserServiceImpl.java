@@ -2,8 +2,8 @@ package com.example.ergo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.ergo.config.SnowFlakeUtil;
 import com.example.ergo.entity.User;
+import com.example.ergo.entity.UserInfo;
 import com.example.ergo.mapper.UserInfoMapper;
 import com.example.ergo.mapper.UserMapper;
 import com.example.ergo.service.UserService;
@@ -55,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Integer register(UserDTO userDTO) {
-        String userName = userDTO.getUserName();
+        String userName = userDTO.getEmail();
         String password = userDTO.getPassword();
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUserName,userName);
@@ -64,13 +64,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return 0;
         }
         User user1 = new User();
-        SnowFlakeUtil snowFlakeUtil = new SnowFlakeUtil(12, 13);
-        Long id = snowFlakeUtil.getNextId();
-//        user1.setId(id);
         user1.setUserName(userName);
         user1.setPassword(password);
         userMapper.insert(user1);
-        System.out.println("账号为："+userName);
+        User user2 = userMapper.selectOne(queryWrapper);
+        Integer id = user2.getId();
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(id);
+        userInfo.setEmail(userName);
+        userInfo.setUserName(userDTO.getUserName());
+        userInfo.setPhoto(userDTO.getPhoto());
+        userInfo.setUserRole(0);
+        userInfoMapper.insert(userInfo);
         return 1;
     }
 

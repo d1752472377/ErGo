@@ -1,15 +1,16 @@
 package com.example.ergo.controller;
 
-import com.example.ergo.config.Result;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.ergo.util.FileUtils;
+import com.example.ergo.util.OkHttpClientUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Objects;
+import java.io.File;
 
 /**
  * @date 2024/2/27
@@ -24,15 +25,32 @@ import java.util.Objects;
 public class UploadFilesController {
     @Operation(summary = "图片上传")
     @PostMapping("/vMdEditor")
-    public Result vMdEditor(@RequestParam(value = "file") MultipartFile file){
-        try{
-            return Result.success(FileUtils.uploadImg(file,
-                    "C:\\Users\\17524\\Desktop\\文档\\Redis\\代码\\GitHub\\ErGo\\Ergo-backend\\src\\main\\resources\\public\\img\\",
-                    Objects.requireNonNull(file.getOriginalFilename()),
-                    "http://localhost:8080/img/"));
-        }catch (Exception e){
-            e.printStackTrace();
-            return Result.fail("图片上传失败");
-        }
+    public Object vMdEditor(@RequestParam(value = "file") MultipartFile file) throws Exception {
+        File localFile = FileUtils.multipartFileToFile(file);
+        String filename = file.getOriginalFilename();
+
+        String url = "https://p.sda1.dev/api/v1/upload_external_noform"+"?"+"filename="+filename;
+        System.out.println(url);
+        String s = OkHttpClientUtil.doPostFile(url, localFile);
+        localFile.delete();
+        JSONObject jsonObject =  JSON.parseObject(s);
+        return jsonObject;
     }
+//    @PostMapping("/ceshi")
+//    public String liulang(@RequestParam(value = "file")MultipartFile file)throws Exception{
+//
+//    }
+//    public String ceshi(File file) throws IOException {
+//        OkHttpClient client = new OkHttpClient().newBuilder()
+//                .build();
+//        MediaType mediaType = MediaType.parse("application/octet-stream");
+//        RequestBody body = RequestBody.create(mediaType, file);
+//        Request request = new Request.Builder()
+//                .url("https://p.sda1.dev/api/v1/upload_external_noform?filename=132.jpg")
+//                .method("POST", body)
+//                .addHeader("User-Agent", "Apifox/1.0.0 (https://apifox.com)")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//        return response.body().string();
+//    }
 }

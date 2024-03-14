@@ -4,7 +4,7 @@ import {getToken,getAes,} from '@/utils/auth'
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
-    timeout: 3000,
+    timeout: 60*5*1000,
 })
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
