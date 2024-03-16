@@ -7,9 +7,15 @@ import com.example.ergo.entity.UserInfo;
 import com.example.ergo.mapper.UserInfoMapper;
 import com.example.ergo.mapper.UserMapper;
 import com.example.ergo.service.UserService;
+import com.example.ergo.util.RedisUtil;
 import com.example.ergo.vo.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -20,8 +26,17 @@ import java.util.Map;
  * @since 2023-09-20 20:28:25
  */
 @Service("userService")
+@RequiredArgsConstructor
+@Slf4j
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+    @Value("${code.expiration}")
+    private Long expiration;
+
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserMapper userMapper;
@@ -53,8 +68,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userDTO;
     }
 
+
+
+
     @Override
     public Integer register(UserDTO userDTO) {
+
         String userName = userDTO.getEmail();
         String password = userDTO.getPassword();
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -85,5 +104,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
 
-}
+
+    }
 

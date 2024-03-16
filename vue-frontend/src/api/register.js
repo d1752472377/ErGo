@@ -7,3 +7,11 @@ export function register(data) {
         data
     })
 }
+
+export function getEmailCode(params) {
+    return request({
+        url: '/getEmailCode',
+        method: 'post',
+        params
+    })
+}

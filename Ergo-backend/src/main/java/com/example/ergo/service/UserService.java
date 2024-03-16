@@ -2,7 +2,6 @@ package com.example.ergo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.ergo.entity.User;
-import com.example.ergo.entity.UserInfo;
 import com.example.ergo.vo.dto.UserDTO;
 
 import java.util.Map;
@@ -23,6 +22,8 @@ public interface UserService extends IService<User> {
     Map getUserList(Integer pageSize, Integer pageNum);
 
     UserDTO emaillogin(String email, String password);
+
+
 
 }
 

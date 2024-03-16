@@ -37,6 +37,40 @@ spring:
       max-lifetime: 1800000
       auto-commit: true
       leak-detection-threshold: 60000
+  mail:
+    #smtp服务主机  qq邮箱则为smtp.qq.com
+    host: smtp.163.com
+    #服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: dongguannan212@163.com
+    #授权码
+    password: UVFWWVOHLMSLBTLK
+#    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  freemarker:
+    check-template-location: false
+    profiles:
+      active: dev
+    jackson:
+      time-zone: GMT+8
+    data:
+      redis:
+        repositories:
+          enabled: false
+
+#邮箱验证码有效时间/秒
+code:
+  expiration: 300
 
 # springdoc-openapi项目配置
 springdoc:
@@ -112,3 +146,13 @@ ok:
     max-idle-connections: 200
     # 连接空闲时间最多为 300 秒
     keep-alive-duration: 300
+
+
+  #公众号
+  oauth2:
+    wechat:
+      app-id: wx4852d02a5d3e7665
+      app-secret: 5e65332663c4def2d0fa803c1faebd5c
+      access-token-url: https://api.weixin.qq.com/cgi-bin/token
+      gzh-qrcode-create-url: https://api.weixin.qq.com/cgi-bin/qrcode/create
+      gzh-qrcode-url: https://mp.weixin.qq.com/cgi-bin/showqrcod

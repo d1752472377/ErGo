@@ -18,6 +18,7 @@ public class UserDTO {
     private String thirdAccountId;
     //邮箱;
     private String email;
+    private String code;
     //手机号;
     private String phone;
     //手机号;

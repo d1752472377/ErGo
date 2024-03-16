@@ -1,22 +1,32 @@
 package com.example.ergo.controller;
 
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.extra.template.Template;
+import cn.hutool.extra.template.TemplateConfig;
+import cn.hutool.extra.template.TemplateEngine;
+import cn.hutool.extra.template.TemplateUtil;
 import com.auth0.jwt.interfaces.Claim;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.ergo.config.JwtUtil;
 import com.example.ergo.config.Result;
+import com.example.ergo.entity.ToEmail;
 import com.example.ergo.entity.User;
 import com.example.ergo.entity.UserInfo;
 import com.example.ergo.enums.Constant;
-import com.example.ergo.util.AESUtil;
-import com.example.ergo.vo.UserVO;
-import com.example.ergo.vo.dto.UserDTO;
+import com.example.ergo.service.ToEmailService;
 import com.example.ergo.service.UserInfoService;
 import com.example.ergo.service.UserService;
+import com.example.ergo.util.AESUtil;
+import com.example.ergo.util.RedisUtil;
+import com.example.ergo.vo.UserVO;
+import com.example.ergo.vo.dto.UserDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -130,6 +140,12 @@ public class UserController {
     @Operation(summary = "注册")
     @PostMapping("/user/register")
     public Result register(@RequestBody UserDTO userDTO){
+        // 通过email获取redis中的code
+        Object value = redisUtil.get(userDTO.getEmail());
+        boolean equals = value.toString().equals(userDTO.getCode());
+        if ( value == null || !equals){
+            return Result.fail("验证码错误");
+        }
         Integer num = userService.register(userDTO);
         if (num == 0){
             return Result.fail("账户已存在，请登录");
@@ -200,6 +216,40 @@ public class UserController {
         Map<String,Object> map = new HashMap<>();
         map.put("userInfo",userVo);
         return Result.success("修改成功",map);
+    }
+
+    @Autowired
+    private ToEmailService toEmailService;
+    @Autowired
+    private RedisUtil redisUtil;
+    @PostMapping(value = "/getEmailCode")
+    public Result getEmailCode(@RequestParam String email) throws MessagingException {
+
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserInfo::getEmail,email);
+        UserInfo one = userInfoService.getOne(queryWrapper);
+        if (one !=null){
+            return Result.fail("注册邮箱已存在");
+        }
+        // 获取发送邮箱验证码的HTML模板
+        TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
+        Template template = engine.getTemplate("email-code.ftl");
+        // 从redis缓存中尝试获取验证码
+        Object code = redisUtil.get(email);
+        if (code == null) {
+            // 如果在缓存中未获取到验证码，则产生6位随机数，放入缓存中
+            code = RandomUtil.randomNumbers(6);
+            if (!redisUtil.set(email, code, 300)) {
+                throw new RuntimeException("后台缓存服务异常");
+            }
+        }
+        // 发送验证码
+        String[] strArray = new String[]{email};
+
+
+        toEmailService.htmlEmail(new ToEmail(strArray,
+                "邮箱验证码",template.render(Dict.create().set("code",code))));
+        return Result.success();
     }
 
 }
