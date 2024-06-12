@@ -15,9 +15,11 @@ spring:
 #      repositories:
 #        enabled: true
   redis:
-    host: localhost
+    password: redis
+    host: 62.234.58.158
     port: 6379
-    password:
+    database: 0
+
   thymeleaf:
     mode: HTML
     encoding: UTF-8
@@ -25,9 +27,9 @@ spring:
       content-type: text/html
     cache: false #关闭 Thymeleaf 的缓存
   datasource:
-    url: jdbc:mysql://localhost:3306/${database.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/${database.name}?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: root #Root_123
+    password: root #3ChUkXcZfBSTL3Yw
     hikari:
       pool-name: HighConcurrencyHikariCP
       minimum-idle: 20

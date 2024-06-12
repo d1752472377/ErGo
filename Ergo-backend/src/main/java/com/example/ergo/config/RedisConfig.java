@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 public class RedisConfig {
 
     //编写我们自己的template
+
     @Bean
     @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory)
@@ -48,5 +49,6 @@ public class RedisConfig {
 
         return template;
     }
+
 
 }

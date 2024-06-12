@@ -5,7 +5,6 @@ import com.example.ergo.entity.Article;
 import com.example.ergo.vo.articleInfoVo;
 import com.example.ergo.vo.articleVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ import java.util.List;
  */
 
 @Mapper
-
 public interface ArticleMapper extends BaseMapper<Article> {
     /**
      *  获取文章列表

@@ -16,9 +16,9 @@
                         <!-- 左侧导航栏 -->
                         <ul class="left-ul">
                             <li title=""><router-link active-class="active" to="/">首页</router-link></li>
-                            <li title=""><router-link active-class="active" to="/">资源</router-link></li>
+                            <!-- <li title=""><router-link active-class="active" to="/">资源</router-link></li> -->
                             <li title=""><router-link active-class="active" to="/news">新闻</router-link></li>
-                            <li title=""><router-link active-class="active" to="#">AI</router-link></li>
+                            <li title=""><router-link active-class="active" to="/aimodel">AI</router-link></li>
                         </ul>
                     </div>
 
@@ -74,7 +74,7 @@
                             </div>
                             <!-- 消息 -->
                             <div class="navbar-btn navbar-btn-news navbar-fl">
-                                <a href="">消息</a>
+                                <a href="/notification">消息</a>
                             </div>
                             <!-- 发布 -->
                             <div class="navbar-btn navbar-btn-write navbar-fl">

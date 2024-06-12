@@ -30,7 +30,7 @@ public class AiManager {
 
         xfunListener.init_chat();
         try {
-            // 获取接受消息的webSoeckt
+            // 获取接受消息的WebSocket
             XfunListener webSocket = xfunListener.sendMsg(random, msgs, xfunListener);
             //等待weSocked返回消息 , 这是一个笨笨的处理方法。
             int cnt = 3;
